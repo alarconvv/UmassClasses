@@ -1,0 +1,281 @@
+---
+title: "HW_Week2_Linear_Regression"
+author: "Viviana Romero Alarcon"
+format: pdf
+editor: visual
+---
+  
+#### 23/09/21
+  
+  -   Question 1: Let ${x_i}$ and ${y_i}$ be real values samples from random variables $X$ and $Y$ and let $\bar{x}$ and $\bar{y}$ be the sample means. Show that
+
+1.  $\sum_{i=1}^{n} (x_i - \bar{x}) = 0$
+
+$$
+\begin{aligned}
+0 &= \sum_{i=1}^{n} (x_i - \bar{x})\\
+&= \sum_{i=1}^{n} x_i - \sum_{i=1}^{n}\bar{x}\\
+&= \sum_{i=1}^{n} x_i - \bar{x}\sum_{i=1}^{n}n\\
+&= \sum_{i=1}^{n} x_i - n\bar{x}\\
+0 &=  n\bar{x} - n\bar{x}\\
+\end{aligned}
+$$ 
+
+```
+END of block
+```
+
+2.  $\sum_{i=1}^{n} (x_i - \bar{x})y_i = \sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})$.
+
+$$
+\begin{aligned}
+\sum_{i=1}^{n} (x_i - \bar{x})y_i &= \sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})\\
+&= \sum_{i=1}^{n} x_iy_i - \sum_{i=1}^{n}x_i\bar{y} -\sum_{i=1}^{n} \bar{x}y_i + \sum_{i=1}^{n} \bar{x}\bar{y}\\
+&= \sum_{i=1}^{n} x_iy_i - \bar{y}\sum_{i=1}^{n} x_i -\bar{x}\sum_{i=1}^{n} y_i + \bar{x}\bar{y}\sum_{i=1}^{n} n\\
+&= \sum_{i=1}^{n} x_iy_i - \bar{y}\sum_{i=1}^{n} x_i -\bar{x}\sum_{i=1}^{n} y_i + n\bar{x}\bar{y}\\
+&= \sum_{i=1}^{n} x_iy_i - \bar{y}\sum_{i=1}^{n} x_i -\bar{x}n\bar{y} + n\bar{x}\bar{y}\\
+&= \sum_{i=1}^{n} x_iy_i - \bar{y}\sum_{i=1}^{n} x_i -n\bar{x}\bar{y} + n\bar{x}\bar{y}\\
+&= \sum_{i=1}^{n} x_iy_i - \bar{y}\sum_{i=1}^{n} x_i + 0\\
+&= \sum_{i=1}^{n} x_iy_i - \bar{y}n\bar{x} + 0\\
+&= \sum_{i=1}^{n} x_iy_i - n\bar{y}\bar{x} + 0\\
+&= \sum_{i=1}^{n} x_iy_i - \sum_{i=1}^{n} y_i\bar{x} + 0\\
+&= \sum_{i=1}^{n} x_iy_i - \bar{x}\sum_{i=1}^{n} y_i\\
+&= \sum_{i=1}^{n} x_iy_i - \bar{x}\sum_{i=1}^{n} y_i\\
+&= \sum_{i=1}^{n} x_i \sum_{i=1}^{n} y_i - \bar{x}\sum_{i=1}^{n} y_i\\
+&= \sum_{i=1}^{n} y_i(x_i- \bar{x})
+\end{aligned}
+$$
+
+```
+END of block
+```
+
+ -   Question 2: Let $\mathbf{b}$ be a constant vector and let $\mathbf{x}$ be an variable in $\mathbb{R}^n$. Let $A$ $n\times n$ symmetric matrix. Show the following
+
+1.  $\nabla_x \mathbf{b}^T \mathbf{x} = \mathbf{b}$.
+
+$$
+\nabla_x \mathbf{b}^T \mathbf{x} = \begin{bmatrix}
+\frac{\partial }{\partial x_1}\\
+\frac{\partial }{\partial x_2}\\
+\frac{\partial }{\partial x_n}
+\end{bmatrix}
+\begin{bmatrix}
+b_1 & b_2 & b_n 
+\end{bmatrix}
+\begin{bmatrix}
+x_1\\ 
+x_2\\
+x_n
+\end{bmatrix}
+$$ $$
+  \nabla_x \mathbf{b}^T \mathbf{x} = \begin{bmatrix}
+\frac{\partial }{\partial x_1}\\
+\frac{\partial }{\partial x_2}\\
+\frac{\partial }{\partial x_n}
+\end{bmatrix}
+\begin{bmatrix}
+b_1x_1 + b_2x_2 + b_nx_n
+\end{bmatrix}$$
+  
+  $$
+  \nabla_x \mathbf{b}^T \mathbf{x} = \begin{bmatrix}
+\frac{\partial b_1x_1 + b_2x_2 + b_nx_n}{\partial x_1}\\
+\frac{\partial b_1x_1 + b_2x_2 + b_nx_n}{\partial x_2}\\
+\frac{\partial b_1x_1 + b_2x_2 + b_nx_n}{\partial x_n}
+\end{bmatrix}$$
+  
+  $$
+  \nabla_x \mathbf{b}^T \mathbf{x} = \begin{bmatrix}
+b_1\frac{\partial x_1 }{\partial x_1} + 0 + 0\\
+0 + b_2\frac{\partial x_2}{\partial x_2} + 0\\
+0 + 0 + b_n\frac{\partial x_n}{\partial x_n}
+\end{bmatrix}$$
+  
+  $$
+  \nabla_x \mathbf{b}^T \mathbf{x} = \begin{bmatrix}
+b_1.1 + 0 + 0\\
+0 + b_2.1 + 0\\
+0 + 0 + b_n.1
+\end{bmatrix}$$ $$
+  \nabla_x \mathbf{b}^T \mathbf{x} = \begin{bmatrix}
+b_1\\
+b_2\\
+b_n
+\end{bmatrix} = b$$
+
+```
+END of block
+```
+
+  
+2.  $\nabla_x \mathbf{x}^T \mathbf{b}= \mathbf{b}$.
+
+
+$$
+\nabla_x \mathbf{x}^T \mathbf{b} = \begin{bmatrix}
+\frac{\partial }{\partial x_1}\\
+\frac{\partial }{\partial x_2}\\
+\frac{\partial }{\partial x_n}
+\end{bmatrix}
+\begin{bmatrix}
+x_1 & x_2 & x_n 
+\end{bmatrix}
+\begin{bmatrix}
+b_1\\ 
+b_2\\
+b_n
+\end{bmatrix}
+$$ 
+
+$$
+\nabla_x \mathbf{x}^T \mathbf{b} = \begin{bmatrix}
+\frac{\partial }{\partial x_1}\\
+\frac{\partial }{\partial x_2}\\
+\frac{\partial }{\partial x_n}
+\end{bmatrix}
+\begin{bmatrix}
+x_1b_1 + x_2b_2 + x_nb_n
+\end{bmatrix}$$
+
+$$
+\nabla_x \mathbf{x}^T \mathbf{b} = \begin{bmatrix}
+\frac{\partial x_1b_1 + x_2b_2 + x_nb_n}{\partial x_1}\\
+\frac{\partial x_1b_1 + x_2b_2 + x_nb_n}{\partial x_2}\\
+\frac{\partial x_1b_1 + x_2b_2 + x_nb_n}{\partial x_n}
+\end{bmatrix}$$
+  
+$$
+\nabla_x \mathbf{x}^T \mathbf{b} = \begin{bmatrix}
+b_1\frac{\partial x_1 }{\partial x_1} + 0 + 0\\
+0 + b_2\frac{\partial x_2}{\partial x_2} + 0\\
+0 + 0 + b_n\frac{\partial x_n}{\partial x_n}
+\end{bmatrix}$$
+
+$$
+\nabla_x \mathbf{x}^T \mathbf{b} = \begin{bmatrix}
+b_1.1 + 0 + 0\\
+0 + b_2.1 + 0\\
+0 + 0 + b_n.1
+\end{bmatrix}$$
+
+$$
+\nabla_x \mathbf{x}^T \mathbf{b} = \begin{bmatrix}
+b_1\\
+b_2\\
+b_n
+\end{bmatrix} = b$$
+
+```
+END of block
+```
+
+3.  $\nabla_x \mathbf{x}^T A \mathbf{x} = 2 A \mathbf{x}$.
+
+$$
+\nabla_x \mathbf{x}^T A \mathbf{x} = \begin{bmatrix}
+\frac{\partial }{\partial x_1}\\
+\frac{\partial }{\partial x_2}\\
+\frac{\partial }{\partial x_n}
+\end{bmatrix}
+\begin{bmatrix}
+x_1 & x_2 & x_n 
+\end{bmatrix}
+\begin{bmatrix}
+x_11 & x_12 & x_1m\\
+x_21 & x_22 & x_2m\\
+x_n1 & x_n2 & x_nm 
+\end{bmatrix}
+\begin{bmatrix}
+x_1\\
+x_2\\
+x_n
+\end{bmatrix}
+$$
+
+$$
+\nabla_x \mathbf{x}^T A \mathbf{x} = \begin{bmatrix}
+\frac{\partial }{\partial x_1}\\
+\frac{\partial }{\partial x_2}\\
+\frac{\partial }{\partial x_n}
+\end{bmatrix}
+\begin{bmatrix}
+x_1 & x_2 & x_n 
+\end{bmatrix}
+\begin{bmatrix}
+x_1\\
+x_2\\
+x_n
+\end{bmatrix}
+\begin{bmatrix}
+x_11 & x_12 & x_1m\\
+x_21 & x_22 & x_2m\\
+x_n1 & x_n2 & x_nm 
+\end{bmatrix}
+$$
+
+$$
+\nabla_x \mathbf{x}^T A \mathbf{x} = \begin{bmatrix}
+\frac{\partial }{\partial x_1}\\
+\frac{\partial }{\partial x_2}\\
+\frac{\partial }{\partial x_n}
+\end{bmatrix}
+\begin{bmatrix}
+x_1^2 + x_2^2 + x_n^2 
+\end{bmatrix}
+\begin{bmatrix}
+x_11 & x_12 & x_1m\\
+x_21 & x_22 & x_2m\\
+x_n1 & x_n2 & x_nm 
+\end{bmatrix}
+$$
+
+$$
+\nabla_x \mathbf{x}^T A \mathbf{x} = 
+\begin{bmatrix}
+\frac{\partial x_1^2}{\partial x_1} + \frac{\partial x_2^2}{\partial x_1} + \frac{\partial x_n^2}{\partial x_1}\\
+\frac{\partial x_1^2}{\partial x_2} + \frac{\partial x_2^2}{\partial x_2} + \frac{\partial x_n^2}{\partial x_2}\\
+\frac{\partial x_1^2}{\partial x_n} + \frac{\partial x_2^2}{\partial x_n} + \frac{\partial x_n^2}{\partial x_n}\\
+\end{bmatrix}
+\begin{bmatrix}
+x_11 & x_12 & x_1m\\
+x_21 & x_22 & x_2m\\
+x_n1 & x_n2 & x_nm 
+\end{bmatrix}
+$$
+
+
+$$
+\nabla_x \mathbf{x}^T A \mathbf{x} = 
+\begin{bmatrix}
+2x_1 + 0 + 0\\
+0 + 2x_2 + 0\\
+0 + 0 + 2x_n\\
+\end{bmatrix}
+\begin{bmatrix}
+x_11 & x_12 & x_1m\\
+x_21 & x_22 & x_2m\\
+x_n1 & x_n2 & x_nm 
+\end{bmatrix}
+$$
+
+$$
+\nabla_x \mathbf{x}^T A \mathbf{x} = 2
+\begin{bmatrix}
+x_1\\
+x_2\\
+x_n\\
+\end{bmatrix}
+\begin{bmatrix}
+x_11 & x_12 & x_1m\\
+x_21 & x_22 & x_2m\\
+x_n1 & x_n2 & x_nm 
+\end{bmatrix}
+$$
+
+  
+$$
+\nabla_x \mathbf{x}^T A \mathbf{x} = 2xA = 2Ax
+$$
+  
+  

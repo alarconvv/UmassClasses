@@ -1,0 +1,60 @@
+---
+title: "Homework week 2"
+author: "Viviana Romero Alarcon"
+format: html
+editor: visual
+---
+
+## QQPLOT
+
+libraries
+
+```{r}
+library(tydiverse)
+library(dplyr)
+library(readr)
+library(ggplot2)
+library(forcats)
+
+
+
+```
+
+Set theme for ggplot
+
+```{r}
+theme_set(theme_bw(base_size=12))
+
+
+```
+
+1.  Read data
+
+    ```{r}
+    ice <- read_csv("http://biol607.github.io/homework/data/NH_seaice_extent_monthly_1978_2016.csv") %>%
+      mutate(Month_Name = factor(Month_Name),
+             Month_Name = fct_reorder(Month_Name, Month))
+    ```
+
+
+2.  Boxplot
+
+Make a boxplot showing the variability in sea ice extent every month. IYKYK make it fancy.
+
+    ```{r}
+    ggplot(data = ice, mapping = aes( x =Extent,  y = Month_Name,))+
+      geom_boxplot(color = 'grey50')+
+      geom_point(aes(color = Month_Name), alpha= 0.6, size= 0.7, alpha= 0.5)+
+      stat_summary(color = 'darkred', shape = 18 )
+
+    ```
+    
+3. Ridgelines
+Use ggridges to do the same thing. What do you learn that is different than the boxplot?
+
+```{r}
+library(ggridges)
+
+
+```
+

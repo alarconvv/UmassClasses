@@ -1,0 +1,76 @@
+---
+title: "Homework week 2"
+author: "Viviana Romero Alarcon"
+format: html
+editor: visual
+---
+
+## QQPLOT
+
+libraries
+
+```{r}
+library(tidyverse)
+library(dplyr)
+library(readr)
+library(ggplot2)
+library(forcats)
+
+#pacman::p_load(tidyverse)
+
+```
+
+Set theme for ggplot
+
+```{r}
+theme_set(theme_bw(base_size=12))
+
+
+```
+
+1.  Read data
+
+    ```{r}
+    ice <- read_csv("http://biol607.github.io/homework/data/NH_seaice_extent_monthly_1978_2016.csv") %>%
+      mutate(Month_Name = factor(Month_Name),
+             Month_Name = fct_reorder(Month_Name, Month))
+    ```
+
+2.  Boxplot
+
+Make a boxplot showing the variability in sea ice extent every month. IYKYK make it fancy.
+
+```{r}
+ggplot(data = ice, mapping = aes( x =Extent,  y = Month_Name))+
+  geom_boxplot(color = 'grey50')+
+  geom_point(aes(color = Month_Name), size= 0.7, alpha= 0.5)+
+  stat_summary(color = 'darkred', shape = 18 )
+
+```
+
+3.  Ridgelines
+
+Use ggridges to do the same thing. What do you learn that is different than the boxplot?
+
+```{r}
+library(ggridges)
+library(ggplot2)
+
+ggplot(data = ice, mapping = aes( x =Extent,  y = Month_Name)) +
+  geom_density_ridges(alpha = 0.5,mapping = aes(color = Month_Name, fill = Month_Name ))
+
+```
+4. Making Groups from the Continuous
+One thing that’s really cool about faceting is that you can use cut_*() functions on continuous variables to make facets by groups of continuous variables. To see what I mean, try cut_interval(1:10, n = 5) See how it makes five bins of even width? We use cut_interval() or other cut functions with faceting like so facet_wrap(vars(cut_interval(some_variable))).
+
+```{r}
+ggplot(data = ice, mapping = aes( x =Extent)) +
+  geom_histogram() +
+  facet_wrap(vars(Month_Name))
+```
+
+
+With the original data, plot sea ice by year, with different lines (oh! What geom will you need for that?) for different months. Then, use facet_wrap and cut_interval(Month, n=4) to split the plot into seasons.
+
+
+

@@ -1,0 +1,48 @@
+---
+title: "Assignment 1"
+author: "Your Name"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```
+DELETE The instructions in the following block before submitting the assignment.
+```
+
+**NOTE**: Please follow these instructions to create and submit your assignment. These instructions apply to all future assignments.
+
+1. Make sure that you insert your name and the date on top of the document.
+1. Create sections and subsections as appropriate.
+1. Please show all steps in your work.
+1. After completing the assignment, kint the document into **pdf**.
+1. Use the following convention to name the Rmarkdown and the pdf files of your assignment: 
+    - **math455_math655_assignment_number_firstname_lastname.Rmd**
+    - **math455_math655_assignment_number_firstname_lastname.pdf**
+1. For example for the first assignment, the file names should be
+    - **math455_math655_assignment_1_kourosh_zarringhalam.Rmd**
+    - **math455_math655_assignment_1_kourosh_zarringhalam.pdf**
+1. After completing the assignment, upload the assignment (*both Rmd and pdf files*) on blackboard as an attachments.
+
+```
+END of block
+```
+
+**Question 1:** Let ${x_i}$ and ${y_i}$ be real values samples from random variables $X$ and $Y$ and let $\bar{x}$ and $\bar{y}$ be the sample means. Show that 
+
+1. $\sum_{i=1}^n (x_i - \bar{x}) = 0$.
+1. $\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y}) = \sum_{i=1}^n (x_i - \bar{x})y_i$.
+
+
+**Question 2:** Let $\mathbf{b}$ be a constant vector and let $\mathbf{x}$ be an variable in in $\mathbb{R}^n$. Let $A$ $n\times n$ symmetric matrix. Show the following
+
+1. $\nabla_x \mathbf{b}^T \mathbf{x} = \mathbf{b}$.
+1. $\nabla_x \mathbf{x}^T \mathbf{b}= \mathbf{b}$.
+1. $\nabla_x \mathbf{x}^T A \mathbf{x} = 2 A \mathbf{x}$.
+
