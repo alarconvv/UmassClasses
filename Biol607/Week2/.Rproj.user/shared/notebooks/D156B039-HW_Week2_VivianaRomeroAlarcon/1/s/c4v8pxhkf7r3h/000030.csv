@@ -1,6 +1,0 @@
-"0","    ggplot(data = ice, mapping = aes( x =Extent,  y = Month_Name,))+
-      geom_boxplot(color = 'grey50')+
-      geom_point(aes(color = Month_Name), alpha= 0.6, size= 0.7, alpha= 0.5)+
-      stat_summary(color = 'darkred', shape = 18 )
-"
-"2","Warning: [1m[22mDuplicated aesthetics after name standardisation: [32malpha[39m"
