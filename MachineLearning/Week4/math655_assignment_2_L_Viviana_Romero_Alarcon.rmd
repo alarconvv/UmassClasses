@@ -1,0 +1,185 @@
+---
+title: "Assignment 2"
+author: "Viviana Romero Alarcon"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Question 1:
+Consider the simple linear regression problem $y = \beta_0 + \beta_1 x + \epsilon$,  where $\epsilon \sim \mathcal{N}(0, \sigma^2)$. Assume we are given training data $\{(x_i, y_i)\}_{i=1}^n$ and let $\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 x_i$ be the fitted model. Define $e_i = y_i - \hat{y}_i$. Show the following:
+
+1. $\sum_{i=1}^n e_i = 0$.
+
+$$
+\begin{aligned}
+\sum_{i=1}^n e_i &= \sum_{i=1}^n (y_i - \hat{y}_i) = 0 \\
+&= \sum_{i=1}^n y_i - \sum_{i=1}^n \hat{y}_i \\
+&= \sum_{i=1}^n y_i - \sum_{i=1}^n (\hat{\beta}_0 + \hat{\beta}_1 x_i) \\
+&= \sum_{i=1}^n y_i - \sum_{i=1}^n [(\bar{y} - \hat{\beta}_1 x_i) + \hat{\beta}_1 x_i] \\
+&= \sum_{i=1}^n y_i - \sum_{i=1}^n (\bar{y} - \hat{\beta}_1 x_i)  + \sum_{i=1}^n \hat{\beta}_1 x_i \\
+&= \sum_{i=1}^n y_i - \sum_{i=1}^n \bar{y} - \sum_{i=1}^n \hat{\beta}_1 x_i  + \sum_{i=1}^n \hat{\beta}_1 x_i \\
+&= \sum_{i=1}^n y_i - \bar{y}n -  \hat{\beta}_1 \sum_{i=1}^n x_i  +  \hat{\beta}_1 \sum_{i=1}^nx_i \\
+&= \bar{y}n - \bar{y}n -  \hat{\beta}_1 \bar{x}n  +  \hat{\beta}_1 \bar{x}n \\
+\sum_{i=1}^n e_i &= 0
+\end{aligned}
+$$
+
+
+2. The regression line always goes through the point $(\bar{x}, \bar{y})$.
+
+
+Considering:
+
+1. $\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 x_i$.
+
+2. $RSS =  \sum_{i=1}^n  (y_i - \bar{y}_i)^2 = \sum_{i=1}^n  (y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i)^2$.
+
+3. $\frac{\partial (c-x)^n}{\partial x} = n(c-x)^{n-1} \frac{\partial x}{\partial x}$.
+
+Then, we should minimize the slope
+$$
+\begin{aligned}
+min \hat{\beta}_0 =0 &=\frac{\partial \sum_{i=1}^n  (y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i)^2}{\partial \hat{\beta}_0}  \\
+0 &= \sum_{i=1}^n \frac{\partial   (y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i)^2}{\partial \hat{\beta}_0}\\
+0 &= \sum_{i=1}^n -2(y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i)\frac{\partial   \hat{\beta}_0}{\partial \hat{\beta}_0} \\
+0 &= \sum_{i=1}^n -2(y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i).1\\
+0 &= -2\sum_{i=1}^n (y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i)\\
+0 &= -2\sum_{i=1}^n y_i - \sum_{i=1}^n\hat{\beta}_0 - \sum_{i=1}^n\hat{\beta}_1 x_i\\
+\frac{0}{-2}&= \bar{y}n - \hat{\beta}_0n - \hat{\beta}_1 \bar{x}n\\
+0 &= \bar{y}n - \hat{\beta}_0n - \hat{\beta}_1 \bar{x}n\\
+0 &= n(\bar{y} - \hat{\beta}_0 - \hat{\beta}_1 \bar{x})\\
+\frac{0}{n} &= \bar{y} - \hat{\beta}_0 - \hat{\beta}_1 \bar{x}\\
+0 &= \bar{y} - \hat{\beta}_0 - \hat{\beta}_1 \bar{x}\\
+\hat{\beta}_0 &= \bar{y} - \hat{\beta}_1 \bar{x}\\
+\hat{\beta}_0 + \hat{\beta}_1 \bar{x}&= \bar{y} = point(\bar{x}\bar{y})\\
+\end{aligned}
+$$
+
+
+
+
+### Question 2:
+This question involves the use of multiple linear regression on `Auto` data set. For most of the analysis, you will need to remove the name variable.
+
+```{r}
+library(pacman)
+pacman::p_load(ggplot2, ISLR, ggcorrplot)
+
+#load data
+data(Auto)
+
+#structure of Auto
+str(Auto)
+
+colnames(Auto)
+
+```
+
+
+1. Produce a scatterplot matrix of all of the variables (you can use the `pair()` command for this.
+```{r}
+# using pairs() for scatterplot matrix
+pairs(Auto)
+```
+
+2. Use the `lm()` function to perform a multiple linear regression with mpg as the response variable. Use the `summary()` command to print the results. Comment on your findings. 
+```{r}
+
+models <- list()
+
+# Creating additive models
+
+models$model1 <- lm(data = Auto,formula = mpg ~ cylinders + displacement )
+
+models$model2 <- lm(data = Auto,formula = mpg ~ cylinders + displacement + horsepower  )
+
+models$model3 <- lm(data = Auto,formula = mpg ~ cylinders + displacement + horsepower + acceleration )
+
+
+models$model4 <- lm(data = Auto,formula = mpg ~ cylinders + displacement + horsepower + acceleration + weight)
+
+models$model5 <- lm(data = Auto,formula = mpg ~ cylinders  + weight +  displacement + year)
+
+models$model6 <- lm(data = Auto,formula = mpg ~ cylinders +  displacement + horsepower + acceleration + weight + year)
+
+# See summary
+lapply(models, summary)
+
+# Choose a model
+lapply(models, AIC)
+
+```
+_*NOTE: Considering the AIC, I will choose model 5  to develop exercises 3 and 4*_
+
+3. Use the `ggplot()` package to plot your findings.
+
+```{r}
+# Plot model5: mpg ~ cylinders +  displacement + weight + year
+ggplot(Auto, aes(x = weight, y = mpg)) + 
+  geom_point(aes(col = cylinders, alpha = year)) +
+  geom_smooth(method = lm, formula = y ~ x)+
+  scale_color_viridis_c()
+
+
+```
+
+
+
+4. Based on the correlation matrix and the scatterplots, try transformation of the predictors (e.g, $X^2$ or $\sqrt{X}$). Comment on your findings.
+
+
+```{r}
+# filter varibales from model5
+var_model5 <- Auto[,c(1,2,3,5,7)]
+
+
+# scatterplot for variables in model5
+pairs(var_model5 )
+
+# Correlation matrix
+cor_model5 <- round(cor(var_model5 ), 1)
+ggcorrplot(cor_model5)
+
+# Considering different transformation for the variable weight
+summary(lm(data = Auto, mpg ~ weight))
+summary(lm(data = Auto, mpg ~ weight^2))
+summary(lm(data = Auto, mpg ~ log(weight)))
+summary(lm(data = Auto, mpg ~ sqrt(weight)))
+
+# Plot regression after transformation 
+ggplot(Auto, aes(y = mpg)) + 
+  geom_point(aes(x = log(weight)), color = 'darkred')+
+  geom_smooth(aes(x = log(weight)), method = 'lm')
+
+# Considering different transformation for the variable displacement
+summary(lm(data = Auto, mpg ~ displacement))
+summary(lm(data = Auto, mpg ~ displacement^2))
+summary(lm(data = Auto, mpg ~ log(displacement)))
+summary(lm(data = Auto, mpg ~ sqrt(displacement)))
+
+# Plot regression after transformation 
+ggplot(Auto, aes(y = mpg)) + 
+geom_point(aes(x = log(displacement)), color = 'darkgreen')+
+  geom_smooth(aes(x = log(displacement)), method = 'lm')
+
+
+# Fit model without transformation and with transformation in the variables
+model5_original <- lm(data = Auto,formula = mpg ~ cylinders  + weight +  displacement + year)
+summary(model5_original)
+
+model5_tranf <- lm(data = Auto,formula = mpg ~ cylinders  + log(weight) +  log(displacement) + year)
+summary(model5_tranf)
+
+#Compare the how they fit depending on transformation
+AIC(model5_original, model5_tranf)
+
+```
+Note: In this last exercise, we can appreciate how transformation could improve the model fit. In this case, the better transformation was log(), in both variables. It increased the R-square and affected the AIC.
+
+
