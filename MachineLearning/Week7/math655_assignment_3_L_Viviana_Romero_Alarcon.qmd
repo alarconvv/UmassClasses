@@ -1,0 +1,123 @@
+---
+title: "HomeWork_Week7"
+author: "Viviana Romero Alarcon"
+format: html
+editor: visual
+---
+
+
+
+### Question 1:
+
+Let $P(X) = \dfrac{e^{\beta_0 + \beta_1 x}}{1 + e^{\beta_0 + \beta_1 x}}$ be the logistic function. Show that the **log-odds** or the **logit** which is defined as $\log \left(\dfrac{p(x)}{1 - p(x)} \right) = \beta_0 + \beta_1 x$, i.e, the logit is linear in $\beta$'s.
+
+
+$$
+\begin{aligned}
+\log \left(\dfrac{p(x)}{1 - p(x)} \right) &= \beta_0 + \beta_1 x \\
+\log(p(x))- \log(1-p(x)) &= \beta_0 + \beta_1 x \\
+\log \left(\dfrac{e^{\beta_0+\beta_1X}}{1 + e^{\beta_0+\beta_1X}} \right)- \log \left(1 - \dfrac{e^{\beta_0+\beta_1X}}{1 + e^{\beta_0+\beta_1X}} \right) &= \beta_0 + \beta_1 x \\
+\log(e^{\beta_0+\beta_1X}) - \log(1 + e^{\beta_0+\beta_1X})- \log \left(1 - \dfrac{e^{\beta_0+\beta_1X}}{1 + e^{\beta_0+\beta_1X}} \right) &= \beta_0 + \beta_1 x \\
+\log(e^{\beta_0+\beta_1X}) - \log(1 + e^{\beta_0+\beta_1X})- \log \left(\dfrac{1 + e^{\beta_0+\beta_1X} - e^{\beta_0+\beta_1X}}{1 + e^{\beta_0+\beta_1X}} \right) &= \beta_0 + \beta_1 x \\
+\log(e^{\beta_0+\beta_1X}) - \log(1 + e^{\beta_0+\beta_1X})- \log \left(\dfrac{1}{1 + e^{\beta_0+\beta_1X}} \right) &= \beta_0 + \beta_1 x \\
+\log(e^{\beta_0+\beta_1X}) - \log(1 + e^{\beta_0+\beta_1X})- \log(1 + e^{\beta_0+\beta_1X}) - \log(1) &= \beta_0 + \beta_1 x \\
+\log(e^{\beta_0+\beta_1X}) - \log \left(\dfrac{1 + e^{\beta_0+\beta_1X}}{1 + e^{\beta_0+\beta_1X}} \right)  - 0 &= \beta_0 + \beta_1 x \\
+(\beta_0+\beta_1X.1) - \log(1)  - 0 &= \beta_0 + \beta_1 x \\
+(\beta_0+\beta_1X.1) - 0 &= \beta_0 + \beta_1 x \\
+\beta_0+\beta_1X &= \beta_0 + \beta_1 x \\
+\end{aligned}
+$$
+
+
+### Question 2:
+
+Consider a training data $\{y_i\}_{i=1}^n$ consisting of a categorical response $y \in \{0,1\}$. Note that the training data contains no predictors. Show that in this case, the intercept parameter in logistic regression is $\beta_0 = \log \left( \dfrac{\bar{y}}{1-\bar{y}} \right)$. Interpret this in terms of making a prediction for a new data point?
+
+Let $\log \left(\dfrac{\bar{y}}{1 - \bar{y}} \right) = \beta_0 + \beta_1 x$ and $\bar{y} = \dfrac{e^{\beta_0 + \beta_1 x}}{1 + e^{\beta_0 + \beta_1 x}}$ 
+
+No predictors $x_i = 0 => {\beta_0 + \beta_1 x} = \beta_0 $
+
+$$
+\begin{aligned}
+\log \left(\dfrac{\bar{y}}{1 - \bar{y}} \right) &= \beta_0\\
+\log \left(\dfrac{\dfrac{e^{\beta_0}}{1 + e^{\beta_0}}}{1 - \dfrac{e^{\beta_0}}{1 + e^{\beta_0}}} \right) &= \beta_0\\
+\log \left(\dfrac{\dfrac{e^{\beta_0}}{1 + e^{\beta_0}}}{\frac{1}{1} - \dfrac{e^{\beta_0}}{1 + e^{\beta_0}}} \right) &= \beta_0\\
+\log \left(\dfrac{\dfrac{e^{\beta_0}}{1 + e^{\beta_0}}}{\dfrac{1+ e^{\beta_0} - e^{\beta_0}}{1 +  e^{\beta_0}}} \right) &= \beta_0\\
+\log \left(\dfrac{\dfrac{e^{\beta_0}}{1 + e^{\beta_0}}}{\dfrac{1}{1 +  e^{\beta_0}}} \right) &= \beta_0\\
+\log \left({\dfrac{(1 +  e^{\beta_0}).e^{\beta_0}}{1 +  e^{\beta_0}}} \right) &= \beta_0\\
+\log (e^{\beta_0}) &= \beta_0\\
+\beta_0.1 &= \beta_0\\
+\beta_0 &= \beta_0\\
+
+
+\end{aligned}
+$$
+### Question 3:
+
+This question involves the use of multiple logistic regression on Default data set. You can ignore the student status variable and focus the analysis on income and balance.
+```{r}
+library(pacman)
+pacman::p_load(ggplot2, ISLR, MASS,klaR, tidyverse)
+
+# load data
+
+data(Default)
+
+Default2 <- Default[,c(1,3,4)]
+
+  
+```
+
+
+1 Use ggplot() to produce Box plots for each covariate. Generate a scatter plot of covariates. Interpret the figures.
+
+```{r}
+default3 <- Default2 |> pivot_longer(cols = balance:income, values_to = 'money')
+
+ggplot(default3, aes(y = money, x = default))+
+  geom_boxplot(aes(fill= default))+
+  facet_grid(name ~.,scales = "free")
+
+
+ggplot(data = Default2, aes(x = balance, y = income, color = default)) +
+geom_point(aes(shape = default)) 
+```
+RTA: Apparently, in the scatterplot we can see that people with more income would have more balance. However, in the boxplot income for categories YES and NOT looks the same but they have different balance values.
+
+
+
+2 Use the glm() function to perform a multiple logistic regression with default as the binary response variable. Use the summary() command to print the results. Comment on your findings.
+
+```{r}
+# logistic regression
+neg.ind <- sample(which(Default2$default == 'Yes'), 250)
+pos.ind <- sample(which(Default2$default == 'No'), 250)
+
+Default4 <- Default2[c(neg.ind, pos.ind), ] |>
+  mutate(y = ifelse(default == 'Yes', 1, 0)) |>
+  select(y, balance, income, default)
+
+Default4$default <- as.factor(Default4$default)
+
+
+fit <- glm(default~balance+income, data=Default4, family='binomial')
+summary(fit)
+```
+
+
+3 Use the predict() function to perform a prediction on the same training data points. Tabulate the number of correct and incorrect predictions.
+```{r}
+prediction <- predict(fit, newdata = Default4, type = 'response')
+
+Default5 <- Default4 |> mutate(ColPred = ifelse(prediction >=0.5,1,0)) 
+
+head(Default5)
+
+Tab <- function( x,y){
+  
+}
+
+
+```
+
+
