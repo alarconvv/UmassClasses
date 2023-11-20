@@ -1,0 +1,65 @@
+---
+title: "Intro ggplot 1"
+author: "Viviana Romero Alarcon"
+format: html
+editor: visual
+---
+
+## 
+
+This is the first time using ggplot
+
+```{r}
+# load the libraries
+
+library(ggplot2)
+library(palmerpenguins)
+
+library(palmerpenguins)
+library(dplyr)
+# OR install the library 
+
+#install.packages(palmerpinguins) only runs ones
+# or use pacman
+
+library(pacman)
+
+pacman::p_load(palmerpenguins,fable)
+```
+
+The first thing you have to run when you load a new data set is
+
+```{r}
+
+head(penguins)
+
+str(penguins)
+
+summary(pengins)
+```
+
+we want to show the distribution of bill lenght
+
+```{r}
+
+bill_dens <- ggplot(data = penguins, 
+                    mapping = aes(x= bill_length_mm))
+
+bill_dens # nothing is here because it create the same layer
+
+#let make a histogram additing a histogram layers
+bill_dens + geom_histogram()
+```
+
+**Exercise:** Now you try `geom_density`. How\'s it look? If you want, try adding arguments like `fill`, `color`, and `alpha` to `geom_density()` if you want to get fancy.
+
+```{r}
+# using density geometry
+bill_dens + geom_density(fill= 'red', alpha = 0.5, bw = 0.5)
+```
+
+there are some ways to plot factor in our data
+
+```{r}
+bill_dens + geom_density(mapping = aes(fill = species), alpha = 0.6)
+```

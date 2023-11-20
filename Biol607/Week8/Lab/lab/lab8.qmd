@@ -1,0 +1,22 @@
+---
+title: "Lab week8"
+format: html
+editor: visual
+---
+
+```{r}
+# libraries for today
+library(readr)
+library(dplyr)
+library(broom)
+library(performance)
+library(modelr)
+
+# for fitting
+library(betareg)
+library(glmmTMB)
+
+# for viz
+library(ggplot2)
+theme_set(theme_classic(base_size = 14))
+```

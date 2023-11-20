@@ -1,0 +1,2509 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Viviana Romero">
+
+<title>Midterm</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="midterm_files/libs/clipboard/clipboard.min.js"></script>
+<script src="midterm_files/libs/quarto-html/quarto.js"></script>
+<script src="midterm_files/libs/quarto-html/popper.min.js"></script>
+<script src="midterm_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="midterm_files/libs/quarto-html/anchor.min.js"></script>
+<link href="midterm_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="midterm_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="midterm_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="midterm_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="midterm_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Midterm</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Viviana Romero </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="midterm-and-self-evaluation" class="level1">
+<h1><strong>Midterm and Self-Evaluation</strong></h1>
+<p>Biol607</p>
+<p>Welcome to your mid-term! I hope you enjoy. Note, in all of the questions below, there are easy not so code intensive ways of doing it, and there are longer more involved, yet still workable ways to answer them. I would suggest that before you dive into analyses, you do the following.</p>
+<p>First, breathe.</p>
+<p>Second, think about the steps you need to execute to get answer the question. Write them down.</p>
+<p>Third, for those parts of problems that require code, put those steps, in sequence, in comments in your script file. Use those as signposts to step-by-step walk through the things you need to do.</p>
+<p>Last, note there are some impress yourselves. You do not need to do them if you don’t want to. But they are there for you to stretch your wings, if you so desire, and get lost in the questions. Or learn something new.</p>
+<p>Have fun!</p>
+<p>The exam will be due on Nov 17th, 5pm.</p>
+<section id="sampling-your-system" class="level2">
+<h2 class="anchored" data-anchor-id="sampling-your-system"><strong>1. Sampling your system</strong></h2>
+<p>Each of you have a study system you work in and a question of interest. Give an example of one variable that you would sample in order to get a sense of its variation in nature.</p>
+<pre style="color: gray;"><code>Currently, I am working on body size prediction in biped theropods. 
+Following the literature, the most relevant variable in Femur circumference.</code></pre>
+<p>Describe, in detail, how you would sample for the population of that variable in order to understand its distribution.</p>
+<pre style="color: gray;"><code>I will not get samples from nature directly. Instead, I will gather data from databases and literature. Currently, except for humans, Aves is the only extant-bipedal group. 
+So, if I want to predict Body Mass for extinct bipeds I should use Birds as a reference to fit the model.
+In this way, I have to cover the entire range of body mass in the Aves group (50g to 130000g).
+In addition, keep in mind that femur circumference is independent of the phylogenetic relationship.
+I will include some human samples to test the predictability of my model.</code></pre>
+<p>Questions to consider include, but are not limited to: Just what is your sample versus your population?</p>
+<pre style="color: gray;"><code>I have gathered around 10% of the species in modern birds so far. 
+Despite the low percentage of species, I have gathered around 400 observations, which cover the entire range of body mass in Aves.</code></pre>
+<p>What would your sampling design be?</p>
+<pre style="color: gray;"><code>My experiment will take three parts. First of all, I will get data from the literature.
+They include body mass, femur circumference and length, and desirable sex.
+Given that my model is an extrapolation problem, I must include data that try to reflect Therapods in the present. I mean, I  flightless birds with large body mass. Such as Palaeognathaes.
+However, this group only includes information on femur length but does not include femur circumference.
+Then, to get femur circumference and subsequently use them to predict body mass, I should fit a model femur circumference ~ femur length, and then to predict femur circumference in Palaeognathaes.
+Thus, I am going to increase the sample in the clue group to predict the Body Mass in biped fossils</code></pre>
+<p>Why would you design it that particular way?</p>
+<pre style="color: gray;"><code>Current models have been fitted using modern birds, including only one observation from the biggest Palaeognathaes.
+Of course, it becomes an outlier for the model. 
+However, Palaeognathaes is a clue group because if I include them in the sample, the distribution of Body Mass changes completely. 
+It reveals a bias in the current models, given that the best model to predict body mass is not linear.
+Rather than an polynomial model could fit better.</code></pre>
+<p>What are potential confounding influences of both sampling technique and sample design that you need to be careful to avoid?</p>
+<pre style="color: gray;"><code>One of the troubles is that I can not know the actual body mass of biped theropods, so I can not test my model.
+On the other hand, the Aves group have some modification that allows them to fly. That modification could become a bias in the prediction of BM in dinosaurs.</code></pre>
+<p>What statistical distribution might the variable take, and why?</p>
+<pre style="color: gray;"><code>Body mass is not normal if I include Palaeognathaes, and it is skewed on the left. </code></pre>
+</section>
+<section id="data-reshaping-and-visuzliation" class="level2">
+<h2 class="anchored" data-anchor-id="data-reshaping-and-visuzliation"><strong>2. Data Reshaping and Visuzliation</strong></h2>
+<p>Johns Hopkins has been maintaining one of the best Covid-19 timseries data sets out there. The data on the US can be found <a href="https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv">here</a> with information about what is in the data at https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data</p>
+<section id="a.-access" class="level3">
+<h3 class="anchored" data-anchor-id="a.-access"><strong>2a. Access</strong></h3>
+<p>Download and read in the data. Can you do this without downloading, but read directly from the archive?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load libraries</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.3     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.0
+✔ ggplot2   3.4.3     ✔ tibble    3.2.1
+✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom) <span class="co"># working with fitted models to get inference</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(performance) <span class="co"># assessing model diagnostics</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DHARMa)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>This is DHARMa 0.4.6. For overview type '?DHARMa'. For recent changes, type news(package = 'DHARMa')</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download data from github</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="do">### Note: This repository was archived by the owner, it is not downloading well</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">"https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv"</span>, <span class="at">destfile =</span> <span class="st">'time_series_covid19_confirmed_US.csv'</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Read data</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>covid <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"time_series_covid19_confirmed_US2.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 3342 Columns: 1154
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr    (6): iso2, iso3, Admin2, Province_State, Country_Region, Combined_Key
+dbl (1148): UID, code3, FIPS, Lat, Long_, 1/22/20, 1/23/20, 1/24/20, 1/25/20...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+</section>
+<section id="b.-its-big-and-wide" class="level3">
+<h3 class="anchored" data-anchor-id="b.-its-big-and-wide"><strong>2b. It’s big and wide!</strong></h3>
+<p>The data is, well, huge. It’s also wide, with dates as columns.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the structure</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(covid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 1,154
+       UID iso2  iso3  code3  FIPS Admin2  Province_State Country_Region   Lat
+     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;          &lt;chr&gt;          &lt;dbl&gt;
+1 84001001 US    USA     840  1001 Autauga Alabama        US              32.5
+2 84001003 US    USA     840  1003 Baldwin Alabama        US              30.7
+3 84001005 US    USA     840  1005 Barbour Alabama        US              31.9
+4 84001007 US    USA     840  1007 Bibb    Alabama        US              33.0
+5 84001009 US    USA     840  1009 Blount  Alabama        US              34.0
+6 84001011 US    USA     840  1011 Bullock Alabama        US              32.1
+# ℹ 1,145 more variables: Long_ &lt;dbl&gt;, Combined_Key &lt;chr&gt;, `1/22/20` &lt;dbl&gt;,
+#   `1/23/20` &lt;dbl&gt;, `1/24/20` &lt;dbl&gt;, `1/25/20` &lt;dbl&gt;, `1/26/20` &lt;dbl&gt;,
+#   `1/27/20` &lt;dbl&gt;, `1/28/20` &lt;dbl&gt;, `1/29/20` &lt;dbl&gt;, `1/30/20` &lt;dbl&gt;,
+#   `1/31/20` &lt;dbl&gt;, `2/1/20` &lt;dbl&gt;, `2/2/20` &lt;dbl&gt;, `2/3/20` &lt;dbl&gt;,
+#   `2/4/20` &lt;dbl&gt;, `2/5/20` &lt;dbl&gt;, `2/6/20` &lt;dbl&gt;, `2/7/20` &lt;dbl&gt;,
+#   `2/8/20` &lt;dbl&gt;, `2/9/20` &lt;dbl&gt;, `2/10/20` &lt;dbl&gt;, `2/11/20` &lt;dbl&gt;,
+#   `2/12/20` &lt;dbl&gt;, `2/13/20` &lt;dbl&gt;, `2/14/20` &lt;dbl&gt;, `2/15/20` &lt;dbl&gt;, …</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(covid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>spc_tbl_ [3,342 × 1,154] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+ $ UID           : num [1:3342] 8.4e+07 8.4e+07 8.4e+07 8.4e+07 8.4e+07 ...
+ $ iso2          : chr [1:3342] "US" "US" "US" "US" ...
+ $ iso3          : chr [1:3342] "USA" "USA" "USA" "USA" ...
+ $ code3         : num [1:3342] 840 840 840 840 840 840 840 840 840 840 ...
+ $ FIPS          : num [1:3342] 1001 1003 1005 1007 1009 ...
+ $ Admin2        : chr [1:3342] "Autauga" "Baldwin" "Barbour" "Bibb" ...
+ $ Province_State: chr [1:3342] "Alabama" "Alabama" "Alabama" "Alabama" ...
+ $ Country_Region: chr [1:3342] "US" "US" "US" "US" ...
+ $ Lat           : num [1:3342] 32.5 30.7 31.9 33 34 ...
+ $ Long_         : num [1:3342] -86.6 -87.7 -85.4 -87.1 -86.6 ...
+ $ Combined_Key  : chr [1:3342] "Autauga, Alabama, US" "Baldwin, Alabama, US" "Barbour, Alabama, US" "Bibb, Alabama, US" ...
+ $ 1/22/20       : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 1/23/20       : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 1/24/20       : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 1/25/20       : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 1/26/20       : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 1/27/20       : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 1/28/20       : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 1/29/20       : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 1/30/20       : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 1/31/20       : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 2/1/20        : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 2/2/20        : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 2/3/20        : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 2/4/20        : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 2/5/20        : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 2/6/20        : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 2/7/20        : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 2/8/20        : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 2/9/20        : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 2/10/20       : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 2/11/20       : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 2/12/20       : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 2/13/20       : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 2/14/20       : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 2/15/20       : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 2/16/20       : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 2/17/20       : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 2/18/20       : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 2/19/20       : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 2/20/20       : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 2/21/20       : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 2/22/20       : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 2/23/20       : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 2/24/20       : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 2/25/20       : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 2/26/20       : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 2/27/20       : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 2/28/20       : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 2/29/20       : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 3/1/20        : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 3/2/20        : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 3/3/20        : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 3/4/20        : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 3/5/20        : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 3/6/20        : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 3/7/20        : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 3/8/20        : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 3/9/20        : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 3/10/20       : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 3/11/20       : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 3/12/20       : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 3/13/20       : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 3/14/20       : num [1:3342] 0 0 0 0 0 0 0 0 0 0 ...
+ $ 3/15/20       : num [1:3342] 0 1 0 0 0 0 0 0 0 0 ...
+ $ 3/16/20       : num [1:3342] 0 1 0 0 0 0 0 0 0 0 ...
+ $ 3/17/20       : num [1:3342] 0 1 0 0 0 0 0 1 0 0 ...
+ $ 3/18/20       : num [1:3342] 0 1 0 0 0 0 0 1 0 0 ...
+ $ 3/19/20       : num [1:3342] 0 1 0 0 0 0 0 1 1 0 ...
+ $ 3/20/20       : num [1:3342] 0 2 0 0 0 0 0 1 1 0 ...
+ $ 3/21/20       : num [1:3342] 0 2 0 0 0 0 0 1 1 0 ...
+ $ 3/22/20       : num [1:3342] 0 2 0 0 0 0 0 1 2 0 ...
+ $ 3/23/20       : num [1:3342] 0 3 0 0 0 0 0 2 2 0 ...
+ $ 3/24/20       : num [1:3342] 1 5 0 0 0 0 0 2 6 0 ...
+ $ 3/25/20       : num [1:3342] 5 5 0 0 3 0 1 2 9 1 ...
+ $ 3/26/20       : num [1:3342] 6 6 0 0 4 1 1 2 13 1 ...
+ $ 3/27/20       : num [1:3342] 6 6 0 2 6 1 1 4 15 1 ...
+ $ 3/28/20       : num [1:3342] 6 18 0 2 6 2 1 4 22 1 ...
+ $ 3/29/20       : num [1:3342] 6 19 0 2 7 2 1 4 29 1 ...
+ $ 3/30/20       : num [1:3342] 8 22 0 3 7 2 1 9 39 1 ...
+ $ 3/31/20       : num [1:3342] 8 23 0 3 7 2 1 10 40 1 ...
+ $ 4/1/20        : num [1:3342] 10 26 0 3 7 2 1 11 51 1 ...
+ $ 4/2/20        : num [1:3342] 12 29 0 4 9 2 1 12 75 3 ...
+ $ 4/3/20        : num [1:3342] 12 31 2 4 11 2 1 22 87 4 ...
+ $ 4/4/20        : num [1:3342] 12 34 3 4 12 2 1 23 91 5 ...
+ $ 4/5/20        : num [1:3342] 12 39 3 7 13 2 1 26 94 5 ...
+ $ 4/6/20        : num [1:3342] 12 43 4 7 13 2 1 40 102 5 ...
+ $ 4/7/20        : num [1:3342] 12 47 4 8 13 2 2 51 112 5 ...
+ $ 4/8/20        : num [1:3342] 12 54 4 9 13 3 3 54 145 7 ...
+ $ 4/9/20        : num [1:3342] 17 63 8 11 15 4 3 56 170 7 ...
+ $ 4/10/20       : num [1:3342] 18 64 9 11 15 4 3 56 178 7 ...
+ $ 4/11/20       : num [1:3342] 19 70 10 13 15 4 6 59 189 7 ...
+ $ 4/12/20       : num [1:3342] 19 75 10 16 17 4 7 63 206 9 ...
+ $ 4/13/20       : num [1:3342] 19 82 10 17 18 6 8 64 215 9 ...
+ $ 4/14/20       : num [1:3342] 23 93 11 18 19 8 8 65 219 9 ...
+ $ 4/15/20       : num [1:3342] 24 100 13 19 21 8 11 66 229 10 ...
+ $ 4/16/20       : num [1:3342] 24 104 14 23 22 8 11 68 234 11 ...
+ $ 4/17/20       : num [1:3342] 24 106 15 23 22 8 13 68 239 11 ...
+ $ 4/18/20       : num [1:3342] 25 110 18 26 24 9 14 71 242 12 ...
+  [list output truncated]
+ - attr(*, "spec")=
+  .. cols(
+  ..   UID = col_double(),
+  ..   iso2 = col_character(),
+  ..   iso3 = col_character(),
+  ..   code3 = col_double(),
+  ..   FIPS = col_double(),
+  ..   Admin2 = col_character(),
+  ..   Province_State = col_character(),
+  ..   Country_Region = col_character(),
+  ..   Lat = col_double(),
+  ..   Long_ = col_double(),
+  ..   Combined_Key = col_character(),
+  ..   `1/22/20` = col_double(),
+  ..   `1/23/20` = col_double(),
+  ..   `1/24/20` = col_double(),
+  ..   `1/25/20` = col_double(),
+  ..   `1/26/20` = col_double(),
+  ..   `1/27/20` = col_double(),
+  ..   `1/28/20` = col_double(),
+  ..   `1/29/20` = col_double(),
+  ..   `1/30/20` = col_double(),
+  ..   `1/31/20` = col_double(),
+  ..   `2/1/20` = col_double(),
+  ..   `2/2/20` = col_double(),
+  ..   `2/3/20` = col_double(),
+  ..   `2/4/20` = col_double(),
+  ..   `2/5/20` = col_double(),
+  ..   `2/6/20` = col_double(),
+  ..   `2/7/20` = col_double(),
+  ..   `2/8/20` = col_double(),
+  ..   `2/9/20` = col_double(),
+  ..   `2/10/20` = col_double(),
+  ..   `2/11/20` = col_double(),
+  ..   `2/12/20` = col_double(),
+  ..   `2/13/20` = col_double(),
+  ..   `2/14/20` = col_double(),
+  ..   `2/15/20` = col_double(),
+  ..   `2/16/20` = col_double(),
+  ..   `2/17/20` = col_double(),
+  ..   `2/18/20` = col_double(),
+  ..   `2/19/20` = col_double(),
+  ..   `2/20/20` = col_double(),
+  ..   `2/21/20` = col_double(),
+  ..   `2/22/20` = col_double(),
+  ..   `2/23/20` = col_double(),
+  ..   `2/24/20` = col_double(),
+  ..   `2/25/20` = col_double(),
+  ..   `2/26/20` = col_double(),
+  ..   `2/27/20` = col_double(),
+  ..   `2/28/20` = col_double(),
+  ..   `2/29/20` = col_double(),
+  ..   `3/1/20` = col_double(),
+  ..   `3/2/20` = col_double(),
+  ..   `3/3/20` = col_double(),
+  ..   `3/4/20` = col_double(),
+  ..   `3/5/20` = col_double(),
+  ..   `3/6/20` = col_double(),
+  ..   `3/7/20` = col_double(),
+  ..   `3/8/20` = col_double(),
+  ..   `3/9/20` = col_double(),
+  ..   `3/10/20` = col_double(),
+  ..   `3/11/20` = col_double(),
+  ..   `3/12/20` = col_double(),
+  ..   `3/13/20` = col_double(),
+  ..   `3/14/20` = col_double(),
+  ..   `3/15/20` = col_double(),
+  ..   `3/16/20` = col_double(),
+  ..   `3/17/20` = col_double(),
+  ..   `3/18/20` = col_double(),
+  ..   `3/19/20` = col_double(),
+  ..   `3/20/20` = col_double(),
+  ..   `3/21/20` = col_double(),
+  ..   `3/22/20` = col_double(),
+  ..   `3/23/20` = col_double(),
+  ..   `3/24/20` = col_double(),
+  ..   `3/25/20` = col_double(),
+  ..   `3/26/20` = col_double(),
+  ..   `3/27/20` = col_double(),
+  ..   `3/28/20` = col_double(),
+  ..   `3/29/20` = col_double(),
+  ..   `3/30/20` = col_double(),
+  ..   `3/31/20` = col_double(),
+  ..   `4/1/20` = col_double(),
+  ..   `4/2/20` = col_double(),
+  ..   `4/3/20` = col_double(),
+  ..   `4/4/20` = col_double(),
+  ..   `4/5/20` = col_double(),
+  ..   `4/6/20` = col_double(),
+  ..   `4/7/20` = col_double(),
+  ..   `4/8/20` = col_double(),
+  ..   `4/9/20` = col_double(),
+  ..   `4/10/20` = col_double(),
+  ..   `4/11/20` = col_double(),
+  ..   `4/12/20` = col_double(),
+  ..   `4/13/20` = col_double(),
+  ..   `4/14/20` = col_double(),
+  ..   `4/15/20` = col_double(),
+  ..   `4/16/20` = col_double(),
+  ..   `4/17/20` = col_double(),
+  ..   `4/18/20` = col_double(),
+  ..   `4/19/20` = col_double(),
+  ..   `4/20/20` = col_double(),
+  ..   `4/21/20` = col_double(),
+  ..   `4/22/20` = col_double(),
+  ..   `4/23/20` = col_double(),
+  ..   `4/24/20` = col_double(),
+  ..   `4/25/20` = col_double(),
+  ..   `4/26/20` = col_double(),
+  ..   `4/27/20` = col_double(),
+  ..   `4/28/20` = col_double(),
+  ..   `4/29/20` = col_double(),
+  ..   `4/30/20` = col_double(),
+  ..   `5/1/20` = col_double(),
+  ..   `5/2/20` = col_double(),
+  ..   `5/3/20` = col_double(),
+  ..   `5/4/20` = col_double(),
+  ..   `5/5/20` = col_double(),
+  ..   `5/6/20` = col_double(),
+  ..   `5/7/20` = col_double(),
+  ..   `5/8/20` = col_double(),
+  ..   `5/9/20` = col_double(),
+  ..   `5/10/20` = col_double(),
+  ..   `5/11/20` = col_double(),
+  ..   `5/12/20` = col_double(),
+  ..   `5/13/20` = col_double(),
+  ..   `5/14/20` = col_double(),
+  ..   `5/15/20` = col_double(),
+  ..   `5/16/20` = col_double(),
+  ..   `5/17/20` = col_double(),
+  ..   `5/18/20` = col_double(),
+  ..   `5/19/20` = col_double(),
+  ..   `5/20/20` = col_double(),
+  ..   `5/21/20` = col_double(),
+  ..   `5/22/20` = col_double(),
+  ..   `5/23/20` = col_double(),
+  ..   `5/24/20` = col_double(),
+  ..   `5/25/20` = col_double(),
+  ..   `5/26/20` = col_double(),
+  ..   `5/27/20` = col_double(),
+  ..   `5/28/20` = col_double(),
+  ..   `5/29/20` = col_double(),
+  ..   `5/30/20` = col_double(),
+  ..   `5/31/20` = col_double(),
+  ..   `6/1/20` = col_double(),
+  ..   `6/2/20` = col_double(),
+  ..   `6/3/20` = col_double(),
+  ..   `6/4/20` = col_double(),
+  ..   `6/5/20` = col_double(),
+  ..   `6/6/20` = col_double(),
+  ..   `6/7/20` = col_double(),
+  ..   `6/8/20` = col_double(),
+  ..   `6/9/20` = col_double(),
+  ..   `6/10/20` = col_double(),
+  ..   `6/11/20` = col_double(),
+  ..   `6/12/20` = col_double(),
+  ..   `6/13/20` = col_double(),
+  ..   `6/14/20` = col_double(),
+  ..   `6/15/20` = col_double(),
+  ..   `6/16/20` = col_double(),
+  ..   `6/17/20` = col_double(),
+  ..   `6/18/20` = col_double(),
+  ..   `6/19/20` = col_double(),
+  ..   `6/20/20` = col_double(),
+  ..   `6/21/20` = col_double(),
+  ..   `6/22/20` = col_double(),
+  ..   `6/23/20` = col_double(),
+  ..   `6/24/20` = col_double(),
+  ..   `6/25/20` = col_double(),
+  ..   `6/26/20` = col_double(),
+  ..   `6/27/20` = col_double(),
+  ..   `6/28/20` = col_double(),
+  ..   `6/29/20` = col_double(),
+  ..   `6/30/20` = col_double(),
+  ..   `7/1/20` = col_double(),
+  ..   `7/2/20` = col_double(),
+  ..   `7/3/20` = col_double(),
+  ..   `7/4/20` = col_double(),
+  ..   `7/5/20` = col_double(),
+  ..   `7/6/20` = col_double(),
+  ..   `7/7/20` = col_double(),
+  ..   `7/8/20` = col_double(),
+  ..   `7/9/20` = col_double(),
+  ..   `7/10/20` = col_double(),
+  ..   `7/11/20` = col_double(),
+  ..   `7/12/20` = col_double(),
+  ..   `7/13/20` = col_double(),
+  ..   `7/14/20` = col_double(),
+  ..   `7/15/20` = col_double(),
+  ..   `7/16/20` = col_double(),
+  ..   `7/17/20` = col_double(),
+  ..   `7/18/20` = col_double(),
+  ..   `7/19/20` = col_double(),
+  ..   `7/20/20` = col_double(),
+  ..   `7/21/20` = col_double(),
+  ..   `7/22/20` = col_double(),
+  ..   `7/23/20` = col_double(),
+  ..   `7/24/20` = col_double(),
+  ..   `7/25/20` = col_double(),
+  ..   `7/26/20` = col_double(),
+  ..   `7/27/20` = col_double(),
+  ..   `7/28/20` = col_double(),
+  ..   `7/29/20` = col_double(),
+  ..   `7/30/20` = col_double(),
+  ..   `7/31/20` = col_double(),
+  ..   `8/1/20` = col_double(),
+  ..   `8/2/20` = col_double(),
+  ..   `8/3/20` = col_double(),
+  ..   `8/4/20` = col_double(),
+  ..   `8/5/20` = col_double(),
+  ..   `8/6/20` = col_double(),
+  ..   `8/7/20` = col_double(),
+  ..   `8/8/20` = col_double(),
+  ..   `8/9/20` = col_double(),
+  ..   `8/10/20` = col_double(),
+  ..   `8/11/20` = col_double(),
+  ..   `8/12/20` = col_double(),
+  ..   `8/13/20` = col_double(),
+  ..   `8/14/20` = col_double(),
+  ..   `8/15/20` = col_double(),
+  ..   `8/16/20` = col_double(),
+  ..   `8/17/20` = col_double(),
+  ..   `8/18/20` = col_double(),
+  ..   `8/19/20` = col_double(),
+  ..   `8/20/20` = col_double(),
+  ..   `8/21/20` = col_double(),
+  ..   `8/22/20` = col_double(),
+  ..   `8/23/20` = col_double(),
+  ..   `8/24/20` = col_double(),
+  ..   `8/25/20` = col_double(),
+  ..   `8/26/20` = col_double(),
+  ..   `8/27/20` = col_double(),
+  ..   `8/28/20` = col_double(),
+  ..   `8/29/20` = col_double(),
+  ..   `8/30/20` = col_double(),
+  ..   `8/31/20` = col_double(),
+  ..   `9/1/20` = col_double(),
+  ..   `9/2/20` = col_double(),
+  ..   `9/3/20` = col_double(),
+  ..   `9/4/20` = col_double(),
+  ..   `9/5/20` = col_double(),
+  ..   `9/6/20` = col_double(),
+  ..   `9/7/20` = col_double(),
+  ..   `9/8/20` = col_double(),
+  ..   `9/9/20` = col_double(),
+  ..   `9/10/20` = col_double(),
+  ..   `9/11/20` = col_double(),
+  ..   `9/12/20` = col_double(),
+  ..   `9/13/20` = col_double(),
+  ..   `9/14/20` = col_double(),
+  ..   `9/15/20` = col_double(),
+  ..   `9/16/20` = col_double(),
+  ..   `9/17/20` = col_double(),
+  ..   `9/18/20` = col_double(),
+  ..   `9/19/20` = col_double(),
+  ..   `9/20/20` = col_double(),
+  ..   `9/21/20` = col_double(),
+  ..   `9/22/20` = col_double(),
+  ..   `9/23/20` = col_double(),
+  ..   `9/24/20` = col_double(),
+  ..   `9/25/20` = col_double(),
+  ..   `9/26/20` = col_double(),
+  ..   `9/27/20` = col_double(),
+  ..   `9/28/20` = col_double(),
+  ..   `9/29/20` = col_double(),
+  ..   `9/30/20` = col_double(),
+  ..   `10/1/20` = col_double(),
+  ..   `10/2/20` = col_double(),
+  ..   `10/3/20` = col_double(),
+  ..   `10/4/20` = col_double(),
+  ..   `10/5/20` = col_double(),
+  ..   `10/6/20` = col_double(),
+  ..   `10/7/20` = col_double(),
+  ..   `10/8/20` = col_double(),
+  ..   `10/9/20` = col_double(),
+  ..   `10/10/20` = col_double(),
+  ..   `10/11/20` = col_double(),
+  ..   `10/12/20` = col_double(),
+  ..   `10/13/20` = col_double(),
+  ..   `10/14/20` = col_double(),
+  ..   `10/15/20` = col_double(),
+  ..   `10/16/20` = col_double(),
+  ..   `10/17/20` = col_double(),
+  ..   `10/18/20` = col_double(),
+  ..   `10/19/20` = col_double(),
+  ..   `10/20/20` = col_double(),
+  ..   `10/21/20` = col_double(),
+  ..   `10/22/20` = col_double(),
+  ..   `10/23/20` = col_double(),
+  ..   `10/24/20` = col_double(),
+  ..   `10/25/20` = col_double(),
+  ..   `10/26/20` = col_double(),
+  ..   `10/27/20` = col_double(),
+  ..   `10/28/20` = col_double(),
+  ..   `10/29/20` = col_double(),
+  ..   `10/30/20` = col_double(),
+  ..   `10/31/20` = col_double(),
+  ..   `11/1/20` = col_double(),
+  ..   `11/2/20` = col_double(),
+  ..   `11/3/20` = col_double(),
+  ..   `11/4/20` = col_double(),
+  ..   `11/5/20` = col_double(),
+  ..   `11/6/20` = col_double(),
+  ..   `11/7/20` = col_double(),
+  ..   `11/8/20` = col_double(),
+  ..   `11/9/20` = col_double(),
+  ..   `11/10/20` = col_double(),
+  ..   `11/11/20` = col_double(),
+  ..   `11/12/20` = col_double(),
+  ..   `11/13/20` = col_double(),
+  ..   `11/14/20` = col_double(),
+  ..   `11/15/20` = col_double(),
+  ..   `11/16/20` = col_double(),
+  ..   `11/17/20` = col_double(),
+  ..   `11/18/20` = col_double(),
+  ..   `11/19/20` = col_double(),
+  ..   `11/20/20` = col_double(),
+  ..   `11/21/20` = col_double(),
+  ..   `11/22/20` = col_double(),
+  ..   `11/23/20` = col_double(),
+  ..   `11/24/20` = col_double(),
+  ..   `11/25/20` = col_double(),
+  ..   `11/26/20` = col_double(),
+  ..   `11/27/20` = col_double(),
+  ..   `11/28/20` = col_double(),
+  ..   `11/29/20` = col_double(),
+  ..   `11/30/20` = col_double(),
+  ..   `12/1/20` = col_double(),
+  ..   `12/2/20` = col_double(),
+  ..   `12/3/20` = col_double(),
+  ..   `12/4/20` = col_double(),
+  ..   `12/5/20` = col_double(),
+  ..   `12/6/20` = col_double(),
+  ..   `12/7/20` = col_double(),
+  ..   `12/8/20` = col_double(),
+  ..   `12/9/20` = col_double(),
+  ..   `12/10/20` = col_double(),
+  ..   `12/11/20` = col_double(),
+  ..   `12/12/20` = col_double(),
+  ..   `12/13/20` = col_double(),
+  ..   `12/14/20` = col_double(),
+  ..   `12/15/20` = col_double(),
+  ..   `12/16/20` = col_double(),
+  ..   `12/17/20` = col_double(),
+  ..   `12/18/20` = col_double(),
+  ..   `12/19/20` = col_double(),
+  ..   `12/20/20` = col_double(),
+  ..   `12/21/20` = col_double(),
+  ..   `12/22/20` = col_double(),
+  ..   `12/23/20` = col_double(),
+  ..   `12/24/20` = col_double(),
+  ..   `12/25/20` = col_double(),
+  ..   `12/26/20` = col_double(),
+  ..   `12/27/20` = col_double(),
+  ..   `12/28/20` = col_double(),
+  ..   `12/29/20` = col_double(),
+  ..   `12/30/20` = col_double(),
+  ..   `12/31/20` = col_double(),
+  ..   `1/1/21` = col_double(),
+  ..   `1/2/21` = col_double(),
+  ..   `1/3/21` = col_double(),
+  ..   `1/4/21` = col_double(),
+  ..   `1/5/21` = col_double(),
+  ..   `1/6/21` = col_double(),
+  ..   `1/7/21` = col_double(),
+  ..   `1/8/21` = col_double(),
+  ..   `1/9/21` = col_double(),
+  ..   `1/10/21` = col_double(),
+  ..   `1/11/21` = col_double(),
+  ..   `1/12/21` = col_double(),
+  ..   `1/13/21` = col_double(),
+  ..   `1/14/21` = col_double(),
+  ..   `1/15/21` = col_double(),
+  ..   `1/16/21` = col_double(),
+  ..   `1/17/21` = col_double(),
+  ..   `1/18/21` = col_double(),
+  ..   `1/19/21` = col_double(),
+  ..   `1/20/21` = col_double(),
+  ..   `1/21/21` = col_double(),
+  ..   `1/22/21` = col_double(),
+  ..   `1/23/21` = col_double(),
+  ..   `1/24/21` = col_double(),
+  ..   `1/25/21` = col_double(),
+  ..   `1/26/21` = col_double(),
+  ..   `1/27/21` = col_double(),
+  ..   `1/28/21` = col_double(),
+  ..   `1/29/21` = col_double(),
+  ..   `1/30/21` = col_double(),
+  ..   `1/31/21` = col_double(),
+  ..   `2/1/21` = col_double(),
+  ..   `2/2/21` = col_double(),
+  ..   `2/3/21` = col_double(),
+  ..   `2/4/21` = col_double(),
+  ..   `2/5/21` = col_double(),
+  ..   `2/6/21` = col_double(),
+  ..   `2/7/21` = col_double(),
+  ..   `2/8/21` = col_double(),
+  ..   `2/9/21` = col_double(),
+  ..   `2/10/21` = col_double(),
+  ..   `2/11/21` = col_double(),
+  ..   `2/12/21` = col_double(),
+  ..   `2/13/21` = col_double(),
+  ..   `2/14/21` = col_double(),
+  ..   `2/15/21` = col_double(),
+  ..   `2/16/21` = col_double(),
+  ..   `2/17/21` = col_double(),
+  ..   `2/18/21` = col_double(),
+  ..   `2/19/21` = col_double(),
+  ..   `2/20/21` = col_double(),
+  ..   `2/21/21` = col_double(),
+  ..   `2/22/21` = col_double(),
+  ..   `2/23/21` = col_double(),
+  ..   `2/24/21` = col_double(),
+  ..   `2/25/21` = col_double(),
+  ..   `2/26/21` = col_double(),
+  ..   `2/27/21` = col_double(),
+  ..   `2/28/21` = col_double(),
+  ..   `3/1/21` = col_double(),
+  ..   `3/2/21` = col_double(),
+  ..   `3/3/21` = col_double(),
+  ..   `3/4/21` = col_double(),
+  ..   `3/5/21` = col_double(),
+  ..   `3/6/21` = col_double(),
+  ..   `3/7/21` = col_double(),
+  ..   `3/8/21` = col_double(),
+  ..   `3/9/21` = col_double(),
+  ..   `3/10/21` = col_double(),
+  ..   `3/11/21` = col_double(),
+  ..   `3/12/21` = col_double(),
+  ..   `3/13/21` = col_double(),
+  ..   `3/14/21` = col_double(),
+  ..   `3/15/21` = col_double(),
+  ..   `3/16/21` = col_double(),
+  ..   `3/17/21` = col_double(),
+  ..   `3/18/21` = col_double(),
+  ..   `3/19/21` = col_double(),
+  ..   `3/20/21` = col_double(),
+  ..   `3/21/21` = col_double(),
+  ..   `3/22/21` = col_double(),
+  ..   `3/23/21` = col_double(),
+  ..   `3/24/21` = col_double(),
+  ..   `3/25/21` = col_double(),
+  ..   `3/26/21` = col_double(),
+  ..   `3/27/21` = col_double(),
+  ..   `3/28/21` = col_double(),
+  ..   `3/29/21` = col_double(),
+  ..   `3/30/21` = col_double(),
+  ..   `3/31/21` = col_double(),
+  ..   `4/1/21` = col_double(),
+  ..   `4/2/21` = col_double(),
+  ..   `4/3/21` = col_double(),
+  ..   `4/4/21` = col_double(),
+  ..   `4/5/21` = col_double(),
+  ..   `4/6/21` = col_double(),
+  ..   `4/7/21` = col_double(),
+  ..   `4/8/21` = col_double(),
+  ..   `4/9/21` = col_double(),
+  ..   `4/10/21` = col_double(),
+  ..   `4/11/21` = col_double(),
+  ..   `4/12/21` = col_double(),
+  ..   `4/13/21` = col_double(),
+  ..   `4/14/21` = col_double(),
+  ..   `4/15/21` = col_double(),
+  ..   `4/16/21` = col_double(),
+  ..   `4/17/21` = col_double(),
+  ..   `4/18/21` = col_double(),
+  ..   `4/19/21` = col_double(),
+  ..   `4/20/21` = col_double(),
+  ..   `4/21/21` = col_double(),
+  ..   `4/22/21` = col_double(),
+  ..   `4/23/21` = col_double(),
+  ..   `4/24/21` = col_double(),
+  ..   `4/25/21` = col_double(),
+  ..   `4/26/21` = col_double(),
+  ..   `4/27/21` = col_double(),
+  ..   `4/28/21` = col_double(),
+  ..   `4/29/21` = col_double(),
+  ..   `4/30/21` = col_double(),
+  ..   `5/1/21` = col_double(),
+  ..   `5/2/21` = col_double(),
+  ..   `5/3/21` = col_double(),
+  ..   `5/4/21` = col_double(),
+  ..   `5/5/21` = col_double(),
+  ..   `5/6/21` = col_double(),
+  ..   `5/7/21` = col_double(),
+  ..   `5/8/21` = col_double(),
+  ..   `5/9/21` = col_double(),
+  ..   `5/10/21` = col_double(),
+  ..   `5/11/21` = col_double(),
+  ..   `5/12/21` = col_double(),
+  ..   `5/13/21` = col_double(),
+  ..   `5/14/21` = col_double(),
+  ..   `5/15/21` = col_double(),
+  ..   `5/16/21` = col_double(),
+  ..   `5/17/21` = col_double(),
+  ..   `5/18/21` = col_double(),
+  ..   `5/19/21` = col_double(),
+  ..   `5/20/21` = col_double(),
+  ..   `5/21/21` = col_double(),
+  ..   `5/22/21` = col_double(),
+  ..   `5/23/21` = col_double(),
+  ..   `5/24/21` = col_double(),
+  ..   `5/25/21` = col_double(),
+  ..   `5/26/21` = col_double(),
+  ..   `5/27/21` = col_double(),
+  ..   `5/28/21` = col_double(),
+  ..   `5/29/21` = col_double(),
+  ..   `5/30/21` = col_double(),
+  ..   `5/31/21` = col_double(),
+  ..   `6/1/21` = col_double(),
+  ..   `6/2/21` = col_double(),
+  ..   `6/3/21` = col_double(),
+  ..   `6/4/21` = col_double(),
+  ..   `6/5/21` = col_double(),
+  ..   `6/6/21` = col_double(),
+  ..   `6/7/21` = col_double(),
+  ..   `6/8/21` = col_double(),
+  ..   `6/9/21` = col_double(),
+  ..   `6/10/21` = col_double(),
+  ..   `6/11/21` = col_double(),
+  ..   `6/12/21` = col_double(),
+  ..   `6/13/21` = col_double(),
+  ..   `6/14/21` = col_double(),
+  ..   `6/15/21` = col_double(),
+  ..   `6/16/21` = col_double(),
+  ..   `6/17/21` = col_double(),
+  ..   `6/18/21` = col_double(),
+  ..   `6/19/21` = col_double(),
+  ..   `6/20/21` = col_double(),
+  ..   `6/21/21` = col_double(),
+  ..   `6/22/21` = col_double(),
+  ..   `6/23/21` = col_double(),
+  ..   `6/24/21` = col_double(),
+  ..   `6/25/21` = col_double(),
+  ..   `6/26/21` = col_double(),
+  ..   `6/27/21` = col_double(),
+  ..   `6/28/21` = col_double(),
+  ..   `6/29/21` = col_double(),
+  ..   `6/30/21` = col_double(),
+  ..   `7/1/21` = col_double(),
+  ..   `7/2/21` = col_double(),
+  ..   `7/3/21` = col_double(),
+  ..   `7/4/21` = col_double(),
+  ..   `7/5/21` = col_double(),
+  ..   `7/6/21` = col_double(),
+  ..   `7/7/21` = col_double(),
+  ..   `7/8/21` = col_double(),
+  ..   `7/9/21` = col_double(),
+  ..   `7/10/21` = col_double(),
+  ..   `7/11/21` = col_double(),
+  ..   `7/12/21` = col_double(),
+  ..   `7/13/21` = col_double(),
+  ..   `7/14/21` = col_double(),
+  ..   `7/15/21` = col_double(),
+  ..   `7/16/21` = col_double(),
+  ..   `7/17/21` = col_double(),
+  ..   `7/18/21` = col_double(),
+  ..   `7/19/21` = col_double(),
+  ..   `7/20/21` = col_double(),
+  ..   `7/21/21` = col_double(),
+  ..   `7/22/21` = col_double(),
+  ..   `7/23/21` = col_double(),
+  ..   `7/24/21` = col_double(),
+  ..   `7/25/21` = col_double(),
+  ..   `7/26/21` = col_double(),
+  ..   `7/27/21` = col_double(),
+  ..   `7/28/21` = col_double(),
+  ..   `7/29/21` = col_double(),
+  ..   `7/30/21` = col_double(),
+  ..   `7/31/21` = col_double(),
+  ..   `8/1/21` = col_double(),
+  ..   `8/2/21` = col_double(),
+  ..   `8/3/21` = col_double(),
+  ..   `8/4/21` = col_double(),
+  ..   `8/5/21` = col_double(),
+  ..   `8/6/21` = col_double(),
+  ..   `8/7/21` = col_double(),
+  ..   `8/8/21` = col_double(),
+  ..   `8/9/21` = col_double(),
+  ..   `8/10/21` = col_double(),
+  ..   `8/11/21` = col_double(),
+  ..   `8/12/21` = col_double(),
+  ..   `8/13/21` = col_double(),
+  ..   `8/14/21` = col_double(),
+  ..   `8/15/21` = col_double(),
+  ..   `8/16/21` = col_double(),
+  ..   `8/17/21` = col_double(),
+  ..   `8/18/21` = col_double(),
+  ..   `8/19/21` = col_double(),
+  ..   `8/20/21` = col_double(),
+  ..   `8/21/21` = col_double(),
+  ..   `8/22/21` = col_double(),
+  ..   `8/23/21` = col_double(),
+  ..   `8/24/21` = col_double(),
+  ..   `8/25/21` = col_double(),
+  ..   `8/26/21` = col_double(),
+  ..   `8/27/21` = col_double(),
+  ..   `8/28/21` = col_double(),
+  ..   `8/29/21` = col_double(),
+  ..   `8/30/21` = col_double(),
+  ..   `8/31/21` = col_double(),
+  ..   `9/1/21` = col_double(),
+  ..   `9/2/21` = col_double(),
+  ..   `9/3/21` = col_double(),
+  ..   `9/4/21` = col_double(),
+  ..   `9/5/21` = col_double(),
+  ..   `9/6/21` = col_double(),
+  ..   `9/7/21` = col_double(),
+  ..   `9/8/21` = col_double(),
+  ..   `9/9/21` = col_double(),
+  ..   `9/10/21` = col_double(),
+  ..   `9/11/21` = col_double(),
+  ..   `9/12/21` = col_double(),
+  ..   `9/13/21` = col_double(),
+  ..   `9/14/21` = col_double(),
+  ..   `9/15/21` = col_double(),
+  ..   `9/16/21` = col_double(),
+  ..   `9/17/21` = col_double(),
+  ..   `9/18/21` = col_double(),
+  ..   `9/19/21` = col_double(),
+  ..   `9/20/21` = col_double(),
+  ..   `9/21/21` = col_double(),
+  ..   `9/22/21` = col_double(),
+  ..   `9/23/21` = col_double(),
+  ..   `9/24/21` = col_double(),
+  ..   `9/25/21` = col_double(),
+  ..   `9/26/21` = col_double(),
+  ..   `9/27/21` = col_double(),
+  ..   `9/28/21` = col_double(),
+  ..   `9/29/21` = col_double(),
+  ..   `9/30/21` = col_double(),
+  ..   `10/1/21` = col_double(),
+  ..   `10/2/21` = col_double(),
+  ..   `10/3/21` = col_double(),
+  ..   `10/4/21` = col_double(),
+  ..   `10/5/21` = col_double(),
+  ..   `10/6/21` = col_double(),
+  ..   `10/7/21` = col_double(),
+  ..   `10/8/21` = col_double(),
+  ..   `10/9/21` = col_double(),
+  ..   `10/10/21` = col_double(),
+  ..   `10/11/21` = col_double(),
+  ..   `10/12/21` = col_double(),
+  ..   `10/13/21` = col_double(),
+  ..   `10/14/21` = col_double(),
+  ..   `10/15/21` = col_double(),
+  ..   `10/16/21` = col_double(),
+  ..   `10/17/21` = col_double(),
+  ..   `10/18/21` = col_double(),
+  ..   `10/19/21` = col_double(),
+  ..   `10/20/21` = col_double(),
+  ..   `10/21/21` = col_double(),
+  ..   `10/22/21` = col_double(),
+  ..   `10/23/21` = col_double(),
+  ..   `10/24/21` = col_double(),
+  ..   `10/25/21` = col_double(),
+  ..   `10/26/21` = col_double(),
+  ..   `10/27/21` = col_double(),
+  ..   `10/28/21` = col_double(),
+  ..   `10/29/21` = col_double(),
+  ..   `10/30/21` = col_double(),
+  ..   `10/31/21` = col_double(),
+  ..   `11/1/21` = col_double(),
+  ..   `11/2/21` = col_double(),
+  ..   `11/3/21` = col_double(),
+  ..   `11/4/21` = col_double(),
+  ..   `11/5/21` = col_double(),
+  ..   `11/6/21` = col_double(),
+  ..   `11/7/21` = col_double(),
+  ..   `11/8/21` = col_double(),
+  ..   `11/9/21` = col_double(),
+  ..   `11/10/21` = col_double(),
+  ..   `11/11/21` = col_double(),
+  ..   `11/12/21` = col_double(),
+  ..   `11/13/21` = col_double(),
+  ..   `11/14/21` = col_double(),
+  ..   `11/15/21` = col_double(),
+  ..   `11/16/21` = col_double(),
+  ..   `11/17/21` = col_double(),
+  ..   `11/18/21` = col_double(),
+  ..   `11/19/21` = col_double(),
+  ..   `11/20/21` = col_double(),
+  ..   `11/21/21` = col_double(),
+  ..   `11/22/21` = col_double(),
+  ..   `11/23/21` = col_double(),
+  ..   `11/24/21` = col_double(),
+  ..   `11/25/21` = col_double(),
+  ..   `11/26/21` = col_double(),
+  ..   `11/27/21` = col_double(),
+  ..   `11/28/21` = col_double(),
+  ..   `11/29/21` = col_double(),
+  ..   `11/30/21` = col_double(),
+  ..   `12/1/21` = col_double(),
+  ..   `12/2/21` = col_double(),
+  ..   `12/3/21` = col_double(),
+  ..   `12/4/21` = col_double(),
+  ..   `12/5/21` = col_double(),
+  ..   `12/6/21` = col_double(),
+  ..   `12/7/21` = col_double(),
+  ..   `12/8/21` = col_double(),
+  ..   `12/9/21` = col_double(),
+  ..   `12/10/21` = col_double(),
+  ..   `12/11/21` = col_double(),
+  ..   `12/12/21` = col_double(),
+  ..   `12/13/21` = col_double(),
+  ..   `12/14/21` = col_double(),
+  ..   `12/15/21` = col_double(),
+  ..   `12/16/21` = col_double(),
+  ..   `12/17/21` = col_double(),
+  ..   `12/18/21` = col_double(),
+  ..   `12/19/21` = col_double(),
+  ..   `12/20/21` = col_double(),
+  ..   `12/21/21` = col_double(),
+  ..   `12/22/21` = col_double(),
+  ..   `12/23/21` = col_double(),
+  ..   `12/24/21` = col_double(),
+  ..   `12/25/21` = col_double(),
+  ..   `12/26/21` = col_double(),
+  ..   `12/27/21` = col_double(),
+  ..   `12/28/21` = col_double(),
+  ..   `12/29/21` = col_double(),
+  ..   `12/30/21` = col_double(),
+  ..   `12/31/21` = col_double(),
+  ..   `1/1/22` = col_double(),
+  ..   `1/2/22` = col_double(),
+  ..   `1/3/22` = col_double(),
+  ..   `1/4/22` = col_double(),
+  ..   `1/5/22` = col_double(),
+  ..   `1/6/22` = col_double(),
+  ..   `1/7/22` = col_double(),
+  ..   `1/8/22` = col_double(),
+  ..   `1/9/22` = col_double(),
+  ..   `1/10/22` = col_double(),
+  ..   `1/11/22` = col_double(),
+  ..   `1/12/22` = col_double(),
+  ..   `1/13/22` = col_double(),
+  ..   `1/14/22` = col_double(),
+  ..   `1/15/22` = col_double(),
+  ..   `1/16/22` = col_double(),
+  ..   `1/17/22` = col_double(),
+  ..   `1/18/22` = col_double(),
+  ..   `1/19/22` = col_double(),
+  ..   `1/20/22` = col_double(),
+  ..   `1/21/22` = col_double(),
+  ..   `1/22/22` = col_double(),
+  ..   `1/23/22` = col_double(),
+  ..   `1/24/22` = col_double(),
+  ..   `1/25/22` = col_double(),
+  ..   `1/26/22` = col_double(),
+  ..   `1/27/22` = col_double(),
+  ..   `1/28/22` = col_double(),
+  ..   `1/29/22` = col_double(),
+  ..   `1/30/22` = col_double(),
+  ..   `1/31/22` = col_double(),
+  ..   `2/1/22` = col_double(),
+  ..   `2/2/22` = col_double(),
+  ..   `2/3/22` = col_double(),
+  ..   `2/4/22` = col_double(),
+  ..   `2/5/22` = col_double(),
+  ..   `2/6/22` = col_double(),
+  ..   `2/7/22` = col_double(),
+  ..   `2/8/22` = col_double(),
+  ..   `2/9/22` = col_double(),
+  ..   `2/10/22` = col_double(),
+  ..   `2/11/22` = col_double(),
+  ..   `2/12/22` = col_double(),
+  ..   `2/13/22` = col_double(),
+  ..   `2/14/22` = col_double(),
+  ..   `2/15/22` = col_double(),
+  ..   `2/16/22` = col_double(),
+  ..   `2/17/22` = col_double(),
+  ..   `2/18/22` = col_double(),
+  ..   `2/19/22` = col_double(),
+  ..   `2/20/22` = col_double(),
+  ..   `2/21/22` = col_double(),
+  ..   `2/22/22` = col_double(),
+  ..   `2/23/22` = col_double(),
+  ..   `2/24/22` = col_double(),
+  ..   `2/25/22` = col_double(),
+  ..   `2/26/22` = col_double(),
+  ..   `2/27/22` = col_double(),
+  ..   `2/28/22` = col_double(),
+  ..   `3/1/22` = col_double(),
+  ..   `3/2/22` = col_double(),
+  ..   `3/3/22` = col_double(),
+  ..   `3/4/22` = col_double(),
+  ..   `3/5/22` = col_double(),
+  ..   `3/6/22` = col_double(),
+  ..   `3/7/22` = col_double(),
+  ..   `3/8/22` = col_double(),
+  ..   `3/9/22` = col_double(),
+  ..   `3/10/22` = col_double(),
+  ..   `3/11/22` = col_double(),
+  ..   `3/12/22` = col_double(),
+  ..   `3/13/22` = col_double(),
+  ..   `3/14/22` = col_double(),
+  ..   `3/15/22` = col_double(),
+  ..   `3/16/22` = col_double(),
+  ..   `3/17/22` = col_double(),
+  ..   `3/18/22` = col_double(),
+  ..   `3/19/22` = col_double(),
+  ..   `3/20/22` = col_double(),
+  ..   `3/21/22` = col_double(),
+  ..   `3/22/22` = col_double(),
+  ..   `3/23/22` = col_double(),
+  ..   `3/24/22` = col_double(),
+  ..   `3/25/22` = col_double(),
+  ..   `3/26/22` = col_double(),
+  ..   `3/27/22` = col_double(),
+  ..   `3/28/22` = col_double(),
+  ..   `3/29/22` = col_double(),
+  ..   `3/30/22` = col_double(),
+  ..   `3/31/22` = col_double(),
+  ..   `4/1/22` = col_double(),
+  ..   `4/2/22` = col_double(),
+  ..   `4/3/22` = col_double(),
+  ..   `4/4/22` = col_double(),
+  ..   `4/5/22` = col_double(),
+  ..   `4/6/22` = col_double(),
+  ..   `4/7/22` = col_double(),
+  ..   `4/8/22` = col_double(),
+  ..   `4/9/22` = col_double(),
+  ..   `4/10/22` = col_double(),
+  ..   `4/11/22` = col_double(),
+  ..   `4/12/22` = col_double(),
+  ..   `4/13/22` = col_double(),
+  ..   `4/14/22` = col_double(),
+  ..   `4/15/22` = col_double(),
+  ..   `4/16/22` = col_double(),
+  ..   `4/17/22` = col_double(),
+  ..   `4/18/22` = col_double(),
+  ..   `4/19/22` = col_double(),
+  ..   `4/20/22` = col_double(),
+  ..   `4/21/22` = col_double(),
+  ..   `4/22/22` = col_double(),
+  ..   `4/23/22` = col_double(),
+  ..   `4/24/22` = col_double(),
+  ..   `4/25/22` = col_double(),
+  ..   `4/26/22` = col_double(),
+  ..   `4/27/22` = col_double(),
+  ..   `4/28/22` = col_double(),
+  ..   `4/29/22` = col_double(),
+  ..   `4/30/22` = col_double(),
+  ..   `5/1/22` = col_double(),
+  ..   `5/2/22` = col_double(),
+  ..   `5/3/22` = col_double(),
+  ..   `5/4/22` = col_double(),
+  ..   `5/5/22` = col_double(),
+  ..   `5/6/22` = col_double(),
+  ..   `5/7/22` = col_double(),
+  ..   `5/8/22` = col_double(),
+  ..   `5/9/22` = col_double(),
+  ..   `5/10/22` = col_double(),
+  ..   `5/11/22` = col_double(),
+  ..   `5/12/22` = col_double(),
+  ..   `5/13/22` = col_double(),
+  ..   `5/14/22` = col_double(),
+  ..   `5/15/22` = col_double(),
+  ..   `5/16/22` = col_double(),
+  ..   `5/17/22` = col_double(),
+  ..   `5/18/22` = col_double(),
+  ..   `5/19/22` = col_double(),
+  ..   `5/20/22` = col_double(),
+  ..   `5/21/22` = col_double(),
+  ..   `5/22/22` = col_double(),
+  ..   `5/23/22` = col_double(),
+  ..   `5/24/22` = col_double(),
+  ..   `5/25/22` = col_double(),
+  ..   `5/26/22` = col_double(),
+  ..   `5/27/22` = col_double(),
+  ..   `5/28/22` = col_double(),
+  ..   `5/29/22` = col_double(),
+  ..   `5/30/22` = col_double(),
+  ..   `5/31/22` = col_double(),
+  ..   `6/1/22` = col_double(),
+  ..   `6/2/22` = col_double(),
+  ..   `6/3/22` = col_double(),
+  ..   `6/4/22` = col_double(),
+  ..   `6/5/22` = col_double(),
+  ..   `6/6/22` = col_double(),
+  ..   `6/7/22` = col_double(),
+  ..   `6/8/22` = col_double(),
+  ..   `6/9/22` = col_double(),
+  ..   `6/10/22` = col_double(),
+  ..   `6/11/22` = col_double(),
+  ..   `6/12/22` = col_double(),
+  ..   `6/13/22` = col_double(),
+  ..   `6/14/22` = col_double(),
+  ..   `6/15/22` = col_double(),
+  ..   `6/16/22` = col_double(),
+  ..   `6/17/22` = col_double(),
+  ..   `6/18/22` = col_double(),
+  ..   `6/19/22` = col_double(),
+  ..   `6/20/22` = col_double(),
+  ..   `6/21/22` = col_double(),
+  ..   `6/22/22` = col_double(),
+  ..   `6/23/22` = col_double(),
+  ..   `6/24/22` = col_double(),
+  ..   `6/25/22` = col_double(),
+  ..   `6/26/22` = col_double(),
+  ..   `6/27/22` = col_double(),
+  ..   `6/28/22` = col_double(),
+  ..   `6/29/22` = col_double(),
+  ..   `6/30/22` = col_double(),
+  ..   `7/1/22` = col_double(),
+  ..   `7/2/22` = col_double(),
+  ..   `7/3/22` = col_double(),
+  ..   `7/4/22` = col_double(),
+  ..   `7/5/22` = col_double(),
+  ..   `7/6/22` = col_double(),
+  ..   `7/7/22` = col_double(),
+  ..   `7/8/22` = col_double(),
+  ..   `7/9/22` = col_double(),
+  ..   `7/10/22` = col_double(),
+  ..   `7/11/22` = col_double(),
+  ..   `7/12/22` = col_double(),
+  ..   `7/13/22` = col_double(),
+  ..   `7/14/22` = col_double(),
+  ..   `7/15/22` = col_double(),
+  ..   `7/16/22` = col_double(),
+  ..   `7/17/22` = col_double(),
+  ..   `7/18/22` = col_double(),
+  ..   `7/19/22` = col_double(),
+  ..   `7/20/22` = col_double(),
+  ..   `7/21/22` = col_double(),
+  ..   `7/22/22` = col_double(),
+  ..   `7/23/22` = col_double(),
+  ..   `7/24/22` = col_double(),
+  ..   `7/25/22` = col_double(),
+  ..   `7/26/22` = col_double(),
+  ..   `7/27/22` = col_double(),
+  ..   `7/28/22` = col_double(),
+  ..   `7/29/22` = col_double(),
+  ..   `7/30/22` = col_double(),
+  ..   `7/31/22` = col_double(),
+  ..   `8/1/22` = col_double(),
+  ..   `8/2/22` = col_double(),
+  ..   `8/3/22` = col_double(),
+  ..   `8/4/22` = col_double(),
+  ..   `8/5/22` = col_double(),
+  ..   `8/6/22` = col_double(),
+  ..   `8/7/22` = col_double(),
+  ..   `8/8/22` = col_double(),
+  ..   `8/9/22` = col_double(),
+  ..   `8/10/22` = col_double(),
+  ..   `8/11/22` = col_double(),
+  ..   `8/12/22` = col_double(),
+  ..   `8/13/22` = col_double(),
+  ..   `8/14/22` = col_double(),
+  ..   `8/15/22` = col_double(),
+  ..   `8/16/22` = col_double(),
+  ..   `8/17/22` = col_double(),
+  ..   `8/18/22` = col_double(),
+  ..   `8/19/22` = col_double(),
+  ..   `8/20/22` = col_double(),
+  ..   `8/21/22` = col_double(),
+  ..   `8/22/22` = col_double(),
+  ..   `8/23/22` = col_double(),
+  ..   `8/24/22` = col_double(),
+  ..   `8/25/22` = col_double(),
+  ..   `8/26/22` = col_double(),
+  ..   `8/27/22` = col_double(),
+  ..   `8/28/22` = col_double(),
+  ..   `8/29/22` = col_double(),
+  ..   `8/30/22` = col_double(),
+  ..   `8/31/22` = col_double(),
+  ..   `9/1/22` = col_double(),
+  ..   `9/2/22` = col_double(),
+  ..   `9/3/22` = col_double(),
+  ..   `9/4/22` = col_double(),
+  ..   `9/5/22` = col_double(),
+  ..   `9/6/22` = col_double(),
+  ..   `9/7/22` = col_double(),
+  ..   `9/8/22` = col_double(),
+  ..   `9/9/22` = col_double(),
+  ..   `9/10/22` = col_double(),
+  ..   `9/11/22` = col_double(),
+  ..   `9/12/22` = col_double(),
+  ..   `9/13/22` = col_double(),
+  ..   `9/14/22` = col_double(),
+  ..   `9/15/22` = col_double(),
+  ..   `9/16/22` = col_double(),
+  ..   `9/17/22` = col_double(),
+  ..   `9/18/22` = col_double(),
+  ..   `9/19/22` = col_double(),
+  ..   `9/20/22` = col_double(),
+  ..   `9/21/22` = col_double(),
+  ..   `9/22/22` = col_double(),
+  ..   `9/23/22` = col_double(),
+  ..   `9/24/22` = col_double(),
+  ..   `9/25/22` = col_double(),
+  ..   `9/26/22` = col_double(),
+  ..   `9/27/22` = col_double(),
+  ..   `9/28/22` = col_double(),
+  ..   `9/29/22` = col_double(),
+  ..   `9/30/22` = col_double(),
+  ..   `10/1/22` = col_double(),
+  ..   `10/2/22` = col_double(),
+  ..   `10/3/22` = col_double(),
+  ..   `10/4/22` = col_double(),
+  ..   `10/5/22` = col_double(),
+  ..   `10/6/22` = col_double(),
+  ..   `10/7/22` = col_double(),
+  ..   `10/8/22` = col_double(),
+  ..   `10/9/22` = col_double(),
+  ..   `10/10/22` = col_double(),
+  ..   `10/11/22` = col_double(),
+  ..   `10/12/22` = col_double(),
+  ..   `10/13/22` = col_double(),
+  ..   `10/14/22` = col_double(),
+  ..   `10/15/22` = col_double(),
+  ..   `10/16/22` = col_double(),
+  ..   `10/17/22` = col_double(),
+  ..   `10/18/22` = col_double(),
+  ..   `10/19/22` = col_double(),
+  ..   `10/20/22` = col_double(),
+  ..   `10/21/22` = col_double(),
+  ..   `10/22/22` = col_double(),
+  ..   `10/23/22` = col_double(),
+  ..   `10/24/22` = col_double(),
+  ..   `10/25/22` = col_double(),
+  ..   `10/26/22` = col_double(),
+  ..   `10/27/22` = col_double(),
+  ..   `10/28/22` = col_double(),
+  ..   `10/29/22` = col_double(),
+  ..   `10/30/22` = col_double(),
+  ..   `10/31/22` = col_double(),
+  ..   `11/1/22` = col_double(),
+  ..   `11/2/22` = col_double(),
+  ..   `11/3/22` = col_double(),
+  ..   `11/4/22` = col_double(),
+  ..   `11/5/22` = col_double(),
+  ..   `11/6/22` = col_double(),
+  ..   `11/7/22` = col_double(),
+  ..   `11/8/22` = col_double(),
+  ..   `11/9/22` = col_double(),
+  ..   `11/10/22` = col_double(),
+  ..   `11/11/22` = col_double(),
+  ..   `11/12/22` = col_double(),
+  ..   `11/13/22` = col_double(),
+  ..   `11/14/22` = col_double(),
+  ..   `11/15/22` = col_double(),
+  ..   `11/16/22` = col_double(),
+  ..   `11/17/22` = col_double(),
+  ..   `11/18/22` = col_double(),
+  ..   `11/19/22` = col_double(),
+  ..   `11/20/22` = col_double(),
+  ..   `11/21/22` = col_double(),
+  ..   `11/22/22` = col_double(),
+  ..   `11/23/22` = col_double(),
+  ..   `11/24/22` = col_double(),
+  ..   `11/25/22` = col_double(),
+  ..   `11/26/22` = col_double(),
+  ..   `11/27/22` = col_double(),
+  ..   `11/28/22` = col_double(),
+  ..   `11/29/22` = col_double(),
+  ..   `11/30/22` = col_double(),
+  ..   `12/1/22` = col_double(),
+  ..   `12/2/22` = col_double(),
+  ..   `12/3/22` = col_double(),
+  ..   `12/4/22` = col_double(),
+  ..   `12/5/22` = col_double(),
+  ..   `12/6/22` = col_double(),
+  ..   `12/7/22` = col_double(),
+  ..   `12/8/22` = col_double(),
+  ..   `12/9/22` = col_double(),
+  ..   `12/10/22` = col_double(),
+  ..   `12/11/22` = col_double(),
+  ..   `12/12/22` = col_double(),
+  ..   `12/13/22` = col_double(),
+  ..   `12/14/22` = col_double(),
+  ..   `12/15/22` = col_double(),
+  ..   `12/16/22` = col_double(),
+  ..   `12/17/22` = col_double(),
+  ..   `12/18/22` = col_double(),
+  ..   `12/19/22` = col_double(),
+  ..   `12/20/22` = col_double(),
+  ..   `12/21/22` = col_double(),
+  ..   `12/22/22` = col_double(),
+  ..   `12/23/22` = col_double(),
+  ..   `12/24/22` = col_double(),
+  ..   `12/25/22` = col_double(),
+  ..   `12/26/22` = col_double(),
+  ..   `12/27/22` = col_double(),
+  ..   `12/28/22` = col_double(),
+  ..   `12/29/22` = col_double(),
+  ..   `12/30/22` = col_double(),
+  ..   `12/31/22` = col_double(),
+  ..   `1/1/23` = col_double(),
+  ..   `1/2/23` = col_double(),
+  ..   `1/3/23` = col_double(),
+  ..   `1/4/23` = col_double(),
+  ..   `1/5/23` = col_double(),
+  ..   `1/6/23` = col_double(),
+  ..   `1/7/23` = col_double(),
+  ..   `1/8/23` = col_double(),
+  ..   `1/9/23` = col_double(),
+  ..   `1/10/23` = col_double(),
+  ..   `1/11/23` = col_double(),
+  ..   `1/12/23` = col_double(),
+  ..   `1/13/23` = col_double(),
+  ..   `1/14/23` = col_double(),
+  ..   `1/15/23` = col_double(),
+  ..   `1/16/23` = col_double(),
+  ..   `1/17/23` = col_double(),
+  ..   `1/18/23` = col_double(),
+  ..   `1/19/23` = col_double(),
+  ..   `1/20/23` = col_double(),
+  ..   `1/21/23` = col_double(),
+  ..   `1/22/23` = col_double(),
+  ..   `1/23/23` = col_double(),
+  ..   `1/24/23` = col_double(),
+  ..   `1/25/23` = col_double(),
+  ..   `1/26/23` = col_double(),
+  ..   `1/27/23` = col_double(),
+  ..   `1/28/23` = col_double(),
+  ..   `1/29/23` = col_double(),
+  ..   `1/30/23` = col_double(),
+  ..   `1/31/23` = col_double(),
+  ..   `2/1/23` = col_double(),
+  ..   `2/2/23` = col_double(),
+  ..   `2/3/23` = col_double(),
+  ..   `2/4/23` = col_double(),
+  ..   `2/5/23` = col_double(),
+  ..   `2/6/23` = col_double(),
+  ..   `2/7/23` = col_double(),
+  ..   `2/8/23` = col_double(),
+  ..   `2/9/23` = col_double(),
+  ..   `2/10/23` = col_double(),
+  ..   `2/11/23` = col_double(),
+  ..   `2/12/23` = col_double(),
+  ..   `2/13/23` = col_double(),
+  ..   `2/14/23` = col_double(),
+  ..   `2/15/23` = col_double(),
+  ..   `2/16/23` = col_double(),
+  ..   `2/17/23` = col_double(),
+  ..   `2/18/23` = col_double(),
+  ..   `2/19/23` = col_double(),
+  ..   `2/20/23` = col_double(),
+  ..   `2/21/23` = col_double(),
+  ..   `2/22/23` = col_double(),
+  ..   `2/23/23` = col_double(),
+  ..   `2/24/23` = col_double(),
+  ..   `2/25/23` = col_double(),
+  ..   `2/26/23` = col_double(),
+  ..   `2/27/23` = col_double(),
+  ..   `2/28/23` = col_double(),
+  ..   `3/1/23` = col_double(),
+  ..   `3/2/23` = col_double(),
+  ..   `3/3/23` = col_double(),
+  ..   `3/4/23` = col_double(),
+  ..   `3/5/23` = col_double(),
+  ..   `3/6/23` = col_double(),
+  ..   `3/7/23` = col_double(),
+  ..   `3/8/23` = col_double(),
+  ..   `3/9/23` = col_double()
+  .. )
+ - attr(*, "problems")=&lt;externalptr&gt; </code></pre>
+</div>
+</div>
+<p>Write a function that, given a state name as its input argument, will output a time series (long data where every row is a day) with columns for date, new daily cases and for cumulative cases in that state.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function that given the state creates a long format with cumulative cases (standarized by 100000)</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>serieTime <span class="ot">&lt;-</span> <span class="cf">function</span>(dataset, Province_State){</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  data1 <span class="ot">&lt;-</span> dataset <span class="sc">|&gt;</span> <span class="fu">select</span>( <span class="fu">c</span>(<span class="dv">7</span>, <span class="dv">12</span><span class="sc">:</span><span class="fu">length</span>(<span class="fu">colnames</span>(dataset))))</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>data2 <span class="ot">&lt;-</span>data1 <span class="sc">|&gt;</span> <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="fu">length</span>(<span class="fu">colnames</span>(data1))),<span class="at">names_to =</span> <span class="st">"date"</span>,<span class="at">values_to =</span> <span class="st">"cases"</span>) <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Province_State) <span class="sc">|&gt;</span>  <span class="fu">mutate</span>(<span class="at">cumcases =</span> <span class="fu">round</span>(<span class="fu">cumsum</span>(cases)<span class="sc">/</span><span class="dv">100000</span>,<span class="dv">1</span>)) <span class="sc">|&gt;</span> <span class="fu">ungroup</span>()</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">return</span>(data2)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note, let’s make the date column that emerges a true date object. Let’s say you’ve called it <code>date_col</code>. If you mutate it, <code>mutate(date_col = lubridate::mdy(date_col))</code>, it will be turned into a date object that will have a recognized order. {lubridate} is da bomb, and I’m hoping we have some time to cover it in the future.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>covid2 <span class="ot">&lt;-</span> <span class="fu">serieTime</span>(covid, <span class="st">"Province_State"</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(covid2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 4
+  Province_State date    cases cumcases
+  &lt;chr&gt;          &lt;chr&gt;   &lt;dbl&gt;    &lt;dbl&gt;
+1 Alabama        1/22/20     0        0
+2 Alabama        1/23/20     0        0
+3 Alabama        1/24/20     0        0
+4 Alabama        1/25/20     0        0
+5 Alabama        1/26/20     0        0
+6 Alabama        1/27/20     0        0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>covid3 <span class="ot">&lt;-</span> covid2 <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">date_col =</span> lubridate<span class="sc">::</span><span class="fu">mdy</span>(date)) </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="do">##|&gt; filter(Province_State == "Washington" | Province_State == "Massachusetts")</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(covid3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 5
+  Province_State date    cases cumcases date_col  
+  &lt;chr&gt;          &lt;chr&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;date&gt;    
+1 Alabama        1/22/20     0        0 2020-01-22
+2 Alabama        1/23/20     0        0 2020-01-23
+3 Alabama        1/24/20     0        0 2020-01-24
+4 Alabama        1/25/20     0        0 2020-01-25
+5 Alabama        1/26/20     0        0 2020-01-26
+6 Alabama        1/27/20     0        0 2020-01-27</code></pre>
+</div>
+</div>
+<p>Even better - impress yourself (if you want - not required!) and merge it with some other data source to also return cases per 100,000 people.</p>
+</section>
+<section id="c.-lets-get-visual" class="level3">
+<h3 class="anchored" data-anchor-id="c.-lets-get-visual"><strong>2c. Let’s get visual!</strong></h3>
+<p>Great! Make a compelling plot of the timeseries for Massachusetts! Points for style, class, ease of understanding major trends, etc. Note, 10/10 for yourself only for the most killer figures. Don’t phone it in! Also, note <em>what</em> the data from JHU is. Do you want the cummulatives, or daily, or what? Want to highlight features? Events? Go wild!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(covid3, <span class="fu">aes</span>(<span class="at">x =</span> date_col, <span class="at">y =</span> <span class="fu">log</span>(cases))) <span class="sc">+</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="fu">aes</span>(<span class="at">color =</span> Province_State)) <span class="sc">+</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(Province_State <span class="sc">~</span> .) <span class="sc">+</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in log(cases): NaNs produced
+
+Warning in log(cases): NaNs produced</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 345614 rows containing non-finite values (`stat_smooth()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="midterm_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<pre><code>I plotted a cumulative tendency, in which we can observe that the COVID effect was almost the same in every state. 
+Initially, the curve growth was accelerated but after 2022, the cumulative cases were reduced; making the curve look like a constant.
+I want to highlight the case of American Samoa. 
+It is the only state in which the infection started in 2021. 
+It could be the product of the strict lockdown that took some islands in Oceania. 
+However, after the first case, it showed the same behavior as the rest of the states. 
+It also shows us how a respiratory infection works. It starts as an exponential/ multiplicative behavior and then, after a while, time attenuates its infection or lethality.</code></pre>
+</section>
+</section>
+<section id="fit-and-evaluate-a-linear-model" class="level2">
+<h2 class="anchored" data-anchor-id="fit-and-evaluate-a-linear-model"><strong>3. Fit and Evaluate a Linear model</strong></h2>
+<p>Let’s fit and evaluate a linear model! To motivate this, we’ll look at Burness et al.’s 2012 study “Post-hatch heat warms adult beaks: irreversible physiological plasticity in Japanese quail http://rspb.royalsocietypublishing.org/content/280/1767/20131436.short the data for which they have made available at Data Dryad at http://datadryad.org/resource/doi:10.5061/dryad.gs661. We’ll be doing a slightly modified version of their analysis.</p>
+<section id="a.-what-should-i-do" class="level3">
+<h3 class="anchored" data-anchor-id="a.-what-should-i-do"><strong>3a. What should I do?</strong></h3>
+<p>Starting with loading this (new to you) data set for the very first time, what are the steps that you would take to analyze this data? Write them out! Maybe even in comments!</p>
+<pre style="color: gray;"><code># Read data
+# Check data and structure
+# Plot to check distribution
+# fit a model
+# Check the model ans assumtions
+# plot my model</code></pre>
+</section>
+<section id="b.-lets-get-started" class="level3">
+<h3 class="anchored" data-anchor-id="b.-lets-get-started"><strong>3b. Let’s get started</strong></h3>
+<p>Load the data. Look at it. Anything interesting? Anything you’d want to watch out for? Or is it OK? Anything you’d change to make working with the data easier? Also, manipulate it a bit - for our analysis, we’re going to want Bird # and the Age of the birds to be categorical variables. Make sure we have variables that will work!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>morpho <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"doi_10.5061_dryad.gs661__v1/Morphology data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 880 Columns: 10
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (2): Sex, NOTES
+dbl (8): Bird #, Age (days), Exp. Temp. (degree C), Mass (g), Tarsus (mm), C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+</section>
+<section id="c.-viz-before-fit" class="level3">
+<h3 class="anchored" data-anchor-id="c.-viz-before-fit"><strong>3c. Viz before fit</strong></h3>
+<p>The model we will fit is one where we want to look at how temperature treatment affects the development of tarsus length over time (age). Visualize this. Make it look good! Is there anything here that would shape how you fit a model? Do you see why we are treating age as categorical?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check data sturcture</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(morpho)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>spc_tbl_ [880 × 10] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+ $ Bird #               : num [1:880] 1 2 3 4 5 6 7 8 9 10 ...
+ $ Sex                  : chr [1:880] NA "m" "f" "m" ...
+ $ Age (days)           : num [1:880] 5 5 5 5 5 5 5 5 5 5 ...
+ $ Exp. Temp. (degree C): num [1:880] 15 15 15 15 15 15 15 15 15 15 ...
+ $ Mass (g)             : num [1:880] 16.1 19.2 17.5 14.4 17.4 ...
+ $ Tarsus (mm)          : num [1:880] 19.4 20.4 19 20.1 21.8 ...
+ $ Culmen (mm)          : num [1:880] 7.64 7.49 7.31 7.34 8.24 6.82 7.84 7.39 7.4 7.81 ...
+ $ Depth (mm)           : num [1:880] 4.23 4.46 3.92 3.85 4.42 3.65 3.94 3.72 4.5 4.09 ...
+ $ Width (mm)           : num [1:880] 4.49 4.44 4.01 4.22 4.56 3.73 4.6 4.66 3.83 3.89 ...
+ $ NOTES                : chr [1:880] NA NA NA NA ...
+ - attr(*, "spec")=
+  .. cols(
+  ..   `Bird #` = col_double(),
+  ..   Sex = col_character(),
+  ..   `Age (days)` = col_double(),
+  ..   `Exp. Temp. (degree C)` = col_double(),
+  ..   `Mass (g)` = col_double(),
+  ..   `Tarsus (mm)` = col_double(),
+  ..   `Culmen (mm)` = col_double(),
+  ..   `Depth (mm)` = col_double(),
+  ..   `Width (mm)` = col_double(),
+  ..   NOTES = col_character()
+  .. )
+ - attr(*, "problems")=&lt;externalptr&gt; </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(morpho)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 10
+  `Bird #` Sex   `Age (days)` `Exp. Temp. (degree C)` `Mass (g)` `Tarsus (mm)`
+     &lt;dbl&gt; &lt;chr&gt;        &lt;dbl&gt;                   &lt;dbl&gt;      &lt;dbl&gt;         &lt;dbl&gt;
+1        1 &lt;NA&gt;             5                      15       16.1          19.4
+2        2 m                5                      15       19.2          20.4
+3        3 f                5                      15       17.5          19.0
+4        4 m                5                      15       14.4          20.1
+5        5 f                5                      15       17.4          21.8
+6        6 m                5                      15       15.7          19.8
+# ℹ 4 more variables: `Culmen (mm)` &lt;dbl&gt;, `Depth (mm)` &lt;dbl&gt;,
+#   `Width (mm)` &lt;dbl&gt;, NOTES &lt;chr&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(morpho)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Bird #"                "Sex"                   "Age (days)"           
+ [4] "Exp. Temp. (degree C)" "Mass (g)"              "Tarsus (mm)"          
+ [7] "Culmen (mm)"           "Depth (mm)"            "Width (mm)"           
+[10] "NOTES"                </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co">#View(morpho)</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the posible model to fit</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(morpho, <span class="fu">aes</span>(<span class="at">x=</span> <span class="st">`</span><span class="at">Age (days)</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">Tarsus (mm)</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> <span class="fu">as.factor</span>(<span class="st">`</span><span class="at">Exp. Temp. (degree C)</span><span class="st">`</span>)))<span class="sc">+</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="fu">aes</span>(<span class="at">color =</span> <span class="fu">as.factor</span>(<span class="st">`</span><span class="at">Exp. Temp. (degree C)</span><span class="st">`</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using method = 'loess' and formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 112 rows containing non-finite values (`stat_smooth()`).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 112 rows containing missing values (`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="midterm_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(morpho, <span class="fu">aes</span>(<span class="at">y =</span><span class="st">`</span><span class="at">Tarsus (mm)</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> <span class="fu">as.factor</span>(<span class="st">`</span><span class="at">Age (days)</span><span class="st">`</span>),<span class="at">color =</span> <span class="fu">as.factor</span>(<span class="st">`</span><span class="at">Exp. Temp. (degree C)</span><span class="st">`</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 112 rows containing non-finite values (`stat_boxplot()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="midterm_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="d.-fit-and-evaluate" class="level3">
+<h3 class="anchored" data-anchor-id="d.-fit-and-evaluate"><strong>3d. Fit and evaluate</strong></h3>
+<p>Fit a model where tarsus length is predicted by age, treatment, their interaction, and a ‘block’ effect, as it were, of bird #. Evaluate the fit. Make any modifications as you see necessary due to your model checks. Note, it’s not going to be perfect (I checked the original - hey, you can too - and they’re on the edge) - but our models are robust, so we’re OK.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the model</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>morpholm <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(<span class="st">`</span><span class="at">Tarsus (mm)</span><span class="st">`</span>) <span class="sc">~</span> <span class="st">`</span><span class="at">Age (days)</span><span class="st">`</span> <span class="sc">*</span> <span class="st">`</span><span class="at">Exp. Temp. (degree C)</span><span class="st">`</span>, <span class="at">data =</span>morpho )</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(morpholm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = log(`Tarsus (mm)`) ~ `Age (days)` * `Exp. Temp. (degree C)`, 
+    data = morpho)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.48997 -0.11818  0.02854  0.13733  0.34617 
+
+Coefficients:
+                                      Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)                          3.208e+00  3.070e-02 104.508  &lt; 2e-16 ***
+`Age (days)`                         5.392e-03  7.139e-04   7.554 1.21e-13 ***
+`Exp. Temp. (degree C)`              1.870e-03  1.296e-03   1.443    0.149    
+`Age (days)`:`Exp. Temp. (degree C)` 4.862e-06  3.005e-05   0.162    0.872    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.1727 on 764 degrees of freedom
+  (112 observations deleted due to missingness)
+Multiple R-squared:  0.441, Adjusted R-squared:  0.4388 
+F-statistic: 200.9 on 3 and 764 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="do">## 4. Test our model assumptions</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">check_model</span>(morpholm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="midterm_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Our pp check</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">check_predictions</span>(morpholm, <span class="at">iterations =</span> <span class="dv">200</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="midterm_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check linearity</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">check_model</span>(morpholm, <span class="at">check =</span> <span class="st">"ncv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="midterm_files/figure-html/unnamed-chunk-8-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check normality of residuals</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">check_normality</span>(morpholm) <span class="sc">|&gt;</span> <span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="midterm_files/figure-html/unnamed-chunk-8-4.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_normality</span>(morpholm) <span class="sc">|&gt;</span> <span class="fu">plot</span>(<span class="at">type =</span> <span class="st">"qq"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>For confidence bands, please install `qqplotr`.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="midterm_files/figure-html/unnamed-chunk-8-5.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check outliers</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">check_outliers</span>(morpholm) <span class="sc">|&gt;</span> <span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="midterm_files/figure-html/unnamed-chunk-8-6.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_outliers</span>(morpholm) <span class="sc">|&gt;</span> <span class="fu">plot</span>(<span class="at">type =</span> <span class="st">"bar"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="midterm_files/figure-html/unnamed-chunk-8-7.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="do">## 5. Evaluate our model for inference</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(morpholm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = log(`Tarsus (mm)`) ~ `Age (days)` * `Exp. Temp. (degree C)`, 
+    data = morpho)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.48997 -0.11818  0.02854  0.13733  0.34617 
+
+Coefficients:
+                                      Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)                          3.208e+00  3.070e-02 104.508  &lt; 2e-16 ***
+`Age (days)`                         5.392e-03  7.139e-04   7.554 1.21e-13 ***
+`Exp. Temp. (degree C)`              1.870e-03  1.296e-03   1.443    0.149    
+`Age (days)`:`Exp. Temp. (degree C)` 4.862e-06  3.005e-05   0.162    0.872    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.1727 on 764 degrees of freedom
+  (112 observations deleted due to missingness)
+Multiple R-squared:  0.441, Adjusted R-squared:  0.4388 
+F-statistic: 200.9 on 3 and 764 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the broom methods</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(morpholm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 5
+  term                                   estimate std.error statistic  p.value
+  &lt;chr&gt;                                     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1 (Intercept)                          3.21       0.0307      105.    0       
+2 `Age (days)`                         0.00539    0.000714      7.55  1.21e-13
+3 `Exp. Temp. (degree C)`              0.00187    0.00130       1.44  1.49e- 1
+4 `Age (days)`:`Exp. Temp. (degree C)` 0.00000486 0.0000301     0.162 8.72e- 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(morpholm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 12
+  r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC
+      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1     0.441         0.439 0.173      201. 4.76e-96     3   261. -512. -489.
+# ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="do">## 6. Visualize our fit model</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> morpho,</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Age (days)</span><span class="st">`</span>, <span class="at">y =</span> <span class="fu">log</span>(<span class="st">`</span><span class="at">Tarsus (mm)</span><span class="st">`</span>), <span class="at">group =</span> <span class="fu">as.factor</span>(<span class="st">`</span><span class="at">Exp. Temp. (degree C)</span><span class="st">`</span>))) <span class="sc">+</span></span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> <span class="fu">as.factor</span>(<span class="st">`</span><span class="at">Exp. Temp. (degree C)</span><span class="st">`</span>)), <span class="at">alpha =</span> <span class="fl">0.1</span>)<span class="sc">+</span></span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_smooth</span>(<span class="fu">aes</span>(<span class="at">color =</span> <span class="fu">as.factor</span>(<span class="st">`</span><span class="at">Exp. Temp. (degree C)</span><span class="st">`</span>)),<span class="at">method =</span> <span class="st">"lm"</span>, )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 112 rows containing non-finite values (`stat_smooth()`).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 112 rows containing missing values (`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="midterm_files/figure-html/unnamed-chunk-8-8.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="e.-answer-the-question" class="level3">
+<h3 class="anchored" data-anchor-id="e.-answer-the-question"><strong>3e. Answer the Question</strong></h3>
+<p>A central question of this paper is - does temperature affect the development of tarsus length. With your fit model in hand, answer the question, however you deem fit. Make sure that, alongside any numerical answers you produce, there is at least one stunning figure for a publishable paper!</p>
+<pre style="color: gray;"><code>I should highlight two relevant facts in my results. On one hand, the R square is low (0.44), but it is significant (p-val &lt; 2.2e-16), indicating that there is a relation, but it is not strong. 
+There are 0.66 of variability in the model that is not explained by age or temperature. 
+Looking inside the model,  there is a relation between tarsus length and age (p-val &lt; 1.21e-13).
+However, temperature does not affect on the tarsus length (p-val 0.149). 
+Indeed, temperature does not interact with age to improve the model (p-val 0.872). 
+On the other hand, when I checked the assumptions, especially residuals, I noticed that the data does not follow normality.
+That means I should use another kind of model to evaluate this question. Maybe, one generalized linear model would fit better to describe the tendency in the tarsus length.</code></pre>
+</section>
+</section>
+<section id="something-generalized" class="level2">
+<h2 class="anchored" data-anchor-id="something-generalized"><strong>4. Something Generalized</strong></h2>
+<p>In their <a href="https://doi.org/10.1007/s00442-011-1958-4">2011 paper</a>, Stanton-Geddes and Anderson assessed the role of a facultative mutualism between a legume and soil rhizobia in limiting the plant’s range. After publishing, they deposited their data at Dryad http://datadryad.org/resource/doi:10.5061/dryad.8566. As part of their lab experiment, they looked at a variety of plant properties after growing plants with rhizobia from different regions. We want to look at what happened in that experiment during the March 12th sampling event.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read data</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>rhizobia <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'4/greenhouse_inoculation_expt_2010.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 240 Columns: 16
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (4): rhizobia, rhiz_region, plant_pop, date_planted
+dbl (12): rack, bench, bench_pos, rack_pos, in_leaf_num, in_height, leaf_mar...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co"># explore data</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(rhizobia)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 16
+   rack bench bench_pos rack_pos rhizobia rhiz_region plant_pop date_planted
+  &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt;     &lt;chr&gt;       
+1     1     1         1        1 rSCWRS   edge        KZA       28-Jan-10   
+2     1     1         1        2 rSCWRS   edge        GCD       28-Jan-10   
+3     1     1         1        3 rSCWRS   edge        TYS       28-Jan-10   
+4     1     1         1        4 rSCWRS   edge        CRA       31-Jan-10   
+5     1     1         1        5 rSCWRS   edge        CRA       31-Jan-10   
+6     1     1         1        6 rSCWRS   edge        TYS       28-Jan-10   
+# ℹ 8 more variables: in_leaf_num &lt;dbl&gt;, in_height &lt;dbl&gt;, leaf_mar12 &lt;dbl&gt;,
+#   height_mar12 &lt;dbl&gt;, branch_mar12 &lt;dbl&gt;, flower_mar23 &lt;dbl&gt;,
+#   height_apr20 &lt;dbl&gt;, nodule_count &lt;dbl&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(rhizobia)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "rack"         "bench"        "bench_pos"    "rack_pos"     "rhizobia"    
+ [6] "rhiz_region"  "plant_pop"    "date_planted" "in_leaf_num"  "in_height"   
+[11] "leaf_mar12"   "height_mar12" "branch_mar12" "flower_mar23" "height_apr20"
+[16] "nodule_count"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(rhizobia)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>spc_tbl_ [240 × 16] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+ $ rack        : num [1:240] 1 1 1 1 1 1 1 1 2 2 ...
+ $ bench       : num [1:240] 1 1 1 1 1 1 1 1 1 1 ...
+ $ bench_pos   : num [1:240] 1 1 1 1 1 1 1 1 2 2 ...
+ $ rack_pos    : num [1:240] 1 2 3 4 5 6 7 8 1 2 ...
+ $ rhizobia    : chr [1:240] "rSCWRS" "rSCWRS" "rSCWRS" "rSCWRS" ...
+ $ rhiz_region : chr [1:240] "edge" "edge" "edge" "edge" ...
+ $ plant_pop   : chr [1:240] "KZA" "GCD" "TYS" "CRA" ...
+ $ date_planted: chr [1:240] "28-Jan-10" "28-Jan-10" "28-Jan-10" "31-Jan-10" ...
+ $ in_leaf_num : num [1:240] 3 2 4 3 3 4 4 3 2 3 ...
+ $ in_height   : num [1:240] 6 1.5 7.5 5.5 5 6.5 7.5 5.5 5 4 ...
+ $ leaf_mar12  : num [1:240] 7 1 9 10 8 10 7 8 8 7 ...
+ $ height_mar12: num [1:240] 10.5 5 14 12 9.5 13.5 12.5 10.5 12.5 11 ...
+ $ branch_mar12: num [1:240] 0 0 0 0 0 0 0 0 0 0 ...
+ $ flower_mar23: num [1:240] 0 0 0 0 0 0 0 0 0 0 ...
+ $ height_apr20: num [1:240] 31.5 0 29 37 32 26.5 34 27 33 31 ...
+ $ nodule_count: num [1:240] 26 0 33 55 19 30 42 34 34 31 ...
+ - attr(*, "spec")=
+  .. cols(
+  ..   rack = col_double(),
+  ..   bench = col_double(),
+  ..   bench_pos = col_double(),
+  ..   rack_pos = col_double(),
+  ..   rhizobia = col_character(),
+  ..   rhiz_region = col_character(),
+  ..   plant_pop = col_character(),
+  ..   date_planted = col_character(),
+  ..   in_leaf_num = col_double(),
+  ..   in_height = col_double(),
+  ..   leaf_mar12 = col_double(),
+  ..   height_mar12 = col_double(),
+  ..   branch_mar12 = col_double(),
+  ..   flower_mar23 = col_double(),
+  ..   height_apr20 = col_double(),
+  ..   nodule_count = col_double()
+  .. )
+ - attr(*, "problems")=&lt;externalptr&gt; </code></pre>
+</div>
+</div>
+<section id="a.-fit-a-glm" class="level3">
+<h3 class="anchored" data-anchor-id="a.-fit-a-glm"><strong>4a. Fit a glm</strong></h3>
+<p>Load the data. Vizualize. Then, fit and evaluate a generalized linear model with your choice of error distribution looking at the effect of rhizobial region and plant height as measured on march 12 as predictors of # of leaves on march 12. Does your model meet assumptions? If not, refit with a different. Why did you chose this (or these) error distribution(s)?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Cols : leaf_mar12 height_mar12 rhiz_region</span></span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Viz</span></span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(rhizobia, <span class="fu">aes</span>(<span class="at">x =</span> height_mar12, <span class="at">y =</span> leaf_mar12))<span class="sc">+</span></span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color=</span> <span class="fu">as.factor</span>(rhiz_region)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="midterm_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit model: Poisson becasu leaf is an count</span></span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>rhizo_gml <span class="ot">&lt;-</span> <span class="fu">glm</span>(leaf_mar12 <span class="sc">~</span> height_mar12 <span class="sc">+</span> rhiz_region, </span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>),</span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> rhizobia)</span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>(rhizo_gml)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = leaf_mar12 ~ height_mar12 + rhiz_region, family = poisson(link = "log"), 
+    data = rhizobia)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-2.4843  -0.5465  -0.1373   0.3292   3.8848  
+
+Coefficients:
+                     Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)          1.602655   0.095246  16.826  &lt; 2e-16 ***
+height_mar12         0.047548   0.006638   7.163 7.89e-13 ***
+rhiz_regionc        -0.269131   0.082740  -3.253  0.00114 ** 
+rhiz_regionedge     -0.073462   0.069421  -1.058  0.28996    
+rhiz_regioninterior -0.071084   0.065658  -1.083  0.27897    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for poisson family taken to be 1)
+
+    Null deviance: 224.30  on 239  degrees of freedom
+Residual deviance: 154.29  on 235  degrees of freedom
+AIC: 1091.2
+
+Number of Fisher Scoring iterations: 4</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>  <span class="co"># the broom methods</span></span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(rhizo_gml)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 5
+  term                estimate std.error statistic  p.value
+  &lt;chr&gt;                  &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1 (Intercept)           1.60     0.0952      16.8  1.56e-63
+2 height_mar12          0.0475   0.00664      7.16 7.89e-13
+3 rhiz_regionc         -0.269    0.0827      -3.25 1.14e- 3
+4 rhiz_regionedge      -0.0735   0.0694      -1.06 2.90e- 1
+5 rhiz_regioninterior  -0.0711   0.0657      -1.08 2.79e- 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(rhizo_gml)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 8
+  null.deviance df.null logLik   AIC   BIC deviance df.residual  nobs
+          &lt;dbl&gt;   &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;       &lt;int&gt; &lt;int&gt;
+1          224.     239  -541. 1091. 1109.     154.         235   240</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check model</span></span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">check_model</span>(rhizo_gml)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="midterm_files/figure-html/unnamed-chunk-10-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Viz</span></span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(rhizobia, <span class="fu">aes</span>(<span class="at">x =</span> height_mar12, <span class="at">y =</span> leaf_mar12))<span class="sc">+</span></span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color=</span> <span class="fu">as.factor</span>(rhiz_region))) <span class="sc">+</span></span>
+<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(rhiz_region <span class="sc">~</span>.) <span class="sc">+</span></span>
+<span id="cb80-5"><a href="#cb80-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="fu">aes</span>(<span class="at">color=</span> rhiz_region))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using method = 'loess' and formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="midterm_files/figure-html/unnamed-chunk-10-3.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="b.-evaluate-your-treatments" class="level3">
+<h3 class="anchored" data-anchor-id="b.-evaluate-your-treatments"><strong>4b. Evaluate your treatments</strong></h3>
+<p>Which rhizobial regions enable more leaves relative to the control? And in what direction?</p>
+<pre><code>interior region has more leaves than the control, in a negative direction</code></pre>
+</section>
+<section id="c.-prediction-intervals-from-a-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="c.-prediction-intervals-from-a-distribution"><strong>4c. Prediction intervals from a distribution</strong></h3>
+<p>So, your distribution has quantiles (right? We see these in QQ plots). You can see what the value for those quantiles are from the <code>q*</code> function for a distribution. For example, the 95th percentile of a poisson with a � of 5 spans from 1 to 10. You can see this with <code>qpois(0.025, lambda = 5)</code> for the lower, and change it to 0.975 for the upper. Check this out. Plot the upper and lower bounds of the 95th percentile of a Poisson distribution over a range of lambdas from 1 to 30. Do the same for a negative binomial with means from 1 to 30. Note, to translate from a mean ( � ) with a size of 10 (you might have to look at the helpfile for qnbinom here).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>calculate_bounds_pois <span class="ot">&lt;-</span> <span class="cf">function</span>(lambdas) {</span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>  lower <span class="ot">&lt;-</span> <span class="fu">qpois</span>(<span class="fl">0.025</span>, lambdas)</span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>  upper <span class="ot">&lt;-</span> <span class="fu">qpois</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.025</span>, lambdas)</span>
+<span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(lower, upper)</span>
+<span id="cb83-5"><a href="#cb83-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb83-6"><a href="#cb83-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-7"><a href="#cb83-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate lambdas from 1 to 30</span></span>
+<span id="cb83-8"><a href="#cb83-8" aria-hidden="true" tabindex="-1"></a>lambdas <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span></span>
+<span id="cb83-9"><a href="#cb83-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-10"><a href="#cb83-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Poisson distribution</span></span>
+<span id="cb83-11"><a href="#cb83-11" aria-hidden="true" tabindex="-1"></a>poisson_bounds <span class="ot">&lt;-</span> <span class="fu">sapply</span>(lambdas, <span class="cf">function</span>(lambdas) {</span>
+<span id="cb83-12"><a href="#cb83-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate_bounds_pois</span>( lambdas)</span>
+<span id="cb83-13"><a href="#cb83-13" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb83-14"><a href="#cb83-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-15"><a href="#cb83-15" aria-hidden="true" tabindex="-1"></a><span class="do">########## negative binomial</span></span>
+<span id="cb83-16"><a href="#cb83-16" aria-hidden="true" tabindex="-1"></a>calculate_bounds_nbinom <span class="ot">&lt;-</span> <span class="cf">function</span>(mu) {</span>
+<span id="cb83-17"><a href="#cb83-17" aria-hidden="true" tabindex="-1"></a>  lower <span class="ot">&lt;-</span> <span class="fu">qnbinom</span>(<span class="at">p =</span> <span class="fl">0.025</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">mu =</span> mu)</span>
+<span id="cb83-18"><a href="#cb83-18" aria-hidden="true" tabindex="-1"></a>  upper <span class="ot">&lt;-</span> <span class="fu">qnbinom</span>(<span class="at">p =</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.025</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">mu =</span> mu)</span>
+<span id="cb83-19"><a href="#cb83-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(lower, upper)</span>
+<span id="cb83-20"><a href="#cb83-20" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb83-21"><a href="#cb83-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-22"><a href="#cb83-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate means from 1 to 30</span></span>
+<span id="cb83-23"><a href="#cb83-23" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span></span>
+<span id="cb83-24"><a href="#cb83-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-25"><a href="#cb83-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Poisson distribution</span></span>
+<span id="cb83-26"><a href="#cb83-26" aria-hidden="true" tabindex="-1"></a>nbinom_bounds <span class="ot">&lt;-</span> <span class="fu">sapply</span>(mu, <span class="cf">function</span>(mu) {</span>
+<span id="cb83-27"><a href="#cb83-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate_bounds_nbinom</span>( mu)</span>
+<span id="cb83-28"><a href="#cb83-28" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb83-29"><a href="#cb83-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-30"><a href="#cb83-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-31"><a href="#cb83-31" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span><span class="fu">data.frame</span>(<span class="at">lambdaMu =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>), <span class="at">lower =</span> <span class="fu">c</span>(poisson_bounds[<span class="dv">1</span>,],nbinom_bounds[<span class="dv">1</span>,]),</span>
+<span id="cb83-32"><a href="#cb83-32" aria-hidden="true" tabindex="-1"></a>                  <span class="at">upper =</span> <span class="fu">c</span>(poisson_bounds[<span class="dv">2</span>,],nbinom_bounds[<span class="dv">2</span>,]),</span>
+<span id="cb83-33"><a href="#cb83-33" aria-hidden="true" tabindex="-1"></a>                   <span class="at">dist =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">'Poisson'</span>,<span class="dv">30</span>), <span class="fu">rep</span>(<span class="st">'Nbinomial'</span>,<span class="dv">30</span>))) </span>
+<span id="cb83-34"><a href="#cb83-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-35"><a href="#cb83-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-36"><a href="#cb83-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-37"><a href="#cb83-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot </span></span>
+<span id="cb83-38"><a href="#cb83-38" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data, <span class="fu">aes</span>(<span class="at">x=</span> lambdaMu, <span class="at">y=</span> lower)) <span class="sc">+</span></span>
+<span id="cb83-39"><a href="#cb83-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> lower, <span class="at">color =</span> dist))<span class="sc">+</span></span>
+<span id="cb83-40"><a href="#cb83-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> upper,  <span class="at">color =</span> dist))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="midterm_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="d.-prediction-intervals-from-your-model" class="level3">
+<h3 class="anchored" data-anchor-id="d.-prediction-intervals-from-your-model"><strong>4d. Prediction intervals from your model</strong></h3>
+<p>All right! Armed with this knowledge, one of the frustrating things about <code>broom::augment()</code> for glm models is that it doesn’t have an <code>interval</code> argument. And has one trick. One - you need to see what scale your answer is returned on. We want to look at the response scale - the scale of the data. Second, while you can use <code>se_fit</code> to get standard errors, you don’t get a CI <em>per se</em> (although, hey, ~2*se = CI).</p>
+<p>AND - we just looked at how when you have an estimated value, you can get the prediction CI yourself by hand in the previous part of the question. So, using your creativity, visualize the fit, 95% fit interval, and 95% prediction interval at the min, mean, and max of height for each treatment. Geoms can be anything you like! Have fun here!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(rhizobia, <span class="fu">aes</span>(<span class="at">x =</span> height_mar12, <span class="at">y =</span> leaf_mar12))<span class="sc">+</span></span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color=</span> <span class="fu">as.factor</span>(rhiz_region))) <span class="sc">+</span></span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(rhiz_region <span class="sc">~</span>.) <span class="sc">+</span></span>
+<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_smooth</span>(<span class="fu">aes</span>(<span class="at">color =</span> <span class="fu">as.factor</span>(rhiz_region)),<span class="at">method =</span> <span class="st">"lm"</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="midterm_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>predict <span class="ot">&lt;-</span> broom<span class="sc">::</span><span class="fu">augment</span>(rhizo_gml)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="e.-inmpress-yourself-prediction-intervals-from-your-model" class="level3">
+<h3 class="anchored" data-anchor-id="e.-inmpress-yourself-prediction-intervals-from-your-model"><strong>4e. INMPRESS YOURSELF! Prediction intervals from your model</strong></h3>
+<p>Again, totally optional, but, check out the <a href="https://jebyrnes.github.io/sinterval/">sinterval package</a> which you’d have to install from github. It uses fit models and it’s two core functions <code>add_fitted_sims()</code> and <code>add_predicted_sims()</code> to get simulated values from fit models using one or the other interval. Do this, and visualize the same thing as above however you’d like (maybe look at <code>ggdist</code>?). Or try something new? Perhaps visualize across a range of heights, and not just three?</p>
+</section>
+</section>
+<section id="mix-it-up" class="level2">
+<h2 class="anchored" data-anchor-id="mix-it-up"><strong>5. Mix it up!</strong></h2>
+<p>To explore the consequences of random effects, we are going to look at an example from Vonesh, J. R. and Bolker, B. M. (2005). Compensatory larval responses shift trade-offs associated with predator-induced hatching plasticity. Ecology, 86:1580–1591. In the paper, one thing they explore is the effect of tank size, predator presence, and prey density on larval tadpoles. They go on to look at induced plastic defenses in those tadpoles. It’s a cool paper, and worth a look! But, it also shows something really interesting about logistic regression models - namely, when should we consider them as mixed models.</p>
+<section id="a.-load-it-up-and-plot" class="level3">
+<h3 class="anchored" data-anchor-id="a.-load-it-up-and-plot"><strong>5a. Load it up and plot</strong></h3>
+<p>Load the data with the following code:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>reedfrogs <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(<span class="st">"https://github.com/rmcelreath/rethinking/raw/master/data/reedfrogs.csv"</span>,</span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">delim =</span> <span class="st">";"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">tank =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">n</span>() <span class="sc">|&gt;</span> <span class="fu">as.character</span>(),</span>
+<span id="cb87-4"><a href="#cb87-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">died =</span> density <span class="sc">-</span> surv)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 48 Columns: 5
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ";"
+chr (2): pred, size
+dbl (3): density, surv, propsurv
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+<p>To get used to the data, plot survivorship as a function of tank size and predator treatment. Then, to challenge yourself a bit. Expand the data to 1s and 0s (lived or died) as follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="co"># viz</span></span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(reedfrogs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 7
+  density pred  size   surv propsurv tank   died
+    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;
+1      10 no    big       9      0.9 1         1
+2      10 no    big      10      1   2         0
+3      10 no    big       7      0.7 3         3
+4      10 no    big      10      1   4         0
+5      10 no    small     9      0.9 5         1
+6      10 no    small     9      0.9 6         1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(reedfrogs, <span class="fu">aes</span>(<span class="at">y =</span> surv)) <span class="sc">+</span></span>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> pred, <span class="at">fill =</span> size))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="midterm_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Now with the expanded data, plot it showing who lived, who died (who tells their story…), and how that corresponds to treatment AND tank. Do you see anything to do with within-tank variability?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>reedfrogs_expanded <span class="ot">&lt;-</span> reedfrogs <span class="sc">|&gt;</span></span>
+<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(tank, size, pred, density) <span class="sc">|&gt;</span></span>
+<span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reframe</span>(<span class="at">status =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, surv), <span class="fu">rep</span>(<span class="dv">0</span>, died))) <span class="sc">|&gt;</span></span>
+<span id="cb92-4"><a href="#cb92-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb92-5"><a href="#cb92-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb92-6"><a href="#cb92-6" aria-hidden="true" tabindex="-1"></a>reedfrogs_expanded<span class="sc">$</span>size <span class="ot">&lt;-</span> <span class="fu">factor</span>(reedfrogs_expanded<span class="sc">$</span>size, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"big"</span>, <span class="st">"small"</span>))</span>
+<span id="cb92-7"><a href="#cb92-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb92-8"><a href="#cb92-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb92-9"><a href="#cb92-9" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(reedfrogs_expanded)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "tank"    "size"    "pred"    "density" "status" </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(reedfrogs_expanded, <span class="fu">aes</span>(<span class="at">y =</span>status))<span class="sc">+</span></span>
+<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span>pred, <span class="at">color =</span> density, <span class="at">size =</span> size, <span class="at">shape =</span> <span class="fu">as.factor</span>(status)),<span class="at">position =</span> <span class="st">'jitter'</span>) <span class="sc">+</span></span>
+<span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(tank <span class="sc">~</span> .) <span class="sc">+</span></span>
+<span id="cb94-4"><a href="#cb94-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fl">0.5</span>, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linewidth =</span> <span class="fl">0.1</span>)<span class="sc">+</span></span>
+<span id="cb94-5"><a href="#cb94-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb94-6"><a href="#cb94-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>(<span class="at">base_size =</span> <span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="midterm_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="b.-are-you-over-it" class="level3">
+<h3 class="anchored" data-anchor-id="b.-are-you-over-it"><strong>5b. Are you <em>over</em> it?</strong></h3>
+<p>Often, we treat data like this as a binomial logistic regression. We look at each tank as a set of ‘coin flips’ - some living some dead. Fit a glm here with survivorship determined by pred*size, and then evaluate it for overdispersion. Careful to weight for number of individuals stocked in a tank (density)! What do you see when you look at overdispersion?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(reedfrogs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "density"  "pred"     "size"     "surv"     "propsurv" "tank"     "died"    </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Viz</span></span>
+<span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(reedfrogs, <span class="fu">aes</span>(<span class="at">y=</span> propsurv, <span class="at">x =</span>pred,<span class="at">color =</span> density))<span class="sc">+</span></span>
+<span id="cb97-3"><a href="#cb97-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">fill =</span> size), <span class="at">alpha=</span> <span class="fl">0.2</span>)<span class="sc">+</span></span>
+<span id="cb97-4"><a href="#cb97-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">position =</span> <span class="st">'jitter'</span>, <span class="fu">aes</span>(<span class="at">size =</span> size))<span class="sc">+</span></span>
+<span id="cb97-5"><a href="#cb97-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_size_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb97-6"><a href="#cb97-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_c</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The following aesthetics were dropped during statistical transformation: colour
+ℹ This can happen when ggplot fails to infer the correct grouping structure in
+  the data.
+ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
+  variable into a factor?</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="midterm_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit model</span></span>
+<span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a>rfrogs_glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(surv <span class="sc">~</span> pred<span class="sc">*</span>size,<span class="at">weights =</span> density,</span>
+<span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>),</span>
+<span id="cb99-4"><a href="#cb99-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> reedfrogs)</span>
+<span id="cb99-5"><a href="#cb99-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb99-6"><a href="#cb99-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Check model</span></span>
+<span id="cb99-7"><a href="#cb99-7" aria-hidden="true" tabindex="-1"></a><span class="fu">check_model</span>(rfrogs_glm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="midterm_files/figure-html/unnamed-chunk-16-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Overdispersion evaluation</span></span>
+<span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a>rfrogs_glm_res <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(rfrogs_glm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in object$family$simulate(object, nsim): ignoring prior weights</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rfrogs_glm_res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="midterm_files/figure-html/unnamed-chunk-16-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(rfrogs_glm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in object$family$simulate(object, nsim): ignoring prior weights</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotQQunif</span>(res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="midterm_files/figure-html/unnamed-chunk-16-4.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotResiduals</span>(res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="midterm_files/figure-html/unnamed-chunk-16-5.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_overdispersion</span>(rfrogs_glm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Overdispersion test
+
+       dispersion ratio =   3.797
+  Pearson's Chi-Squared = 167.046
+                p-value = &lt; 0.001</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Overdispersion detected.</code></pre>
+</div>
+</div>
+</section>
+<section id="c.-fixed-or-random-intercept" class="level3">
+<h3 class="anchored" data-anchor-id="c.-fixed-or-random-intercept"><strong>5c. Fixed or Random Intercept</strong></h3>
+<p>One way to fix this problem is a quasi-binomial. But, this is unsatisfying, as it’s a posthoc adjustment and not figured into the likelihood. But, another is to think in this case about what is happening in each tank. Fit a mixed model version of 5b, and assess its assumptions. How does it compare in overdispersion? Why the difference? What is a random tank effect doing here? And why couldn’t we use a FE of tank with this pred*size model (try it if you don’t believe me - the model will fit, but something will be… off)?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>rfrogs_glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(surv <span class="sc">~</span> pred<span class="sc">*</span>size,<span class="at">weights =</span> density,</span>
+<span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>),</span>
+<span id="cb110-3"><a href="#cb110-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> reedfrogs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="d.-changes-in-parameters" class="level3">
+<h3 class="anchored" data-anchor-id="d.-changes-in-parameters"><strong>5d. Changes in Parameters</strong></h3>
+<p>Now that you have a model with and without a random intercept, how do the estimates of fixed effects change? Why?</p>
+</section>
+<section id="e.-model-evaluation" class="level3">
+<h3 class="anchored" data-anchor-id="e.-model-evaluation"><strong>5e. Model evaluation</strong></h3>
+<p>Last, let’s evaluate this model - both with contrasts and a crisp visualization of results. <code>emmeans</code>, <code>modelbased</code>, and other friends might help you here. Or not! You do you, and extract things from the model with other helpers! There’s no one right way to do this, but, make it sing.</p>
+</section>
+<section id="f.-impress-yourself-what-did-we-do" class="level3">
+<h3 class="anchored" data-anchor-id="f.-impress-yourself-what-did-we-do"><strong>5f. IMPRESS YOURSELF What did we do</strong></h3>
+<p>Write out the model equations for the glmm you have fit in 5.3. Use LaTeX to write it all out. Explain what your symbols mean in text.</p>
+</section>
+<section id="g.-impress-yourself-variable-slopes" class="level3">
+<h3 class="anchored" data-anchor-id="g.-impress-yourself-variable-slopes"><strong>5g. IMPRESS YOURSELF! Variable slopes</strong></h3>
+<p>Explore multiple different RE structures beyond a variable intercept. What errors do you get? What do they mean? Can you implement some of the suggested solutions, and what do they tell you about why more complex structures don’t work well here and/or might not be appropriate. Do these different RE structures make a difference for your evaluation of the FE? What RE structure would you use? What if you added density as a covariate/predictor as in the paper?</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="midterm-self-evaluation" class="level1">
+<h1><strong>Midterm Self-Evaluation</strong></h1>
+<section id="a.-how-are-you-doing" class="level3">
+<h3 class="anchored" data-anchor-id="a.-how-are-you-doing"><strong>A. How are you doing?</strong></h3>
+<pre><code> I got some struggles to understant the to las questions in the 4 excersise and even when I knew what to do in the 5th exercise I could finish it. Also, I got problems understanding the English, so it delayed my process to develop the exercises</code></pre>
+</section>
+<section id="b.-what-concepts-do-you-think-youve-really-mastered-or-are-on-the-journey-to-mastery---i-know-youre-still-learning-in-this-class" class="level3">
+<h3 class="anchored" data-anchor-id="b.-what-concepts-do-you-think-youve-really-mastered-or-are-on-the-journey-to-mastery---i-know-youre-still-learning-in-this-class"><strong>B. What concepts do you think you’ve really mastered (or are on the journey to mastery - I know, you’re still learning) in this class?</strong></h3>
+<pre><code>linear models (one or multiplex variables) and glm</code></pre>
+</section>
+<section id="c.-what-in-this-class-do-you-find-easy" class="level3">
+<h3 class="anchored" data-anchor-id="c.-what-in-this-class-do-you-find-easy"><strong>C. What in this class do you find easy?</strong></h3>
+<pre><code>up to gml class. Fix and random efect is something that I am doing mechanically but not understanding the concepts completly</code></pre>
+</section>
+<section id="d.-how-would-you-describe-your-personal-journey-with-learning-to-code" class="level3">
+<h3 class="anchored" data-anchor-id="d.-how-would-you-describe-your-personal-journey-with-learning-to-code"><strong>D. How would you describe your personal journey with learning to code?</strong></h3>
+<pre><code>Even when I did not like tidyverse initially, now I am using to manipualete databases. However, I feel that sometimes this restrict the infinites ways how I could solve a problem writing code in a native way.</code></pre>
+</section>
+<section id="e.-where-do-you-see-applying-coding-in-your-life-outside-of-just-stats" class="level3">
+<h3 class="anchored" data-anchor-id="e.-where-do-you-see-applying-coding-in-your-life-outside-of-just-stats"><strong>E. Where do you see applying coding in your life outside of just stats?</strong></h3>
+<pre><code>I have used code to solve problems to my mom and their clients.</code></pre>
+</section>
+<section id="f.-where-do-you-see-the-most-opportunities-for-growth-in-your-abilities" class="level3">
+<h3 class="anchored" data-anchor-id="f.-where-do-you-see-the-most-opportunities-for-growth-in-your-abilities"><strong>F. Where do you see the most opportunities for growth in your abilities?</strong></h3>
+<pre><code>Using this models to work in machine learning</code></pre>
+</section>
+<section id="g.-talk-about-your-work-in-this-course.-what-have-you-done-what-havent-you-done-how-has-this-been-helpful-to-your-growth---or-not" class="level3">
+<h3 class="anchored" data-anchor-id="g.-talk-about-your-work-in-this-course.-what-have-you-done-what-havent-you-done-how-has-this-been-helpful-to-your-growth---or-not"><strong>G. Talk about your work in this course. What have you done? What haven’t you done? How has this been helpful to your growth - or not?</strong></h3>
+<pre><code>I am really happy attending this course. All my courses in statistics have been from a Fisherian view. So, this course have gave me a opportunity to new an approximation. </code></pre>
+</section>
+<section id="h.-did-you-find-yourself-stretching-your-abilities-in-this-exam-or-did-it-just-feel-like-wrote-comfortable-work-tell-me-about-it." class="level3">
+<h3 class="anchored" data-anchor-id="h.-did-you-find-yourself-stretching-your-abilities-in-this-exam-or-did-it-just-feel-like-wrote-comfortable-work-tell-me-about-it."><strong>H. Did you find yourself stretching your abilities in this exam? Or did it just feel like wrote comfortable work? Tell me about it.</strong></h3>
+<pre><code>I think my biggest stretching is coding; however I should confess I do not feel confident about interpreting what the question is about or trying to write a consise answer in English.</code></pre>
+</section>
+<section id="i.-how-would-you-assess-yourself-from-this-exam---weaksufficientstrong.-why" class="level3">
+<h3 class="anchored" data-anchor-id="i.-how-would-you-assess-yourself-from-this-exam---weaksufficientstrong.-why"><strong>I. How would you assess yourself from this exam - weak/sufficient/strong. Why?</strong></h3>
+<pre><code>Sufficient because I could not finish the entire exam.</code></pre>
+</section>
+<section id="j.-how-would-you-assess-yourself-on-the-first-half-of-this-course---weaksufficientstrong-why" class="level3">
+<h3 class="anchored" data-anchor-id="j.-how-would-you-assess-yourself-on-the-first-half-of-this-course---weaksufficientstrong-why"><strong>J. How would you assess yourself on the first half of this course - weak/sufficient/strong? Why?</strong></h3>
+<pre><code>Strong, because I am understanding the concepts, I am applying them to resolve problems in Biological questions. Also, I adapted quickly to code in Tidyverse style.</code></pre>
+</section>
+<section id="k.-what-goals-do-you-have-for-yourself-for-the-rest-of-the-course-what-do-you-hope-to-accomplish-and-how-will-this-move-you-forward" class="level3">
+<h3 class="anchored" data-anchor-id="k.-what-goals-do-you-have-for-yourself-for-the-rest-of-the-course-what-do-you-hope-to-accomplish-and-how-will-this-move-you-forward"><strong>K. What goals do you have for yourself for the rest of the course? What do you hope to accomplish, and how will this move you forward?</strong></h3>
+<pre><code>I am really excited about my project. I saw it could be a published product. So my goal here is resolve the problem as good as possible to publish it. Even when it will not part of my thesis, I feel it is necesary to improve the measure how paleontologists are calculating Body mass. It could be a good contribution in that field and this course will allow it.</code></pre>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

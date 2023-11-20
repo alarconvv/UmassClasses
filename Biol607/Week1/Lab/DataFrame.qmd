@@ -1,0 +1,237 @@
+---
+title: "Lab_Week1"
+author: "Viviana Romero Alarcon"
+format: html
+editor: visual
+---
+
+### Matrices, lists and Data frame
+
+matrices are arrangement of rows and columns, organized in an algebraic way
+
+```{r}
+matrix1 <- matrix(1:50, nrow = 10)
+matrix1
+
+```
+
+to get an specific position, the order is \[row, column\]
+
+```{r}
+matrix1[5,3]
+```
+
+or if I want a complete column or a complete row
+
+```{r}
+# row
+
+matrix1[5,]
+
+# Column
+
+matrix1[,5]
+```
+
+So, what `class` are these outputs? Find out with `str`.
+
+```{r}
+class(matrix1)
+
+str(matrix1)
+
+```
+
+Some operation we could do by columns or by rows
+
+```{r}
+# get the mean
+rowMeans(matrix1)
+
+#get the sum by col
+
+colSums(matrix1)
+
+
+```
+
+We also get the dimensions
+
+```{r}
+dim(matrix1)
+
+nrow(matrix1)
+
+ncol(matrix1)
+
+```
+
+**EXERCISES:** 1. Try creating a 10 x 10 matrix of random uniform numbers between 5 and 50, and get the row and column means. What's the output of `str()`?
+
+```{r}
+# get numbers
+numbers <- runif(100,5,50)
+
+matrix2 <- matrix(numbers,10,10)
+
+str(matrix2)
+
+
+```
+
+2.  What happens if you create a matrix by combining a numeric vector of length 10 and a character vector of length 10? What is the output of `str()`?
+
+    ```{r}
+    num <- 1:10
+    let <- letters[1:10]
+
+    matrix3 <- matrix(c(num,let),nrow = 5)
+    matrix3
+    ```
+
+3.  What is the difference in creating a matrix with `byrow = TRUE` versus `byrow = FALSE`? Which is the default behavior? Test this out by making a 5 x 5 matrix with the numbers 1:25.
+
+```{r}
+# it will full by rows
+matrix4 <- matrix(1:25,nrow = 5, byrow = TRUE)
+matrix4
+
+# it will full by columns
+matrix5 <- matrix(1:25,nrow = 5, byrow = FALSE)
+matrix5
+
+```
+
+### list: multiple class object in a same object
+
+```{r}
+list1 <- list(numbers = num,
+              letters = let)
+list1
+
+
+```
+
+To get a specific position, we would use \$ or \[\]
+
+```{r}
+# get the first vector in the list
+list1$numbers
+
+# get the second vector in the list using [
+list1[["letters"]]
+
+list1[["letters"]]
+
+list1[1]
+
+# but the first elememt in the first vector
+list1[[1]][1]
+
+```
+
+**EXERCISE:** What is the class of each of the above?
+
+```{r}
+class(list1)
+
+```
+
+Lists have names for every vector inside
+
+```{r}
+names(list1)
+```
+
+**EXERCISE:** Try this out. Create a list consisting of a vector of numbers, an `NA`, and a list which contains two vectors. Take a look at their second elements. What is there? Also, check out our old friends `str` and `summary`
+
+```{r}
+numb <- 1:20
+nas <- NA
+listInside <- list(numbers = 1:9, animals =c("gato", "perro","mammut"))
+
+list2 <- list(numb,nas, listInside)
+
+list2
+```
+
+given that list could get lists inside, to get any position inside we could access in this way
+
+```{r}
+list2[[3]]$animals[3]
+```
+
+### **What if a matrix and a list had a baby?**
+
+dataframe are sheets and every column could have different class
+
+```{r}
+data(mtcars)
+
+head(mtcars)
+
+```
+
+There are many ways to get information from a data frame
+
+```{r}
+summary(mtcars)
+
+str(mtcars)
+
+```
+
+**EXERCISE:** Let's look at Michelson's collection of experiments measuring the speed of light. It's called `morley`. What are the properties of the data? Explore it.
+
+```{r}
+data(morley)
+
+head(morley)
+
+str(morley)
+
+# positions are similar to list and matrix
+
+morley[1,]
+
+morley[,2]
+
+```
+
+**EXERCISE:** Explore the dataset `quakes` looking at earthquakes off of Fiji.
+
+1.  Let's see what's there first with `str()` and `summary()`.
+
+    ```{r}
+    data("quakes")
+
+    str(quakes)
+
+    summary(quakes)
+    ```
+
+2.  Show the entirity of the column `long()`.
+
+    ```{r}
+    quakes$long
+    ```
+
+3.  Hey, another useful function - `unique()`! Apply it to a vector, and you can see what are all of the unique values. It's great for really digging into a problematic vector. What unique stations are there? Use `length()` to determine how many stations there are.
+
+    ```{r}
+    unique(quakes$stations)
+
+    length(unique(quakes$stations))
+    ```
+
+4.  Using `range()`, what is the range of depths where quakes occur?
+
+    ```{r}
+    range(quakes$depth)
+    ```
+
+5.  Where was the earthquake of largest magnitude found? You'll need to use come comparisons and the `max()` function for this in your indices!\
+
+    ```{r}
+    quakes$stations[which(quakes$mag == max(quakes$mag))]
+    ```

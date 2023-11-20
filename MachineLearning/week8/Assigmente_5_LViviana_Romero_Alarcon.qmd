@@ -1,0 +1,265 @@
+---
+title: "Assigment 4 Week 8"
+author: "Viviana Romero Alarcon"
+format: pdf
+editor: visual
+---
+
+```{r}
+#Libraries
+library(tidyverse)
+library(ISLR)
+library(dplyr)
+library(MASS)
+library(leaps)
+```
+
+### Question 1:
+
+Generate a data set with $p = 20$ features, $n = 1000$ observations
+
+```{r}
+
+# Set seed
+
+set.seed(9999)
+
+# Simulation Data
+
+### NOTE : I could di the simulation as a multivarible rnorm, but every predictor would have the same tendence. So to introduce more variance and different tendence, I preferred to simulate each predictor.
+
+ # n <- 1000
+ # m <- 50
+ # d <- lapply(1:m, function(i){
+ # xy <- mvrnorm(n, c(mu.x, mu.y), S) ## one sample of size n
+ #   return(data.frame(xy, sim = i))
+ # })
+
+p <- data.frame(x1 = round(abs(c(rnorm(n = 250, mean =3 ,sd = 2),rnorm(n = 250, mean = 6,sd = 2),rnorm(n = 250, mean = 9,sd = 2),rnorm(n = 250, mean = 12,sd = 2))),digits = 2),
+           
+           x2 = round(abs(c(rnorm(n = 250, mean =23 ,sd = 2),rnorm(n = 250, mean = 26,sd = 2),rnorm(n = 250, mean = 29,sd = 2),rnorm(n = 250, mean = 32,sd = 2))),digits = 2),
+           
+           x3 = round(abs(c(rnorm(n = 250, mean =85 ,sd = 2),rnorm(n = 250, mean = 80,sd = 2),rnorm(n = 250, mean = 75 ,sd = 2),rnorm(n = 250, mean = 70,sd = 2))),digits = 2),
+           
+           x4 = round(abs(c(rnorm(n = 250, mean =13 ,sd = 2),rnorm(n = 250, mean = 16,sd = 2),rnorm(n = 250, mean = 9,sd = 2),rnorm(n = 250, mean = 12,sd = 2))),digits = 2),
+           
+           x5 = round(abs(c(rnorm(n = 250, mean =45 ,sd = 2),rnorm(n = 250, mean = 40,sd = 2),rnorm(n = 250, mean = 35,sd = 2),rnorm(n = 250, mean = 30,sd = 2))),digits = 2),
+           
+           x6 = round(abs(c(rnorm(n = 250, mean =3 ,sd = 2),rnorm(n = 250, mean = 6,sd = 2),rnorm(n = 250, mean = 9,sd = 2),rnorm(n = 250, mean = 12,sd = 2))),digits = 2),
+           
+           x7 = round(abs(c(runif(n = 250,min = 1,max = 6 ),runif(n = 250,min = 3,max = 9 ),runif(n = 250,min = 5,max = 12 ),runif(n = 250,min = 10,max = 14 ))),digits = 2),
+           
+            x8 = round(abs(c(runif(n = 250,min = 113,max = 120 ),runif(n = 250,min = 115,max = 119 ),runif(n = 250,min = 128,max = 222 ),runif(n = 250,min = 121,max = 124 ))),digits = 2),
+           
+            x9 = round(abs(c(runif(n = 250,min = 43,max = 56 ),runif(n = 250,min = 55,max = 79 ),runif(n = 250,min = 78,max = 112 ),runif(n = 250,min = 111,max = 124 ))),digits = 2),
+           
+           x10 = round(abs(c(runif(n = 250,min = 146,max = 150 ),runif(n = 250,min = 139,max = 149 ),runif(n = 250,min = 132,max = 138 ),runif(n = 250,min = 124,max = 131 ))),digits = 2),
+           
+           x11 = round(abs(c(rnorm(n = 250, mean =63 ,sd = 65),rnorm(n = 250, mean = 66,sd = 65),rnorm(n = 250, mean = 69,sd = 65),rnorm(n = 250, mean = 12,sd = 65))),digits = 2),
+           
+           x12 = round(abs(c(rnorm(n = 250, mean =0 ,sd = 1),rnorm(n = 250, mean = 0,sd = 3),rnorm(n = 250, mean = 0,sd = 3),rnorm(n = 250, mean = 0,sd = 3))),digits = 2),
+           
+           x13 = round(abs(c(rnorm(n = 250, mean =80 ,sd = 4),rnorm(n = 250, mean = 0,sd = 4),rnorm(n = 250, mean = 0 ,sd = 4),rnorm(n = 250, mean = 0,sd = 4))),digits = 2),
+           
+           x14 = round(abs(c(rnorm(n = 250, mean =13 ,sd = 8),rnorm(n = 250, mean = 16,sd = 1),rnorm(n = 250, mean = 9,sd = 1),rnorm(n = 250, mean = 14,sd = 3))),digits = 2),
+           
+           x15 = round(abs(c(rnorm(n = 250, mean =45 ,sd = 0.1),rnorm(n = 250, mean = 40,sd = 0.1),rnorm(n = 250, mean = 35,sd = 0.1),rnorm(n = 250, mean = 30,sd = 0.1)))),
+           
+           x16 = round(abs(c(rnorm(n = 250, mean =3 ,sd = 0.5),rnorm(n = 250, mean = 6,sd = 0.5),rnorm(n = 250, mean = 9,sd = 0.5),rnorm(n = 250, mean = 12,sd = 0.5))),digits = 2),
+           
+           x17 = round(abs(c(runif(n = 250,min = 3,max = 6 ),runif(n = 250,min = 5,max = 9 ),runif(n = 250,min = 8,max = 12 ),runif(n = 250,min = 11,max = 14 ))),digits = 2),
+           
+            x18 = round(abs(c(runif(n = 250,min = 33,max = 46 ),runif(n = 250,min = 45,max = 69 ),runif(n = 250,min = 68,max = 82 ),runif(n = 250,min = 81,max = 94 ))),digits = 2),
+           
+            x19 = round(abs(c(runif(n = 250,min = 43,max = 56 ),runif(n = 250,min = 55,max = 79 ),runif(n = 250,min = 78,max = 112 ),runif(n = 250,min = 111,max = 124 ))),digits = 2),
+           
+           x20 = round(abs(c(runif(n = 250,min = 46,max = 50 ),runif(n = 250,min = 39,max = 45 ),runif(n = 250,min = 32,max = 38 ),runif(n = 250,min = 24,max = 36 ))),digits = 2)
+           )
+
+
+head(p)
+
+```
+
+and an associated quantitative response vector generated according to the model $Y = X\beta + \epsilon$, where $\beta$ has some elements that are exactly equal to zero. Split your data set into a training data set containing $Question 1:100$ observations and a test set containing $900$ observations.
+
+```{r}
+# Response variable  Y 
+
+y <- round(abs(c(rnorm(n = 250, mean =3 ,sd = 2),rnorm(n = 250, mean = 6,sd = 2),rnorm(n = 250, mean = 9,sd = 2),rnorm(n = 250, mean = 12,sd = 2))),digits = 2)
+
+hist(y)
+
+# Data set
+
+Data <- cbind(y,p)
+
+# Split data
+
+Sample <- sample(x = nrow(Data), size = 100, replace = F)
+
+training <- Data[Sample,]
+
+test <- Data[-Sample,]
+```
+
+2\. Perform best subset selection on training set and plot the training set MSE associated with the best model of each size.
+
+```{r}
+## Perform best subset selection using leaps package
+reg.fit.full = regsubsets(y~.,training, nvmax = 20)
+
+reg.summary = summary(reg.fit.full)
+
+str(reg.summary)
+```
+
+1\. plot AIC (or Cp) for the best model of each size.
+
+```{r}
+plotCP <-data.frame(x = 1:length(reg.summary$cp), y = reg.summary$cp)
+
+which.min(reg.summary$cp)
+
+ggplot(plotCP, aes(x = x, y = y) )+
+  geom_line()+
+  geom_point( aes(x = x[which.min(reg.summary$cp)], y = y[which.min(reg.summary$cp)]), color = 'red')
+
+str(reg.fit.full)
+
+par(mfrow = c(1,1))
+plot(reg.fit.full, scale = "bic")
+coef(reg.fit.full, 6)
+```
+
+2\. Plot the test MSE associated with the best model of each size. For which model size does the test MSE takes on its minimum value?
+
+```{r}
+MSE <- reg.summary$obj$rss/100
+
+plotMSE <-data.frame(x = 1:length(MSE), y = MSE)
+
+which.min(MSE)
+
+ggplot(plotMSE, aes(x = x, y = y) )+
+  geom_line()+
+  geom_point( aes(x = x[which.min(MSE)], y = y[which.min(MSE)]), color = 'red')
+
+
+
+```
+
+3\. Compare your results to the true model used to generate the data.
+
+```{r}
+## Perform best subset selection using leaps package
+reg.fit.test = regsubsets(y~.,test, nvmax = 20)
+
+reg.summary.test = summary(reg.fit.test)
+
+names(reg.summary.test)
+
+plotCP.test <-data.frame(x = 1:length(reg.summary.test$cp), y = reg.summary.test$cp)
+
+which.min(reg.summary.test$cp)
+
+ggplot(plotCP.test, aes(x = x, y = y) )+
+  geom_line()+
+  geom_point( aes(x = x[which.min(reg.summary.test$cp)], y = y[which.min(reg.summary.test$cp)]), color = 'red')
+
+MSE.test <- reg.summary.test$obj$rss/100
+
+plotMSE <-data.frame(x = 1:length(MSE.test), MSE.tra = MSE, MSE.test = MSE.test)
+
+plotMSEs <- plotMSE |> pivot_longer(cols = c(MSE.tra,MSE.test), names_to = "Set", values_to = "Vals")
+
+plotMSEs
+
+ggplot(plotMSEs, aes(x = x, y = Vals) )+
+  geom_line(aes(color = Set))
+```
+
+### Question 2:
+
+Suppose that we have \$n\$ distinguishable samples and that we perform a bootstrap sampling once. Mathematically show that the expected value of the fraction of unique samples is roughly \$2/3\$. Simulate this process in \`R\` and verify your answer.
+
+```{r}
+library(MASS)
+library(tidyverse)
+
+## Simulation for R = a X + (1 - a) Y
+mu.x <- 1
+mu.y <- 1.4
+s.x2 <- 1
+s.y2 <- 1.25
+s.xy <- 0.5
+
+## Covariance matrix
+S <- matrix(c(s.x2, s.xy, s.xy, s.y2), ncol = 2, byrow = T)
+
+## True alpha
+a <- (s.y2 - s.xy) / (s.x2 + s.y2 - 2 * s.xy)
+
+## a.hat is an estimator of a.
+n <- 100
+m <- 1
+d <- lapply(1:m, function(i){
+  xy <- mvrnorm(n, c(mu.x, mu.y), S) ## one sample of size n
+  return(data.frame(xy, sim = i))
+})
+
+d <- bind_rows(d)
+colnames(d) <- c('X', 'Y', 'sim')
+
+
+
+
+################################### Bootstraping#################
+## Use a Bootstrap strategy for the same problem
+## generate 1 data set of size 100
+# if m is 1, I do not use a for in this point
+
+head(d) ## one sample of size n from the original sample to calcualte a.hat
+
+## in the loop sample the rows with replacement
+
+
+d2 <- lapply(1:100, function(i){
+   xy<- d[sample(100,replace = T),-3] # boots
+   
+
+  return(data.frame(xy, sim = i))
+})
+
+
+
+
+
+d2 <- bind_rows(d2)
+nrow(d2)
+
+  my.stats.Real <- d2 %>% group_by(sim) %>% 
+  summarise(s.x2_hat = (1/(n-1)) * sum((X - mean(X))^2),
+            s.y2_hat = (1/(n-1)) * sum((Y - mean(Y))^2),
+            s.xy_hat = (1/(n-1)) * sum((X - mean(X))*(Y - mean(Y))))
+  
+a.boot <- my.stats.Real %>% 
+  transmute(a.boot = (s.y2_hat - s.xy_hat) / (s.x2_hat + s.y2_hat - 2 * s.xy_hat))
+
+
+# joint a.hat (actual) + a.boot (simul)
+
+
+## compare the distributions: real alpha = darkred, a by bootstrap : blue
+
+ggplot(a.boot, aes(x = a.boot)) +
+   geom_histogram()+
+  geom_vline( xintercept = a, color = "darkred")+
+  geom_vline( xintercept = mean(a.boot$a.boot), color = "blue")
+```
+
+### Question 3:
+
+probability of unique observations in sampling
+
+![unique samples](WhatsApp%20Image%202023-11-06%20at%205.04.43%20PM.jpeg)

@@ -1,0 +1,84 @@
+---
+title: "Homework week 1"
+author: "Viviana Romero Alarocn"
+format: html
+editor: visual
+---
+
+Source : [https://github.com/alarconvv/UmassClasses/tree/master/Biol607](Github%20Repository)
+
+## Let's explore the dataset quakes looking at earthquakes off of Fiji.
+
+1.  Load quakes with `data(quakes)`. Show what's there with str() and summary(). What do you see?
+
+```{r}
+# loading data
+data("quakes")
+
+# see data
+head(quakes)
+
+# see structure
+str(quakes)
+
+# see summary
+summary(quakes)
+```
+
+2.  Show the entirety of the column `long`
+
+```{r}
+# display "long" column
+
+quakes$long
+```
+
+3.  Hey, another useful function - unique()! Apply it to a vector, and you can see what are all of the unique values. It's great for really digging into a problematic vector.
+
+```{r}
+# see the unique values of station
+unique(quakes$stations)
+```
+
+4.  What unique stations are there? Use `length()` with `unique()` to determine how many stations there are.
+
+```{r}
+# # see how many stations there are
+length(unique(quakes$stations))
+```
+
+5.  Using `range()`, what is the range of depths where quakes occur?
+
+```{r}
+# ranges of depths where the quakes occurred
+range(quakes$depth)
+```
+
+6.  Impress Yourself. Where was the earthquake of largest magnitude found? You'll need to use come comparisons and the `max()` function for this in your indices instead of a number!
+
+```{r}
+# see the largest magnitude quakes
+
+max(quakes$mag)
+
+quakes$stations[which(quakes$mag == max(quakes$mag))]
+
+
+
+```
+
+Rta: the biggest earthquake, with a magnitude of 6.4, was recorded in the station 122
+
+------------------------------------------------------------------------
+
+Meta 1. For some of you, this week was your first experience with R (or even programming at all) - how did it feel to connect concepts to a novel set of problems. For those who have experience with R, was this a cakewalk or challenging? How did it feel to shake off the cobwebs?
+
+RTa: I have worked with R for long time, however it is good to remember basic things.
+
+Meta 2. How much time did this take you, roughly?
+
+Rta: 15 minutes
+
+Meta 3. Please give yourself a weak/sufficient/strong assessment on this assignment. Feel free to comment on why.
+
+Rta: strong. I have good bases in R but every time that I come back to the basic things, I can discover new ways to resolve the same problem. So, I am happy in this class.

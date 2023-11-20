@@ -1,0 +1,225 @@
+---
+title: "Homework_Week1"
+author: "Viviana Romero"
+format: html
+editor: visual
+---
+
+Source: <https://biol607.github.io/lectures/02_r_intro.html>
+
+### Comments in your code
+
+```{r}
+###########################
+#' my_first_file.R
+#' Description
+#'
+#' @author  Viviana Romero Alarcon
+#'
+#' @changelog
+#' 2018-02-01 Added a changelog
+#' 2018-01-31 finished this file
+###########################
+
+## Do some things here ####
+
+## Do some other things here ####
+```
+
+### Some math in R
+```{r}
+# add
+ 3 + 4
+
+#subtraction
+
+3 - 4
+
+# multiplication
+
+4*3
+
+# Division
+
+9/3
+
+#Power
+2^7
+
+```
+
+EXERCISE: Try some other basic arithmetic operators. Anything not work the way you think it should?
+
+```{r}
+# testing order
+
+(3+4)/4*3
+```
+
+### Compelling mathematical functions
+```{r}
+# there are some specific functions for advanced operation 
+
+log(1)
+
+log(10, base = 2)
+
+
+```
+
+### Help
+```{r}
+# help is the most useful function 
+
+help(log)
+?log
+
+#however, if you are not sure about what you are looking for youcan use double
+
+??runi
+
+```
+
+### Variables and you 
+
+```{r}
+# variables allow you save values or objects to use later
+
+foo <- sqrt(4)
+
+# or make some operations
+
+foo + 5
+
+# some variables are predetermined, so it is no recommendable to use as a local one
+
+pi
+
+```
+### Classes and objects
+```{r}
+# first class is string or characters
+
+"hello"
+
+# booleans defined by true and false
+TRUE
+
+FALSE
+
+3 == 4
+
+# We can make some operation becuase true and false coherse in 1 and 0
+
+TRUE + FALSE
+
+# Missing values is a values that does not apply or exist
+
+NA
+
+# We can not make operation with
+NA + 1
+```
+EXERCISE: Make a variable. Now make a variable out of some math equation. Try adding variables of different classes together - what happens?
+
+```{r}
+a <- "5"
+
+b <- 4
+
+#a + b
+
+#'what happens?
+#' Some classes are can not coherse in the same class, then it is not posible make operations
+
+```
+### Combining values into larger objects
+Vector is an object with many things in the same variable
+```{r}
+my_numbers <- c(5, 6, 7, 8, 9, 10)
+
+# to get a specific number you should request the position
+my_numbers[2]
+
+```
+
+EXERCISE: Now you try it. Create a vector - any vector - and try pulling out single values. Do some math with them. Log transform them. Use your vector with an index as you would any other variable. 
+```{r}
+vectorA <- c(3,4,5,6,10,50)
+
+vectorA[3] - vectorA[5]
+
+# to create a long vector
+
+longVector <- 1:2000
+```
+
+EXERCISE: Make two vectors and add them together. First try it with numbers. Then try vectors of different object types. What happens?
+
+```{r}
+vecA <- 1:20
+  
+vecB <- 21:40
+
+vecC <- vecA + vecB
+
+vecC
+
+# Different classes
+A <- c("gato","Perro", 'Mammut')
+B <- c(3,4,5)
+
+#A+B
+```
+### Functions to generate vectors for fun and profit
+There are some function to generate ong sequences
+```{r}
+# Sequences
+
+seq(from = 1, to = 2, by=0.1)
+
+# or sample from a specific distribution 
+vector <- runif(10, min = 0, max = 100)
+
+# Operation inside vectors
+
+sum(vector)
+
+mean(vector)
+
+```
+
+### Digging into your variables
+To get information inside variables there are some fucntions to explore it.
+```{r}
+class(vector)
+
+class("A")
+
+class(TRUE)
+
+# to get information about lenght
+
+str(vector)
+
+# or ger some statistics
+
+summary(vector)
+```
+EXERCISE: Create a vector of any class. str() and summarize() it. Now, create two vectors of different object types. Combine them. What do these two useful functions tell you what happened?
+
+```{r}
+vectA <- c(1,2,3,5)
+vectB <- c(T,F,T,T)
+
+str(vectA)
+str(vectB)
+
+vectC <- c(vectA,vectB)
+
+
+str(vectC)
+```
+
+
+

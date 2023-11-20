@@ -1,0 +1,262 @@
+---
+title: "Homework Week 3"
+author: "Viviana Romero Alarcon"
+format: html
+editor: visual
+---
+
+Source: <https://github.com/alarconvv/UmassClasses/tree/master/Biol607>
+
+## **1. Load me.**
+
+The URL of the data is https://github.com/kelpecosystems/observational_data/blob/master/cleaned_data/keen_cover.csv?raw=true - use the `readr` library to load it in. Show me that you can do it both without downloading it and if you download it.
+
+```{r}
+# load libraries
+library(pacman)
+pacman::p_load(dplyr, janitor, skimr, lubridate, tidyr, readxl, tibble,  readr,  visdat)
+```
+
+```{r}
+
+#Load data from the webside
+data <- read_csv("https://github.com/kelpecosystems/observational_data/blob/master/cleaned_data/keen_cover.csv?raw=true")
+
+# load data from local 
+download.file(url = "https://github.com/kelpecosystems/observational_data/blob/master/cleaned_data/keen_cover.csv?raw=true",
+              destfile = "keen_cover.csv")
+
+data <- read_csv("keen_cover.csv")
+```
+
+## **2. Format**
+
+Take a look at the data in any way you see fit to be able to tell me if the data is in a wide or long format. Justify your answer.
+
+```{r}
+# check structure data
+str(data)
+
+# and first columns
+head(data)
+```
+
+## **3. Check it out.**
+
+Let's learn a bit about who is doing what using `group_by()`, `summarize()`, and.
+
+-   3a. How many sites has each PI done?
+
+```{r}
+data |>
+  group_by(PI) |>
+    summarise(sitesPI = n_distinct(SITE))
+  
+ 
+
+```
+
+-   3b. How many years of data does each site have? Show it in descending order.
+
+    ```{r}
+    data |>
+      group_by(SITE) |>
+        summarise(nYears = n_distinct(YEAR)) |>
+      arrange(desc(nYears))
+    ```
+
+-   3c. Impress yourself - can you make a figure showing which site was sampled when? There are a lot of ways to do this. Sometimes I use `slice()`, but I'm sure there are more elegant solutions. For data viz, you can use geoms you've used before, or new ones, like `geom_tile()` or whatever you think would be interesting!
+
+    ```{r}
+
+
+    data2 <-data |>
+        mutate(weeks = ifelse(
+                   DAY <= 8, 1, ifelse(
+                       DAY == 9 & DAY <= 16 , 2, ifelse(
+                           DAY == 17 & DAY <= 24, 3,  ifelse(
+                           DAY == 25 & DAY <= 31, 4, 1     
+                )))))
+
+
+    data2 |>
+        summarise( n_years =n_distinct(YEAR),
+                   n_month =n_distinct(MONTH),
+                   n_Sites =n_distinct(SITE),
+                   n_weeks = n_distinct(weeks))
+
+
+    library(viridis)
+    library(ggplot2)
+    ggplot(data2, aes(x=MONTH, y = weeks)) + 
+      geom_tile() +
+      scale_fill_viridis(discrete=FALSE)+
+      facet_grid( SITE ~ YEAR )
+
+    ```
+
+## **4. Let's look at some kelp!**
+
+-   4a. This is a big unwieldy dataset. Let's trim it down to the columns, YEAR, SITE, TRANSECT, PERCENT_COVER, and FAMILY, and SPECIES.
+
+    ```{r}
+    data3 <- data |>
+      select(YEAR, SITE, TRANSECT, PERCENT_COVER, FAMILY, SPECIES)
+
+    ```
+
+-   4b. Let's make it even simpler. Trim the data down so the only species we are looking at are in the family "Laminariaceae". After that, you can ditch the FAMILY column.
+
+```{r}
+Lam_data <- data3 |>
+  filter(FAMILY == "Laminariaceae")
+
+```
+
+-   4c. For each species is there only one measurement per species transect each year? Or do we need to worry...... Note, this is a common data check you should be doing if you have a large complex data set!
+
+    ```{r}
+    Lam_data |>
+      group_by(SPECIES, TRANSECT, YEAR) |>
+      count(YEAR) |>
+      filter(n == 0)
+
+
+    ```
+
+    ```         
+    RTA: Apparently, each transect per each year has data
+    ```
+
+-   4d. HAHA that was a trick. I knew there sometimes was more than one. That's because some of these are measurements of juveniles and some are adults. OK - sum up the cover for each species on each transect so that we only have one measurement per species (adults and juveniles together!)
+
+    ```{r}
+    Lam_data2 <- Lam_data |>
+      group_by(SPECIES, TRANSECT, YEAR) |>
+      summarise(means_PC= mean(PERCENT_COVER))
+    ```
+
+    ```         
+    NOTE: You put here a note in which you suggest the code should looks like:
+    ```{.r .cell-code}
+    #This is what this summarize section should look like:
+    Lam_data_corrected <- Lam_data |>
+      group_by(SPECIES, YEAR,TRANSECT) |>
+        summarise(PERCENT_COVER = sum(PERCENT_COVER)) |>
+      ungroup()
+      
+    However, I will keep the mean, because The sum does not say anything about a measure. In contrast, mean is a central measure that sump up and make sense in statistic terms.
+    ```
+
+-   4e. Neat! Make a plot showing the timeseries of kelps at each site. You'll want `stat_summary()` here. You might even need it twice because - note - `stat_summary()` has a `geom` argument where you can do things like "line". What might that do? Check it out! Facet this plot by species, so we can see the trajectory of each. Feel free to gussy this plot up however you would like (or not). Do you notice anything? Comment!
+
+    ```{r}
+
+    Lam_data3 <- Lam_data |>
+      group_by(SPECIES, YEAR, SITE, TRANSECT ) |>
+        summarise(means= mean(PERCENT_COVER))
+
+    ggplot(Lam_data3, aes(x=YEAR, y = means)) + 
+       stat_summary(fun = mean, geom="line")+
+      stat_summary(aes(color = SITE),fun = mean, geom="line", alpha = 0.5)+
+      facet_grid(SPECIES ~ .)
+
+
+    #readable
+    ggplot(Lam_data3, aes(x=YEAR, y = means)) + 
+       stat_summary(fun = mean, geom="line")+
+      geom_point( aes(color = SITE), alpha= 0.5)+
+      facet_grid(SPECIES ~ .)
+
+
+
+    ```
+
+```         
+Comment: It is evident that through the years, the percentage of cover has been decreasing, especially in Saccharina latissima. 
+```
+
+## **5. Wide relationships**
+
+Let's look at the relationship between two of the species here. Lexi made me do this, I swear. She made me think about tradeoffs in our weekly meeting last week, so now you all have this problem.
+
+-   5a. If we want to look at the relationships between species, we need a wide data set. Use `pivot_wider()` to make species into columns with percent cover as your values. Note - be careful to fill in NAs as 0s.
+
+    ```{r}
+
+    data_wider1 <- Lam_data3 |>
+      filter(!is.na(SPECIES) & !is.na(means)) |>
+      pivot_wider(names_from = SPECIES, values_from = means, values_fill = 0) 
+
+    data_wider1
+    ```
+
+-   5b. Neat! Is there a relationship between Saccharina latissima and Laminaria digitata? Plot it. As a preview for 2 weeks from now, add a line to your ggplot `stat_smooth(method = "lm")`. Also, remember that you will need backticks \` around variables with spaces in them. What do you think? Feel free to use any other geoms or explore however you like here.
+
+    ```{r}
+
+    ggplot(data_wider1, aes(y=`Laminaria digitata`, x=`Saccharina latissima`)) +
+      geom_point() +
+      stat_smooth(method = "lm")
+      
+    ```
+
+    ```         
+    RTA: I expected that the fewer S. latissima the more L. digitata. However, Lm model shows a almost contant behavior.
+    ```
+
+-   5c. Hey, so, remember how we filled in a lot of 0s? Yeah, those weren't in the original long data we plotted..... which means many of those lines from question 4e might be wrong! So let's pivot this correct long data back wide and then remake the figure from 4e. Does it look different? Does it tell a different story?
+
+    ```{r}
+
+    data_long <- data_wider1 |>
+      pivot_longer(cols = c(`Laminaria digitata`,`Saccharina latissima`),names_to='SPECIES', values_to = 'mean_PC')
+     
+
+
+    ggplot(data_long, aes(x=YEAR, y = mean_PC)) + 
+       stat_summary(fun = mean, geom="line")+
+      stat_summary(aes(color = SITE),fun = mean, geom="line", alpha = 0.5)+
+      facet_grid(SPECIES ~ .)
+
+
+    ```
+
+
+```
+RTA: Yes, Saccharina latissimma shows an evident variability with respect to Laminaria digitata.
+On the other hand, the Percentage covert in Saccharina latissimma has decreased over time. Tendency that is not clear in the other species.
+```
+------------------------------------------------------------------------
+
+## **Meta 1.**
+
+So, this was your first time playing with a novel only mostly clean data set found in the wild. How did you feel working with it? What did you notice as you examined it for the very first time knowing nothing about it?
+
+I am felt frustrated because pipe is to restricted to write instructions as a language.
+
+## **Meta 2.**
+
+Split-Apply-Combine is.... a way of life, really. Is this something you have dealt with previously in your life or work? How comfortable are you with this concept?
+
+I think I should practice more the concept.
+
+## **Meta 3.**
+
+When you've made datasets in the past, have they been wide, long, or something else? After this week and the Browman and Woo paper, what advice would you give to future you when making data?
+
+Yes, however, "pivot matrices" cost much more time to get it. I think is the most valuable things in those functions.
+
+## **Meta 3.**
+
+How much time did this take you, roughly? Again, I'm trying to keep track that these assignments aren't killer, more than anything.
+
+2 hours
+
+## **Meta 4.**
+
+Please give yourself a weak/sufficient/strong assessment on this assigment. Feel free to comment on why.
+
+Strong
+
+PDTA: I hate tidyverse

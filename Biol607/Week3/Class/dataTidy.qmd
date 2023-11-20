@@ -1,0 +1,314 @@
+---
+title: "Loading Data"
+author: "Viviana Romero"
+format: html
+editor: visual
+---
+
+## 
+
+### Starting Data
+
+dplyr is a package for helping with tabular data manipulation.
+
+```{r}
+#libraries
+library(tidyverse)
+
+# download data
+
+
+download.file(url = "https://ndownloader.figshare.com/files/2292169",destfile = "portal_data_joined.csv")
+```
+
+### Reading the data into R
+
+```{r}
+surveys <- read_csv("portal_data_joined.csv")
+```
+
+by default read_csv asssume commas as delimitators. if the data are delimited by ; you should use read_cvs2. read_tsv for dataset with \tab and read_delim with other deimitators.
+
+we can see the basic structure using head
+
+```{r}
+head(surveys)
+```
+
+to open the data set into Rstudio View() could work
+
+```{r}
+View(surveys)
+```
+
+### What is a data frame
+
+using tidyverse, whe we load data the object is stored in a object class tibble. data frame is a representation of data in form of table.
+
+every column has the sameclass
+
+. a easy way to see the structure is using str()
+
+```{r}
+str(surveys)
+```
+
+Exercise:
+
+Based on the output of `str(surveys)`, can you answer the following questions?
+
+-   What is the class of the object `surveys`?
+
+    ```         
+    tibble
+    ```
+
+-   How many rows and how many columns are in this object?
+
+```         
+786 × 13
+```
+
+### **Indexing and subsetting data frames**
+
+in order to extract data from tibble
+
+```{r}
+# We can extract specific values by specifying row and column indices
+# in the format: 
+# data_frame[row_index, column_index]
+# For instance, to extract the first row and column from surveys:
+surveys[1, 1]
+
+# First row, sixth column:
+surveys[1, 6]   
+
+# We can also use shortcuts to select a number of rows or columns at once
+# To select all columns, leave the column index blank
+# For instance, to select all columns for the first row:
+surveys[1, ]
+
+# The same shortcut works for rows --
+# To select the first column across all rows:
+surveys[, 1]
+
+# An even shorter way to select first column across all rows:
+surveys[1] # No comma! 
+
+# To select multiple rows or columns, use vectors!
+# To select the first three rows of the 5th and 6th column
+surveys[c(1, 2, 3), c(5, 6)] 
+
+# We can use the : operator to create those vectors for us:
+surveys[1:3, 5:6] 
+
+# This is equivalent to head_surveys <- head(surveys)
+head_surveys <- surveys[1:6, ]
+
+# As we've seen, when working with tibbles 
+# subsetting with single square brackets ("[]") always returns a data frame.
+# If you want a vector, use double square brackets ("[[]]")
+
+# For instance, to get the first column as a vector:
+surveys[[1]]
+
+# To get the first value in our data frame:
+surveys[[1, 1]]
+```
+
+See that : is a special fucntion to create vectors of integers and - is for excluding columns
+
+```{r}
+surveys[, -1]                 # The whole data frame, except the first column
+surveys[-(7:nrow(surveys)), ] # Equivalent to head(surveys)
+
+```
+
+Data frames can be subset by calling indices, but also by calling their column names directly
+
+```{r}
+# As before, using single brackets returns a data frame:
+surveys["species_id"]
+surveys[, "species_id"]
+
+# Double brackets returns a vector:
+surveys[["species_id"]]
+
+# We can also use the $ operator with column names instead of double brackets
+# This returns a vector:
+surveys$species_id
+```
+
+Exercise:
+
+1.  Create a `data.frame` (`surveys_200`) containing only the data in row 200 of the `surveys` dataset.
+
+    ```{r}
+    surveys200 <- data.frame(surveys[200,])
+    ```
+
+2.  Notice how `nrow()` gave you the number of rows in a `data.frame`?
+
+    ```{r}
+    nrow(surveys)
+    ```
+
+-   Use that number to pull out just that last row from the `surveys` dataset.
+
+    ```{r}
+    surveys["34778",]
+    ```
+
+-   Compare that with what you see as the last row using `tail()` to make sure it's meeting expectations.
+
+    ```{r}
+    tail(surveys)
+    ```
+
+-   Pull out that last row using `nrow()` instead of the row number.
+
+    ```{r}
+    surveys[nrow(surveys),]
+    ```
+
+-   Create a new data frame (`surveys_last`) from that last row.
+
+    ```{r}
+    surveys_last <- data.frame(surveys[nrow(surveys),])
+    ```
+
+3.  Use `nrow()` to extract the row that is in the middle of the data frame. Store the content of this row in an object named `surveys_middle`.
+
+    ```{r}
+    surveys_middle <- data.frame(surveys[nrow(surveys)/2,])
+    ```
+
+4.  Combine `nrow()` with the `-` notation above to reproduce the behavior of `head(surveys)`, keeping just the first through 6th rows of the surveys dataset.
+
+    ```{r}
+    surveys[-(7:nrow(surveys)),]
+    ```
+
+### Factors
+
+Integers usually are factors/ categorical data with levels
+
+```{r}
+surveys$sex <- factor(surveys$sex)
+
+```
+
+To order the levels in a factor column
+
+```{r}
+#order
+sex <- factor(c("male", "female", "female", "male"), levels = c('males', 'female'))
+# levels
+levels(sex)
+#nlevels
+nlevels(sex)
+
+
+sex
+```
+
+Exercise
+
+1.  Change the columns `taxa` and `genus` in the `surveys` data frame into a factor.
+
+    ```{r}
+    surveys$taxa <- as.factor(surveys$taxa)
+
+    surveys$genus <- as.factor(surveys$genus)
+    ```
+
+2.  How many rabbits were observed?
+
+    ```{r}
+    length(surveys$taxa == "Rabbit")
+    ```
+
+3.  How many different genera are in the `genus` column?
+
+```{r}
+nlevels(surveys$genus)
+```
+
+### Converting factors
+
+we can switch of class using as.\*
+
+```{r}
+as.character(sex)
+```
+
+some classes has more priority than other.
+
+```{r}
+year_fct <- factor(c(1990, 1983, 1977, 1998, 1990))
+as.numeric(year_fct)               # Wrong! And there is no warning...
+as.numeric(as.character(year_fct)) # Works...
+as.numeric(levels(year_fct))[year_fct] 
+
+```
+
+Renaming factors
+
+factor are important for plots
+
+```{r}
+plot(surveys$sex)
+```
+
+```{r}
+summary(surveys$sex)
+
+levels(surveys$sex)
+
+
+```
+
+even when sex column has NAs it is not a factor, so we can add NA as part of the data
+
+```{r}
+sex <- surveys$sex
+
+levels(sex)
+
+sex <- addNA(sex)
+
+levels(sex)
+
+head(sex)
+
+levels(sex)[3]
+
+levels(sex)
+
+
+```
+
+Exercise
+
+-   Rename \"F\" and \"M\" to \"female\" and \"male\" respectively.
+
+    ```{r}
+    levels(sex) <- c("female", "male", NA)
+    ```
+
+-   Now that we have renamed the factor level to \"undetermined\", can you recreate the barplot such that \"undetermined\" is first (before \"female\")?
+
+```{r}
+sex <- surveys$sex
+levels(sex)
+
+sex <- addNA(sex)
+levels(sex)
+
+head(sex)
+
+levels(sex)[3] <- "undetermined"
+levels(sex)
+
+plot(sex)
+```

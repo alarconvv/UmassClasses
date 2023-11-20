@@ -1,0 +1,372 @@
+---
+title: "Lab week2"
+author: "Viviana Romero Alarcon"
+format: html
+editor: visual
+---
+
+### Loading libraries and data
+
+```{r}
+library(pacman)
+pacman::p_load(fable, ggplot2, dplyr,palmerpenguins)
+
+
+# data
+data(penguins)
+head(penguins)
+
+```
+
+Load the last plot and grouping by species. It will keep group and plot considering the species factor
+
+```{r}
+# grouping by species
+bill_dens_group <- ggplot(data = penguins,
+                          mapping =  aes(x = bill_length_mm,
+                                         group = species))
+
+bill_dens_group +
+  geom_density(mapping = aes(fill = species,
+                             color = species),
+               alpha = 0.4)
+```
+
+by default histogram is stacking up . we can consider another position inside the geom function. we can change position = stack
+
+```{r}
+# stack position
+bill_dens_group +
+  geom_histogram(mapping = aes(fill = species,
+                             color = species),
+               alpha = 0.4)
+
+# position identity
+bill_dens_group +
+  geom_histogram(mapping = aes(fill = species,
+                             color = species),
+               alpha = 0.4, position = position_identity() )
+
+# position dodge we can see groups, no overlaping. It is use to recongnize dofferent treatments
+
+bill_dens_group +
+  geom_histogram(mapping = aes(fill = species,
+                             color = species),
+               alpha = 0.4, position = position_dodge() )
+
+# position jitter allow to separete but not completly.
+
+bill_dens_group +
+  geom_histogram(mapping = aes(fill = species,
+                             color = species),
+               alpha = 0.4, position = position_jitter() )
+```
+
+## ggplot with multiple dimentions
+
+```{r}
+# libraries
+
+library(pacman)
+pacman::p_load(palmerpenguins, ggplot2, ggridges)
+```
+
+Look a relationship between variables
+
+```{r}
+# body mass vrs species
+
+pen_plot_base <- ggplot(data = penguins, 
+                        mapping = aes(x= body_mass_g,
+                                      y = species,
+                                      color = species))
+
+```
+
+Look a different geoms the raw data point
+
+```{r}
+# the most frequently geoms used. 
+pen_plot_base +
+  geom_point()
+```
+
+one of the problems is the density because of overlaping, we will change alpha
+
+```{r}
+pen_plot_base +
+  geom_point(alpha = 0.1,
+             size = 12)
+```
+
+to separate to see the points
+
+```{r}
+# use jitter, you can see the distribution 
+pen_plot_base +
+  geom_jitter(height = 0.3, alpha = 0.5)
+
+# keep in mind that the point positions is ramdon, so we can fix a seed
+```
+
+### Exercise
+
+1.  Try out the following geoms - `geom_boxplot()`, `geom_violin()`, `stat_summary()`. Which do you prefer?
+
+    ```{r}
+    # using boxplot, violins and stat summary
+    pen_plot_base <- ggplot( data = penguins,
+                             mapping = aes( y = body_mass_g,
+                                           x = species,
+                                           color = species,
+                                           fill = species))
+
+    # boxplot
+    pen_plot_base+ 
+      geom_boxplot(alpha=0.3) 
+
+    # violin
+    pen_plot_base+ 
+      geom_violin(alpha=0.3) 
+
+    # stat summary
+
+    pen_plot_base+ 
+      stat_summary() 
+
+    ```
+
+2.  Try adding multiple geoms together. Does order matter?
+
+```{r}
+ggplot( data = penguins,
+        mapping = aes( x = body_mass_g,
+                       y = species,
+                       fill = species))+
+geom_violin(width=1.4, alpha = 0.2, color = "grey90") +
+  geom_boxplot(width=0.1, color="grey", alpha=0.2) +
+  geom_point(alpha = 0.3, size = 0.1, color = "black") 
+```
+
+1.  If you want to get saucy, install `ggridges` and try out `geom_density_ridges()`
+
+```{r}
+ggplot(penguins, aes(x = body_mass_g, y = species, fill = species, color = species)) + 
+  geom_density_ridges(quantile_lines = TRUE, alpha = 0.3)  +
+  geom_point(alpha = 0.3, size = 0.1, color = "black") +
+  geom_boxplot(alpha = 0.3, fill = NA)
+theme_light()
+```
+
+We can change in the theme for example theme_park
+
+### Look at relationship continuous variables
+
+```{r}
+pen_mass_depth <- ggplot(data = penguins,
+                         mapping = aes(x= body_mass_g,
+                                       y= bill_depth_mm,
+                                        color = species))+
+  geom_point()
+
+pen_mass_depth
+```
+
+What do we learn from this? Gennto has more mass but smaller bill depth, creating a separate group from Adelie and Chrinstrain
+
+But about facetting ... additing another dimension of information
+
+```{r}
+#
+pen_mass_depth +
+  facet_wrap(facets = vars(species))
+
+# if I want axes would free then use scales
+pen_mass_depth +
+  facet_wrap(facets = vars(species), scales = 'free')
+# however, keep fixed them allow us to compare them
+```
+
+We can split in other combination
+
+```{r}
+pen_mass_depth +
+  facet_wrap(facets = vars(species, island), scales = 'free')
+
+```
+
+It is difficult to follow, then use grids to plot columns and row allow to and compare easily
+
+```{r}
+pen_mass_depth +
+  facet_grid(rows  = vars(species), cols = vars(island))
+```
+
+What if i want to facet by a continuous variable? Some functions to do this are cut\* family
+
+```{r}
+# cut_interval: at set intervals, making n groups with equal range
+# 3 groups with the same ranges
+pen_mass_depth +
+  facet_wrap(vars(cut_interval(flipper_length_mm, n = 3)))
+# it is splited by ranges, some groups are more observations, then other have more
+
+#Cut_number: make n groups with the same numbers of observation
+pen_mass_depth +
+  facet_wrap(vars(cut_number(flipper_length_mm, n = 3)))
+
+# Cut_width: make n groups in a given width
+
+pen_mass_depth +
+  facet_wrap(vars(cut_width(flipper_length_mm, width = 10)))
+# it is similar to interval, but here the with is 10, then the number of observations is dinamic
+
+
+```
+
+**Exercise:**
+
+1.  Given that we have the same species of penguin on different islands, what do you see if you use `facet_grid()` with both island and species?
+
+2.  Incorporate other faceting variables - sex, year, etc. Or mix up what is a facet and what is a color. What do you learn?
+
+    ```{r}
+
+
+    penguins
+
+    ggplot(data = penguins,
+          mapping= aes(x = body_mass_g,
+                       y = flipper_length_mm,
+                       ))  +
+      
+      geom_point(aes(color = sex,
+                     shape = sex,)) +
+      facet_wrap(facets = vars(species, island))
+
+
+    ########## you can see density
+    ggplot(data = penguins,
+          mapping= aes(x = body_mass_g,
+                       y = flipper_length_mm,
+                       ))  +
+      facet_wrap(facets = vars( island))+
+      geom_density2d_filled()
+
+    ########## or violins
+    ggplot(data = penguins,
+          mapping= aes(x = body_mass_g,
+                       y = flipper_length_mm,
+                       ))  +
+      facet_wrap(facets = vars( island))+
+      geom_violin(aes(fill= species))
+
+
+    ```
+
+### Themes: plot customization
+
+first is labelling
+
+```{r}
+pen_mass_depth +
+  labs(title = " Penguins bill depth versus size",
+       subtitle = "Data from the Palmer station LTER",
+       x = "Body Mass (g)",
+       y= ' Bill depth (mm)',
+       color = 'Species of \n penguins')
+  
+```
+
+Themes is a easy way to costumize faster
+
+```{r}
+pen_mass_depth +
+  theme_bw()
+
+pen_mass_depth +
+  theme_classic()
+
+pen_mass_depth +
+  theme_classic(base_size = 14,
+                base_family = "Courier")
+
+```
+
+theme allows modify everything that you want
+
+```{r}
+pen_mass_depth +
+  theme(legend.justification = "bottom")
+```
+
+### Colors
+
+scale allows to modify colosr in the dimensions in the plot
+
+```{r}
+pen_mass_depth+
+  scale_color_manual(values = c("orange", 'purple', 'green'))
+
+pen_mass_depth+
+  scale_color_brewer(palette = "Dark2")
+
+pen_mass_depth+
+  scale_color_viridis_d()
+```
+
+What abut continuous colpr
+
+```{r}
+pen_depth_lenght <- ggplot(penguins, aes(bill_depth_mm,
+                                         bill_length_mm,
+                                         color = body_mass_g))+
+  facet_wrap(vars(species))+
+  geom_point()
+
+pen_depth_lenght+
+  scale_color_viridis_c()
+
+pen_depth_lenght+
+  scale_color_viridis_c(option =  "A")
+
+pen_depth_lenght +
+  scale_color_distiller()
+```
+
+you can create a gradient
+
+```{r}
+pen_depth_lenght +
+  scale_color_gradient(low = 'brown', high = 'green')
+
+pen_depth_lenght +
+  scale_color_gradientn(colors = c('blue', 'green','brown', "red"))
+```
+
+### Stats
+
+stats create summaries, summaries data. Stat function is for summary instead of raw data, it show us mean and standad error by default
+
+```{r}
+pen_plot_base +
+  geom_point(color= 'grey') +
+  stat_summary()+
+  theme_classic()
+
+pen_plot_base +
+  geom_jitter(color= 'grey', height = 0.1) +
+  stat_summary()+
+  theme_classic()
+```
+
+Other summary is smooth, it is a great way for linear regression or things like statd binds
+
+```{r}
+pen_depth_lenght +
+  stat_smooth()
+
+pen_depth_lenght +
+  stat_bin2d()+
+  scale_fill_viridis_c()
+```

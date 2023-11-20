@@ -1,0 +1,592 @@
+---
+title: "Midterm"
+author: "Viviana Romero"
+format: html
+editor: visual
+---
+
+# **Midterm and Self-Evaluation**
+
+Biol607
+
+Welcome to your mid-term! I hope you enjoy. Note, in all of the questions below, there are easy not so code intensive ways of doing it, and there are longer more involved, yet still workable ways to answer them. I would suggest that before you dive into analyses, you do the following.
+
+First, breathe.
+
+Second, think about the steps you need to execute to get answer the question. Write them down.
+
+Third, for those parts of problems that require code, put those steps, in sequence, in comments in your script file. Use those as signposts to step-by-step walk through the things you need to do.
+
+Last, note there are some impress yourselves. You do not need to do them if you don't want to. But they are there for you to stretch your wings, if you so desire, and get lost in the questions. Or learn something new.
+
+Have fun!
+
+The exam will be due on Nov 17th, 5pm.
+
+## **1. Sampling your system**
+
+Each of you have a study system you work in and a question of interest. Give an example of one variable that you would sample in order to get a sense of its variation in nature.
+
+``` {style="color: gray;"}
+Currently, I am working on body size prediction in biped theropods. 
+Following the literature, the most relevant variable in Femur circumference.
+```
+
+Describe, in detail, how you would sample for the population of that variable in order to understand its distribution.
+
+``` {style="color: gray;"}
+I will not get samples from nature directly. Instead, I will gather data from databases and literature. Currently, except for humans, Aves is the only extant-bipedal group. 
+So, if I want to predict Body Mass for extinct bipeds I should use Birds as a reference to fit the model.
+In this way, I have to cover the entire range of body mass in the Aves group (50g to 130000g).
+In addition, keep in mind that femur circumference is independent of the phylogenetic relationship.
+I will include some human samples to test the predictability of my model.
+```
+
+Questions to consider include, but are not limited to: Just what is your sample versus your population?
+
+``` {style="color: gray;"}
+I have gathered around 10% of the species in modern birds so far. 
+Despite the low percentage of species, I have gathered around 400 observations, which cover the entire range of body mass in Aves.
+```
+
+What would your sampling design be?
+
+``` {style="color: gray;"}
+My experiment will take three parts. First of all, I will get data from the literature.
+They include body mass, femur circumference and length, and desirable sex.
+Given that my model is an extrapolation problem, I must include data that try to reflect Therapods in the present. I mean, I  flightless birds with large body mass. Such as Palaeognathaes.
+However, this group only includes information on femur length but does not include femur circumference.
+Then, to get femur circumference and subsequently use them to predict body mass, I should fit a model femur circumference ~ femur length, and then to predict femur circumference in Palaeognathaes.
+Thus, I am going to increase the sample in the clue group to predict the Body Mass in biped fossils
+```
+
+Why would you design it that particular way?
+
+``` {style="color: gray;"}
+Current models have been fitted using modern birds, including only one observation from the biggest Palaeognathaes.
+Of course, it becomes an outlier for the model. 
+However, Palaeognathaes is a clue group because if I include them in the sample, the distribution of Body Mass changes completely. 
+It reveals a bias in the current models, given that the best model to predict body mass is not linear.
+Rather than an polynomial model could fit better.
+```
+
+What are potential confounding influences of both sampling technique and sample design that you need to be careful to avoid?
+
+``` {style="color: gray;"}
+One of the troubles is that I can not know the actual body mass of biped theropods, so I can not test my model.
+On the other hand, the Aves group have some modification that allows them to fly. That modification could become a bias in the prediction of BM in dinosaurs.
+```
+
+What statistical distribution might the variable take, and why?
+
+``` {style="color: gray;"}
+Body mass is not normal if I include Palaeognathaes, and it is skewed on the left. 
+```
+
+## **2. Data Reshaping and Visuzliation**
+
+Johns Hopkins has been maintaining one of the best Covid-19 timseries data sets out there. The data on the US can be found [here](https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv) with information about what is in the data at https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data
+
+### **2a. Access**
+
+Download and read in the data. Can you do this without downloading, but read directly from the archive?
+
+```{r}
+# Load libraries
+library(tidyverse)
+library(dplyr)
+library(readr)
+library(ggplot2)
+library(broom) # working with fitted models to get inference
+library(performance) # assessing model diagnostics
+library(DHARMa)
+
+
+# Download data from github
+### Note: This repository was archived by the owner, it is not downloading well
+
+download.file("https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv", destfile = 'time_series_covid19_confirmed_US.csv')
+
+# Read data
+covid <- read_csv("time_series_covid19_confirmed_US2.csv")
+
+```
+
+### **2b. It's big and wide!**
+
+The data is, well, huge. It's also wide, with dates as columns.
+
+```{r}
+# Check the structure
+head(covid)
+
+str(covid)
+```
+
+Write a function that, given a state name as its input argument, will output a time series (long data where every row is a day) with columns for date, new daily cases and for cumulative cases in that state.
+
+```{r}
+# Function that given the state creates a long format with cumulative cases (standarized by 100000)
+serieTime <- function(dataset, Province_State){
+  data1 <- dataset |> select( c(7, 12:length(colnames(dataset))))
+data2 <-data1 |> pivot_longer(cols = c(2:length(colnames(data1))),names_to = "date",values_to = "cases") |> group_by(Province_State) |>  mutate(cumcases = round(cumsum(cases)/100000,1)) |> ungroup()
+return(data2)
+}
+```
+
+Note, let's make the date column that emerges a true date object. Let's say you've called it `date_col`. If you mutate it, `mutate(date_col = lubridate::mdy(date_col))`, it will be turned into a date object that will have a recognized order. {lubridate} is da bomb, and I'm hoping we have some time to cover it in the future.
+
+```{r}
+
+covid2 <- serieTime(covid, "Province_State")
+
+head(covid2)
+
+covid3 <- covid2 |> mutate(date_col = lubridate::mdy(date)) 
+##|> filter(Province_State == "Washington" | Province_State == "Massachusetts")
+
+
+head(covid3)
+```
+
+Even better - impress yourself (if you want - not required!) and merge it with some other data source to also return cases per 100,000 people.
+
+### **2c. Let's get visual!**
+
+Great! Make a compelling plot of the timeseries for Massachusetts! Points for style, class, ease of understanding major trends, etc. Note, 10/10 for yourself only for the most killer figures. Don't phone it in! Also, note *what* the data from JHU is. Do you want the cummulatives, or daily, or what? Want to highlight features? Events? Go wild!
+
+```{r}
+ggplot(covid3, aes(x = date_col, y = log(cases))) +
+  geom_smooth(aes(color = Province_State)) +
+  facet_wrap(Province_State ~ .) +
+  theme(legend.position = "none")
+
+
+```
+
+```         
+I plotted a cumulative tendency, in which we can observe that the COVID effect was almost the same in every state. 
+Initially, the curve growth was accelerated but after 2022, the cumulative cases were reduced; making the curve look like a constant.
+I want to highlight the case of American Samoa. 
+It is the only state in which the infection started in 2021. 
+It could be the product of the strict lockdown that took some islands in Oceania. 
+However, after the first case, it showed the same behavior as the rest of the states. 
+It also shows us how a respiratory infection works. It starts as an exponential/ multiplicative behavior and then, after a while, time attenuates its infection or lethality.
+```
+
+## **3. Fit and Evaluate a Linear model**
+
+Let's fit and evaluate a linear model! To motivate this, we'll look at Burness et al.'s 2012 study "Post-hatch heat warms adult beaks: irreversible physiological plasticity in Japanese quail http://rspb.royalsocietypublishing.org/content/280/1767/20131436.short the data for which they have made available at Data Dryad at http://datadryad.org/resource/doi:10.5061/dryad.gs661. We'll be doing a slightly modified version of their analysis.
+
+### **3a. What should I do?**
+
+Starting with loading this (new to you) data set for the very first time, what are the steps that you would take to analyze this data? Write them out! Maybe even in comments!
+
+``` {style="color: gray;"}
+# Read data
+# Check data and structure
+# Plot to check distribution
+# fit a model
+# Check the model ans assumtions
+# plot my model
+```
+
+### **3b. Let's get started**
+
+Load the data. Look at it. Anything interesting? Anything you'd want to watch out for? Or is it OK? Anything you'd change to make working with the data easier? Also, manipulate it a bit - for our analysis, we're going to want Bird \# and the Age of the birds to be categorical variables. Make sure we have variables that will work!
+
+```{r}
+# Load data
+morpho <- read_csv("doi_10.5061_dryad.gs661__v1/Morphology data.csv")
+```
+
+### **3c. Viz before fit**
+
+The model we will fit is one where we want to look at how temperature treatment affects the development of tarsus length over time (age). Visualize this. Make it look good! Is there anything here that would shape how you fit a model? Do you see why we are treating age as categorical?
+
+```{r}
+# Check data sturcture
+
+str(morpho)
+head(morpho)
+
+colnames(morpho)
+#View(morpho)
+
+# Plot the posible model to fit
+ggplot2::ggplot(morpho, aes(x= `Age (days)`, y = `Tarsus (mm)`)) +
+  geom_point(aes(color = as.factor(`Exp. Temp. (degree C)`)))+
+  geom_smooth(aes(color = as.factor(`Exp. Temp. (degree C)`)))
+  
+
+ggplot2::ggplot(morpho, aes(y =`Tarsus (mm)`)) +
+  geom_boxplot(aes(x= as.factor(`Age (days)`),color = as.factor(`Exp. Temp. (degree C)`)))
+```
+
+### **3d. Fit and evaluate**
+
+Fit a model where tarsus length is predicted by age, treatment, their interaction, and a 'block' effect, as it were, of bird #. Evaluate the fit. Make any modifications as you see necessary due to your model checks. Note, it's not going to be perfect (I checked the original - hey, you can too - and they're on the edge) - but our models are robust, so we're OK.
+
+```{r}
+
+# Fit the model
+morpholm <- lm(log(`Tarsus (mm)`) ~ `Age (days)` * `Exp. Temp. (degree C)`, data =morpho )
+
+summary(morpholm)
+
+## 4. Test our model assumptions
+check_model(morpholm)
+
+
+# Our pp check
+check_predictions(morpholm, iterations = 200)
+
+# check linearity
+check_model(morpholm, check = "ncv")
+
+# check normality of residuals
+check_normality(morpholm) |> plot()
+check_normality(morpholm) |> plot(type = "qq")
+
+# check outliers
+check_outliers(morpholm) |> plot()
+check_outliers(morpholm) |> plot(type = "bar")
+
+## 5. Evaluate our model for inference
+summary(morpholm)
+
+# the broom methods
+tidy(morpholm)
+glance(morpholm)
+
+## 6. Visualize our fit model
+ggplot(data = morpho,
+       mapping = aes(x = `Age (days)`, y = log(`Tarsus (mm)`), group = as.factor(`Exp. Temp. (degree C)`))) +
+  geom_point(aes(color = as.factor(`Exp. Temp. (degree C)`)), alpha = 0.1)+
+  stat_smooth(aes(color = as.factor(`Exp. Temp. (degree C)`)),method = "lm", )
+
+
+
+```
+
+### **3e. Answer the Question**
+
+A central question of this paper is - does temperature affect the development of tarsus length. With your fit model in hand, answer the question, however you deem fit. Make sure that, alongside any numerical answers you produce, there is at least one stunning figure for a publishable paper!
+
+``` {style="color: gray;"}
+I should highlight two relevant facts in my results. On one hand, the R square is low (0.44), but it is significant (p-val < 2.2e-16), indicating that there is a relation, but it is not strong. 
+There are 0.66 of variability in the model that is not explained by age or temperature. 
+Looking inside the model,  there is a relation between tarsus length and age (p-val < 1.21e-13).
+However, temperature does not affect on the tarsus length (p-val 0.149). 
+Indeed, temperature does not interact with age to improve the model (p-val 0.872). 
+On the other hand, when I checked the assumptions, especially residuals, I noticed that the data does not follow normality.
+That means I should use another kind of model to evaluate this question. Maybe, one generalized linear model would fit better to describe the tendency in the tarsus length.
+```
+
+## **4. Something Generalized**
+
+In their [2011 paper](https://doi.org/10.1007/s00442-011-1958-4), Stanton-Geddes and Anderson assessed the role of a facultative mutualism between a legume and soil rhizobia in limiting the plant's range. After publishing, they deposited their data at Dryad http://datadryad.org/resource/doi:10.5061/dryad.8566. As part of their lab experiment, they looked at a variety of plant properties after growing plants with rhizobia from different regions. We want to look at what happened in that experiment during the March 12th sampling event.
+
+```{r}
+# read data
+rhizobia <- read_csv('4/greenhouse_inoculation_expt_2010.csv')
+
+# explore data
+head(rhizobia)
+
+colnames(rhizobia)
+
+str(rhizobia)
+```
+
+### **4a. Fit a glm**
+
+Load the data. Vizualize. Then, fit and evaluate a generalized linear model with your choice of error distribution looking at the effect of rhizobial region and plant height as measured on march 12 as predictors of \# of leaves on march 12. Does your model meet assumptions? If not, refit with a different. Why did you chose this (or these) error distribution(s)?
+
+```{r}
+#Cols : leaf_mar12 height_mar12 rhiz_region
+
+# Viz
+ggplot(rhizobia, aes(x = height_mar12, y = leaf_mar12))+
+  geom_point(aes(color= as.factor(rhiz_region)))
+
+
+
+
+# Fit model: Poisson becasu leaf is an count
+rhizo_gml <- glm(leaf_mar12 ~ height_mar12 + rhiz_region, 
+                family = poisson(link = "log"),
+                data = rhizobia)
+
+  summary(rhizo_gml)
+  
+  # the broom methods
+tidy(rhizo_gml)
+glance(rhizo_gml)
+  
+# check model
+  
+  check_model(rhizo_gml)
+  
+  # Viz
+ggplot(rhizobia, aes(x = height_mar12, y = leaf_mar12))+
+  geom_point(aes(color= as.factor(rhiz_region))) +
+  facet_wrap(rhiz_region ~.) +
+  geom_smooth(aes(color= rhiz_region))
+```
+
+### **4b. Evaluate your treatments**
+
+Which rhizobial regions enable more leaves relative to the control? And in what direction?
+
+```         
+interior region has more leaves than the control, in a negative direction
+```
+
+### **4c. Prediction intervals from a distribution**
+
+So, your distribution has quantiles (right? We see these in QQ plots). You can see what the value for those quantiles are from the `q*` function for a distribution. For example, the 95th percentile of a poisson with a � of 5 spans from 1 to 10. You can see this with `qpois(0.025, lambda = 5)` for the lower, and change it to 0.975 for the upper. Check this out. Plot the upper and lower bounds of the 95th percentile of a Poisson distribution over a range of lambdas from 1 to 30. Do the same for a negative binomial with means from 1 to 30. Note, to translate from a mean ( � ) with a size of 10 (you might have to look at the helpfile for qnbinom here).
+
+```{r}
+
+calculate_bounds_pois <- function(lambdas) {
+  lower <- qpois(0.025, lambdas)
+  upper <- qpois(1 - 0.025, lambdas)
+  c(lower, upper)
+}
+
+# Generate lambdas from 1 to 30
+lambdas <- 1:30
+
+# Poisson distribution
+poisson_bounds <- sapply(lambdas, function(lambdas) {
+  calculate_bounds_pois( lambdas)
+})
+
+########## negative binomial
+calculate_bounds_nbinom <- function(mu) {
+  lower <- qnbinom(p = 0.025, size = 10, mu = mu)
+  upper <- qnbinom(p = 1 - 0.025, size = 10, mu = mu)
+  c(lower, upper)
+}
+
+# Generate means from 1 to 30
+mu <- 1:30
+
+# Poisson distribution
+nbinom_bounds <- sapply(mu, function(mu) {
+  calculate_bounds_nbinom( mu)
+})
+
+
+data <-data.frame(lambdaMu = c(1:30,1:30), lower = c(poisson_bounds[1,],nbinom_bounds[1,]),
+                  upper = c(poisson_bounds[2,],nbinom_bounds[2,]),
+                   dist = c(rep('Poisson',30), rep('Nbinomial',30))) 
+
+
+
+# Plot 
+ggplot(data = data, aes(x= lambdaMu, y= lower)) +
+  geom_line(aes(y = lower, color = dist))+
+  geom_line(aes(y = upper,  color = dist))
+
+
+```
+
+### **4d. Prediction intervals from your model**
+
+All right! Armed with this knowledge, one of the frustrating things about `broom::augment()` for glm models is that it doesn't have an `interval` argument. And has one trick. One - you need to see what scale your answer is returned on. We want to look at the response scale - the scale of the data. Second, while you can use `se_fit` to get standard errors, you don't get a CI *per se* (although, hey, \~2\*se = CI).
+
+AND - we just looked at how when you have an estimated value, you can get the prediction CI yourself by hand in the previous part of the question. So, using your creativity, visualize the fit, 95% fit interval, and 95% prediction interval at the min, mean, and max of height for each treatment. Geoms can be anything you like! Have fun here!
+
+```{r}
+ggplot(rhizobia, aes(x = height_mar12, y = leaf_mar12))+
+  geom_point(aes(color= as.factor(rhiz_region))) +
+  facet_wrap(rhiz_region ~.) +
+  stat_smooth(aes(color = as.factor(rhiz_region)),method = "lm" )
+
+
+predict <- broom::augment(rhizo_gml)
+```
+
+### **4e. INMPRESS YOURSELF! Prediction intervals from your model**
+
+Again, totally optional, but, check out the [sinterval package](https://jebyrnes.github.io/sinterval/) which you'd have to install from github. It uses fit models and it's two core functions `add_fitted_sims()` and `add_predicted_sims()` to get simulated values from fit models using one or the other interval. Do this, and visualize the same thing as above however you'd like (maybe look at `ggdist`?). Or try something new? Perhaps visualize across a range of heights, and not just three?
+
+## **5. Mix it up!**
+
+To explore the consequences of random effects, we are going to look at an example from Vonesh, J. R. and Bolker, B. M. (2005). Compensatory larval responses shift trade-offs associated with predator-induced hatching plasticity. Ecology, 86:1580--1591. In the paper, one thing they explore is the effect of tank size, predator presence, and prey density on larval tadpoles. They go on to look at induced plastic defenses in those tadpoles. It's a cool paper, and worth a look! But, it also shows something really interesting about logistic regression models - namely, when should we consider them as mixed models.
+
+### **5a. Load it up and plot**
+
+Load the data with the following code:
+
+```{r}
+reedfrogs <- read_delim("https://github.com/rmcelreath/rethinking/raw/master/data/reedfrogs.csv",
+                        delim = ";") |>
+  mutate(tank = 1:n() |> as.character(),
+         died = density - surv)
+```
+
+To get used to the data, plot survivorship as a function of tank size and predator treatment. Then, to challenge yourself a bit. Expand the data to 1s and 0s (lived or died) as follows:
+
+```{r}
+# viz
+head(reedfrogs)
+
+ggplot(reedfrogs, aes(y = surv)) +
+  geom_boxplot(aes(x = pred, fill = size))
+```
+
+Now with the expanded data, plot it showing who lived, who died (who tells their story...), and how that corresponds to treatment AND tank. Do you see anything to do with within-tank variability?
+
+```{r}
+reedfrogs_expanded <- reedfrogs |>
+  group_by(tank, size, pred, density) |>
+  reframe(status = c(rep(1, surv), rep(0, died))) |>
+  ungroup()
+
+reedfrogs_expanded$size <- factor(reedfrogs_expanded$size, levels = c("big", "small"))
+
+
+colnames(reedfrogs_expanded)
+
+ggplot(reedfrogs_expanded, aes(y =status))+
+  geom_point(aes(x =pred, color = density, size = size, shape = as.factor(status)),position = 'jitter') +
+  facet_wrap(tank ~ .) +
+  geom_hline(yintercept = 0.5, color = "red", linewidth = 0.1)+
+  scale_size_manual(values=c(2,1))+
+  theme_classic(base_size = 6)
+```
+
+### **5b. Are you *over* it?**
+
+Often, we treat data like this as a binomial logistic regression. We look at each tank as a set of 'coin flips' - some living some dead. Fit a glm here with survivorship determined by pred\*size, and then evaluate it for overdispersion. Careful to weight for number of individuals stocked in a tank (density)! What do you see when you look at overdispersion?
+
+```{r}
+colnames(reedfrogs)
+# Viz
+ggplot(reedfrogs, aes(y= propsurv, x =pred,color = density))+
+    geom_boxplot(aes(fill = size), alpha= 0.2)+
+  geom_point(position = 'jitter', aes(size = size))+
+    scale_size_manual(values=c(2,1))+
+  scale_color_viridis_c()
+
+# Fit model
+rfrogs_glm <- glm(surv ~ pred*size,weights = density,
+                 family = poisson(link = "log"),
+                 data = reedfrogs)
+
+# Check model
+check_model(rfrogs_glm)
+
+
+# Overdispersion evaluation
+rfrogs_glm_res <- simulateResiduals(rfrogs_glm)
+plot(rfrogs_glm_res)
+
+res <- simulateResiduals(rfrogs_glm)
+plotQQunif(res)
+plotResiduals(res)
+
+check_overdispersion(rfrogs_glm)
+
+
+```
+
+### **5c. Fixed or Random Intercept**
+
+One way to fix this problem is a quasi-binomial. But, this is unsatisfying, as it's a posthoc adjustment and not figured into the likelihood. But, another is to think in this case about what is happening in each tank. Fit a mixed model version of 5b, and assess its assumptions. How does it compare in overdispersion? Why the difference? What is a random tank effect doing here? And why couldn't we use a FE of tank with this pred\*size model (try it if you don't believe me - the model will fit, but something will be... off)?
+
+```{r}
+
+rfrogs_glm <- glm(surv ~ pred*size,weights = density,
+                 family = poisson(link = "log"),
+                 data = reedfrogs)
+```
+
+### **5d. Changes in Parameters**
+
+Now that you have a model with and without a random intercept, how do the estimates of fixed effects change? Why?
+
+### **5e. Model evaluation**
+
+Last, let's evaluate this model - both with contrasts and a crisp visualization of results. `emmeans`, `modelbased`, and other friends might help you here. Or not! You do you, and extract things from the model with other helpers! There's no one right way to do this, but, make it sing.
+
+### **5f. IMPRESS YOURSELF What did we do**
+
+Write out the model equations for the glmm you have fit in 5.3. Use LaTeX to write it all out. Explain what your symbols mean in text.
+
+### **5g. IMPRESS YOURSELF! Variable slopes**
+
+Explore multiple different RE structures beyond a variable intercept. What errors do you get? What do they mean? Can you implement some of the suggested solutions, and what do they tell you about why more complex structures don't work well here and/or might not be appropriate. Do these different RE structures make a difference for your evaluation of the FE? What RE structure would you use? What if you added density as a covariate/predictor as in the paper?
+
+------------------------------------------------------------------------
+
+# **Midterm Self-Evaluation**
+
+### **A. How are you doing?**
+
+```         
+ I got some struggles to understant the to las questions in the 4 excersise and even when I knew what to do in the 5th exercise I could finish it. Also, I got problems understanding the English, so it delayed my process to develop the exercises
+```
+
+### **B. What concepts do you think you've really mastered (or are on the journey to mastery - I know, you're still learning) in this class?**
+
+```         
+linear models (one or multiplex variables) and glm
+```
+
+### **C. What in this class do you find easy?**
+
+```         
+up to gml class. Fix and random efect is something that I am doing mechanically but not understanding the concepts completly
+```
+
+### **D. How would you describe your personal journey with learning to code?**
+
+```         
+Even when I did not like tidyverse initially, now I am using to manipualete databases. However, I feel that sometimes this restrict the infinites ways how I could solve a problem writing code in a native way.
+```
+
+### **E. Where do you see applying coding in your life outside of just stats?**
+
+```         
+I have used code to solve problems to my mom and their clients.
+```
+
+### **F. Where do you see the most opportunities for growth in your abilities?**
+
+```         
+Using this models to work in machine learning
+```
+
+### **G. Talk about your work in this course. What have you done? What haven't you done? How has this been helpful to your growth - or not?**
+
+```         
+I am really happy attending this course. All my courses in statistics have been from a Fisherian view. So, this course have gave me a opportunity to new an approximation. 
+```
+
+### **H. Did you find yourself stretching your abilities in this exam? Or did it just feel like wrote comfortable work? Tell me about it.**
+
+```         
+I think my biggest stretching is coding; however I should confess I do not feel confident about interpreting what the question is about or trying to write a consise answer in English.
+```
+
+### **I. How would you assess yourself from this exam - weak/sufficient/strong. Why?**
+
+```         
+Sufficient because I could not finish the entire exam.
+```
+
+### **J. How would you assess yourself on the first half of this course - weak/sufficient/strong? Why?**
+
+```         
+Strong, because I am understanding the concepts, I am applying them to resolve problems in Biological questions. Also, I adapted quickly to code in Tidyverse style.
+```
+
+### **K. What goals do you have for yourself for the rest of the course? What do you hope to accomplish, and how will this move you forward?**
+
+```         
+I am really excited about my project. I saw it could be a published product. So my goal here is resolve the problem as good as possible to publish it. Even when it will not part of my thesis, I feel it is necesary to improve the measure how paleontologists are calculating Body mass. It could be a good contribution in that field and this course will allow it.
+```

@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Viviana Romero Alarcon">
+
+<title>Homework Week 3</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="03_Romero_Alarcon_Viviana_files/libs/clipboard/clipboard.min.js"></script>
+<script src="03_Romero_Alarcon_Viviana_files/libs/quarto-html/quarto.js"></script>
+<script src="03_Romero_Alarcon_Viviana_files/libs/quarto-html/popper.min.js"></script>
+<script src="03_Romero_Alarcon_Viviana_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="03_Romero_Alarcon_Viviana_files/libs/quarto-html/anchor.min.js"></script>
+<link href="03_Romero_Alarcon_Viviana_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="03_Romero_Alarcon_Viviana_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="03_Romero_Alarcon_Viviana_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="03_Romero_Alarcon_Viviana_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="03_Romero_Alarcon_Viviana_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Homework Week 3</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Viviana Romero Alarcon </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>Source: <a href="https://github.com/alarconvv/UmassClasses/tree/master/Biol607" class="uri">https://github.com/alarconvv/UmassClasses/tree/master/Biol607</a></p>
+<section id="load-me." class="level2">
+<h2 class="anchored" data-anchor-id="load-me."><strong>1. Load me.</strong></h2>
+<p>The URL of the data is https://github.com/kelpecosystems/observational_data/blob/master/cleaned_data/keen_cover.csv?raw=true - use the <code>readr</code> library to load it in. Show me that you can do it both without downloading it and if you download it.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load libraries</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pacman)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(dplyr, janitor, skimr, lubridate, tidyr, readxl, tibble,  readr,  visdat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Load data from the webside</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://github.com/kelpecosystems/observational_data/blob/master/cleaned_data/keen_cover.csv?raw=true"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 6222 Columns: 21
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (17): NETWORK, PI, SITE, TRANSECT, SP_CODE, GROUP, DIVISION.FAMILY, COMM...
+dbl  (4): YEAR, MONTH, DAY, PERCENT_COVER
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load data from local </span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="at">url =</span> <span class="st">"https://github.com/kelpecosystems/observational_data/blob/master/cleaned_data/keen_cover.csv?raw=true"</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">destfile =</span> <span class="st">"keen_cover.csv"</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"keen_cover.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 6222 Columns: 21
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (17): NETWORK, PI, SITE, TRANSECT, SP_CODE, GROUP, DIVISION.FAMILY, COMM...
+dbl  (4): YEAR, MONTH, DAY, PERCENT_COVER
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+</section>
+<section id="format" class="level2">
+<h2 class="anchored" data-anchor-id="format"><strong>2. Format</strong></h2>
+<p>Take a look at the data in any way you see fit to be able to tell me if the data is in a wide or long format. Justify your answer.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check structure data</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>spc_tbl_ [6,222 × 21] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+ $ NETWORK             : chr [1:6222] "KEEN ONE" "KEEN ONE" "KEEN ONE" "KEEN ONE" ...
+ $ PI                  : chr [1:6222] "Byrnes" "Byrnes" "Byrnes" "Byrnes" ...
+ $ YEAR                : num [1:6222] 2014 2014 2014 2014 2014 ...
+ $ MONTH               : num [1:6222] 7 7 7 7 7 7 7 7 7 7 ...
+ $ DAY                 : num [1:6222] 8 8 8 8 8 8 8 8 8 8 ...
+ $ SITE                : chr [1:6222] "Baker North" "Baker North" "Baker North" "Baker North" ...
+ $ TRANSECT            : chr [1:6222] "1" "1" "1" "1" ...
+ $ SP_CODE             : chr [1:6222] "ANSP" "B" "BA" "BL" ...
+ $ PERCENT_COVER       : num [1:6222] 2.5 7.5 2.5 10 21.2 ...
+ $ GROUP               : chr [1:6222] "Invertebrate" "Substrate" "Invertebrate" "Substrate" ...
+ $ DIVISION.FAMILY     : chr [1:6222] "Molluscs" NA "Arthropods" NA ...
+ $ COMMON.DIVISION.NAME: chr [1:6222] "Bivalves" NA "Crustaceans" NA ...
+ $ SIZE                : chr [1:6222] NA NA NA NA ...
+ $ COMMON.NAME         : chr [1:6222] "jingle shell" NA NA NA ...
+ $ KINGDOM             : chr [1:6222] "Animalia" NA NA NA ...
+ $ PHYLUM              : chr [1:6222] "Mollusca" NA NA NA ...
+ $ CLASS               : chr [1:6222] "Bivalvia" NA NA NA ...
+ $ ORDER               : chr [1:6222] "Pectinida" NA NA NA ...
+ $ FAMILY              : chr [1:6222] "Anomiidae" NA NA NA ...
+ $ GENUS               : chr [1:6222] "Anomia" NA NA NA ...
+ $ SPECIES             : chr [1:6222] "Anomia" NA "Barnacle" NA ...
+ - attr(*, "spec")=
+  .. cols(
+  ..   NETWORK = col_character(),
+  ..   PI = col_character(),
+  ..   YEAR = col_double(),
+  ..   MONTH = col_double(),
+  ..   DAY = col_double(),
+  ..   SITE = col_character(),
+  ..   TRANSECT = col_character(),
+  ..   SP_CODE = col_character(),
+  ..   PERCENT_COVER = col_double(),
+  ..   GROUP = col_character(),
+  ..   DIVISION.FAMILY = col_character(),
+  ..   COMMON.DIVISION.NAME = col_character(),
+  ..   SIZE = col_character(),
+  ..   COMMON.NAME = col_character(),
+  ..   KINGDOM = col_character(),
+  ..   PHYLUM = col_character(),
+  ..   CLASS = col_character(),
+  ..   ORDER = col_character(),
+  ..   FAMILY = col_character(),
+  ..   GENUS = col_character(),
+  ..   SPECIES = col_character()
+  .. )
+ - attr(*, "problems")=&lt;externalptr&gt; </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># and first columns</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 21
+  NETWORK  PI      YEAR MONTH   DAY SITE    TRANSECT SP_CODE PERCENT_COVER GROUP
+  &lt;chr&gt;    &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;           &lt;dbl&gt; &lt;chr&gt;
+1 KEEN ONE Byrnes  2014     7     8 Baker … 1        ANSP             2.5  Inve…
+2 KEEN ONE Byrnes  2014     7     8 Baker … 1        B                7.5  Subs…
+3 KEEN ONE Byrnes  2014     7     8 Baker … 1        BA               2.5  Inve…
+4 KEEN ONE Byrnes  2014     7     8 Baker … 1        BL              10    Subs…
+5 KEEN ONE Byrnes  2014     7     8 Baker … 1        BM              21.2  Subs…
+6 KEEN ONE Byrnes  2014     7     8 Baker … 1        BOSC             1.25 Inve…
+# ℹ 11 more variables: DIVISION.FAMILY &lt;chr&gt;, COMMON.DIVISION.NAME &lt;chr&gt;,
+#   SIZE &lt;chr&gt;, COMMON.NAME &lt;chr&gt;, KINGDOM &lt;chr&gt;, PHYLUM &lt;chr&gt;, CLASS &lt;chr&gt;,
+#   ORDER &lt;chr&gt;, FAMILY &lt;chr&gt;, GENUS &lt;chr&gt;, SPECIES &lt;chr&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="check-it-out." class="level2">
+<h2 class="anchored" data-anchor-id="check-it-out."><strong>3. Check it out.</strong></h2>
+<p>Let’s learn a bit about who is doing what using <code>group_by()</code>, <code>summarize()</code>, and.</p>
+<ul>
+<li>3a. How many sites has each PI done?</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(PI) <span class="sc">|&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">sitesPI =</span> <span class="fu">n_distinct</span>(SITE))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  PI        sitesPI
+  &lt;chr&gt;       &lt;int&gt;
+1 Byrnes          7
+2 Dijkstra        1
+3 Grabowski       1
+4 Humphries       2
+5 Hurricane       2
+6 Pemaquid        1</code></pre>
+</div>
+</div>
+<ul>
+<li><p>3b. How many years of data does each site have? Show it in descending order.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(SITE) <span class="sc">|&gt;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">nYears =</span> <span class="fu">n_distinct</span>(YEAR)) <span class="sc">|&gt;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(nYears))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 14 × 2
+   SITE              nYears
+   &lt;chr&gt;              &lt;int&gt;
+ 1 NE Appledore           7
+ 2 NW Appledore           7
+ 3 SW Appledore           7
+ 4 Fort Weatherill        6
+ 5 Baker North            5
+ 6 Baker South            5
+ 7 Nahant                 5
+ 8 Calf Island            4
+ 9 Little Brewster        4
+10 Hurricane Island       3
+11 King's Beach           3
+12 Nubble Lighthouse      3
+13 Pemaquid               2
+14 Schoodic               1</code></pre>
+</div>
+</div></li>
+<li><p>3c. Impress yourself - can you make a figure showing which site was sampled when? There are a lot of ways to do this. Sometimes I use <code>slice()</code>, but I’m sure there are more elegant solutions. For data viz, you can use geoms you’ve used before, or new ones, like <code>geom_tile()</code> or whatever you think would be interesting!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>data2 <span class="ot">&lt;-</span>data <span class="sc">|&gt;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">weeks =</span> <span class="fu">ifelse</span>(</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>               DAY <span class="sc">&lt;=</span> <span class="dv">8</span>, <span class="dv">1</span>, <span class="fu">ifelse</span>(</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>                   DAY <span class="sc">==</span> <span class="dv">9</span> <span class="sc">&amp;</span> DAY <span class="sc">&lt;=</span> <span class="dv">16</span> , <span class="dv">2</span>, <span class="fu">ifelse</span>(</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>                       DAY <span class="sc">==</span> <span class="dv">17</span> <span class="sc">&amp;</span> DAY <span class="sc">&lt;=</span> <span class="dv">24</span>, <span class="dv">3</span>,  <span class="fu">ifelse</span>(</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>                       DAY <span class="sc">==</span> <span class="dv">25</span> <span class="sc">&amp;</span> DAY <span class="sc">&lt;=</span> <span class="dv">31</span>, <span class="dv">4</span>, <span class="dv">1</span>     </span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>            )))))</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>data2 <span class="sc">|&gt;</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>( <span class="at">n_years =</span><span class="fu">n_distinct</span>(YEAR),</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>               <span class="at">n_month =</span><span class="fu">n_distinct</span>(MONTH),</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>               <span class="at">n_Sites =</span><span class="fu">n_distinct</span>(SITE),</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>               <span class="at">n_weeks =</span> <span class="fu">n_distinct</span>(weeks))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 4
+  n_years n_month n_Sites n_weeks
+    &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt;
+1       8       4      14       4</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(viridis)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: viridisLite</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data2, <span class="fu">aes</span>(<span class="at">x=</span>MONTH, <span class="at">y =</span> weeks)) <span class="sc">+</span> </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis</span>(<span class="at">discrete=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>( SITE <span class="sc">~</span> YEAR )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="03_Romero_Alarcon_Viviana_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div></li>
+</ul>
+</section>
+<section id="lets-look-at-some-kelp" class="level2">
+<h2 class="anchored" data-anchor-id="lets-look-at-some-kelp"><strong>4. Let’s look at some kelp!</strong></h2>
+<ul>
+<li><p>4a. This is a big unwieldy dataset. Let’s trim it down to the columns, YEAR, SITE, TRANSECT, PERCENT_COVER, and FAMILY, and SPECIES.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>data3 <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(YEAR, SITE, TRANSECT, PERCENT_COVER, FAMILY, SPECIES)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+<li><p>4b. Let’s make it even simpler. Trim the data down so the only species we are looking at are in the family “Laminariaceae”. After that, you can ditch the FAMILY column.</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>Lam_data <span class="ot">&lt;-</span> data3 <span class="sc">|&gt;</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(FAMILY <span class="sc">==</span> <span class="st">"Laminariaceae"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><p>4c. For each species is there only one measurement per species transect each year? Or do we need to worry…… Note, this is a common data check you should be doing if you have a large complex data set!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>Lam_data <span class="sc">|&gt;</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(SPECIES, TRANSECT, YEAR) <span class="sc">|&gt;</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(YEAR) <span class="sc">|&gt;</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">==</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 0 × 4
+# Groups:   SPECIES, TRANSECT, YEAR [0]
+# ℹ 4 variables: SPECIES &lt;chr&gt;, TRANSECT &lt;chr&gt;, YEAR &lt;dbl&gt;, n &lt;int&gt;</code></pre>
+</div>
+</div>
+<pre><code>RTA: Apparently, each transect per each year has data</code></pre></li>
+<li><p>4d. HAHA that was a trick. I knew there sometimes was more than one. That’s because some of these are measurements of juveniles and some are adults. OK - sum up the cover for each species on each transect so that we only have one measurement per species (adults and juveniles together!)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>Lam_data2 <span class="ot">&lt;-</span> Lam_data <span class="sc">|&gt;</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(SPECIES, TRANSECT, YEAR) <span class="sc">|&gt;</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">means_PC=</span> <span class="fu">mean</span>(PERCENT_COVER))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'SPECIES', 'TRANSECT'. You can override
+using the `.groups` argument.</code></pre>
+</div>
+</div>
+<pre><code>NOTE: You put here a note in which you suggest the code should looks like:
+```{.r .cell-code}
+#This is what this summarize section should look like:
+Lam_data_corrected &lt;- Lam_data |&gt;
+  group_by(SPECIES, YEAR,TRANSECT) |&gt;
+    summarise(PERCENT_COVER = sum(PERCENT_COVER)) |&gt;
+  ungroup()
+
+However, I will keep the mean, because The sum does not say anything about a measure. In contrast, mean is a central measure that sump up and make sense in statistic terms.</code></pre></li>
+<li><p>4e. Neat! Make a plot showing the timeseries of kelps at each site. You’ll want <code>stat_summary()</code> here. You might even need it twice because - note - <code>stat_summary()</code> has a <code>geom</code> argument where you can do things like “line”. What might that do? Check it out! Facet this plot by species, so we can see the trajectory of each. Feel free to gussy this plot up however you would like (or not). Do you notice anything? Comment!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>Lam_data3 <span class="ot">&lt;-</span> Lam_data <span class="sc">|&gt;</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(SPECIES, YEAR, SITE, TRANSECT ) <span class="sc">|&gt;</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">means=</span> <span class="fu">mean</span>(PERCENT_COVER))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'SPECIES', 'YEAR', 'SITE'. You can override
+using the `.groups` argument.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Lam_data3, <span class="fu">aes</span>(<span class="at">x=</span>YEAR, <span class="at">y =</span> means)) <span class="sc">+</span> </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, <span class="at">geom=</span><span class="st">"line"</span>)<span class="sc">+</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="fu">aes</span>(<span class="at">color =</span> SITE),<span class="at">fun =</span> mean, <span class="at">geom=</span><span class="st">"line"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(SPECIES <span class="sc">~</span> .)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="03_Romero_Alarcon_Viviana_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">#readable</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Lam_data3, <span class="fu">aes</span>(<span class="at">x=</span>YEAR, <span class="at">y =</span> means)) <span class="sc">+</span> </span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, <span class="at">geom=</span><span class="st">"line"</span>)<span class="sc">+</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>( <span class="fu">aes</span>(<span class="at">color =</span> SITE), <span class="at">alpha=</span> <span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(SPECIES <span class="sc">~</span> .)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="03_Romero_Alarcon_Viviana_files/figure-html/unnamed-chunk-11-2.png" class="img-fluid" width="672"></p>
+</div>
+</div></li>
+</ul>
+<pre><code>Comment: It is evident that through the years, the percentage of cover has been decreasing, especially in Saccharina latissima. </code></pre>
+</section>
+<section id="wide-relationships" class="level2">
+<h2 class="anchored" data-anchor-id="wide-relationships"><strong>5. Wide relationships</strong></h2>
+<p>Let’s look at the relationship between two of the species here. Lexi made me do this, I swear. She made me think about tradeoffs in our weekly meeting last week, so now you all have this problem.</p>
+<ul>
+<li><p>5a. If we want to look at the relationships between species, we need a wide data set. Use <code>pivot_wider()</code> to make species into columns with percent cover as your values. Note - be careful to fill in NAs as 0s.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>data_wider1 <span class="ot">&lt;-</span> Lam_data3 <span class="sc">|&gt;</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(SPECIES) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(means)) <span class="sc">|&gt;</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> SPECIES, <span class="at">values_from =</span> means, <span class="at">values_fill =</span> <span class="dv">0</span>) </span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>data_wider1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 238 × 5
+# Groups:   YEAR, SITE [62]
+    YEAR SITE              TRANSECT `Laminaria digitata` `Saccharina latissima`
+   &lt;dbl&gt; &lt;chr&gt;             &lt;chr&gt;                   &lt;dbl&gt;                  &lt;dbl&gt;
+ 1  2014 Calf Island       1                        3.75                  28.8 
+ 2  2014 Calf Island       2                        3.75                  28.1 
+ 3  2014 Calf Island       3                        3.75                  67.5 
+ 4  2014 Calf Island       4                        2.5                   23.8 
+ 5  2014 Little Brewster   1                        1.25                  28.8 
+ 6  2014 Nubble Lighthouse 1                        3.75                   1.25
+ 7  2015 Calf Island       1                       16.2                   31.9 
+ 8  2015 Calf Island       2                        2.5                   26.9 
+ 9  2015 Calf Island       3                       16.2                   58.8 
+10  2015 Calf Island       4                        3.75                  16.9 
+# ℹ 228 more rows</code></pre>
+</div>
+</div></li>
+<li><p>5b. Neat! Is there a relationship between Saccharina latissima and Laminaria digitata? Plot it. As a preview for 2 weeks from now, add a line to your ggplot <code>stat_smooth(method = "lm")</code>. Also, remember that you will need backticks ` around variables with spaces in them. What do you think? Feel free to use any other geoms or explore however you like here.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_wider1, <span class="fu">aes</span>(<span class="at">y=</span><span class="st">`</span><span class="at">Laminaria digitata</span><span class="st">`</span>, <span class="at">x=</span><span class="st">`</span><span class="at">Saccharina latissima</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="03_Romero_Alarcon_Viviana_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<pre><code>RTA: I expected that the fewer S. latissima the more L. digitata. However, Lm model shows a almost contant behavior.</code></pre></li>
+<li><p>5c. Hey, so, remember how we filled in a lot of 0s? Yeah, those weren’t in the original long data we plotted….. which means many of those lines from question 4e might be wrong! So let’s pivot this correct long data back wide and then remake the figure from 4e. Does it look different? Does it tell a different story?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_wider1 <span class="sc">|&gt;</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">Laminaria digitata</span><span class="st">`</span>,<span class="st">`</span><span class="at">Saccharina latissima</span><span class="st">`</span>),<span class="at">names_to=</span><span class="st">'SPECIES'</span>, <span class="at">values_to =</span> <span class="st">'mean_PC'</span>)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_long, <span class="fu">aes</span>(<span class="at">x=</span>YEAR, <span class="at">y =</span> mean_PC)) <span class="sc">+</span> </span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>   <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, <span class="at">geom=</span><span class="st">"line"</span>)<span class="sc">+</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="fu">aes</span>(<span class="at">color =</span> SITE),<span class="at">fun =</span> mean, <span class="at">geom=</span><span class="st">"line"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(SPECIES <span class="sc">~</span> .)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="03_Romero_Alarcon_Viviana_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div></li>
+</ul>
+<pre><code>RTA: Yes, Saccharina latissimma shows an evident variability with respect to Laminaria digitata.
+On the other hand, the Percentage covert in Saccharina latissimma has decreased over time. Tendency that is not clear in the other species.</code></pre>
+<hr>
+</section>
+<section id="meta-1." class="level2">
+<h2 class="anchored" data-anchor-id="meta-1."><strong>Meta 1.</strong></h2>
+<p>So, this was your first time playing with a novel only mostly clean data set found in the wild. How did you feel working with it? What did you notice as you examined it for the very first time knowing nothing about it?</p>
+<p>I am felt frustrated because pipe is to restricted to write instructions as a language.</p>
+</section>
+<section id="meta-2." class="level2">
+<h2 class="anchored" data-anchor-id="meta-2."><strong>Meta 2.</strong></h2>
+<p>Split-Apply-Combine is…. a way of life, really. Is this something you have dealt with previously in your life or work? How comfortable are you with this concept?</p>
+<p>I think I should practice more the concept.</p>
+</section>
+<section id="meta-3." class="level2">
+<h2 class="anchored" data-anchor-id="meta-3."><strong>Meta 3.</strong></h2>
+<p>When you’ve made datasets in the past, have they been wide, long, or something else? After this week and the Browman and Woo paper, what advice would you give to future you when making data?</p>
+<p>Yes, however, “pivot matrices” cost much more time to get it. I think is the most valuable things in those functions.</p>
+</section>
+<section id="meta-3.-1" class="level2">
+<h2 class="anchored" data-anchor-id="meta-3.-1"><strong>Meta 3.</strong></h2>
+<p>How much time did this take you, roughly? Again, I’m trying to keep track that these assignments aren’t killer, more than anything.</p>
+<p>2 hours</p>
+</section>
+<section id="meta-4." class="level2">
+<h2 class="anchored" data-anchor-id="meta-4."><strong>Meta 4.</strong></h2>
+<p>Please give yourself a weak/sufficient/strong assessment on this assigment. Feel free to comment on why.</p>
+<p>Strong</p>
+<p>PDTA: I hate tidyverse</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
