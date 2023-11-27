@@ -128,6 +128,9 @@ Checking models for linearity
 
 #### LOOOCV
 
+#specify the cross-validation method
+ctrl <- trainControl(method = "LOOCV")
+
 # Linear model
 #Aveslm <- lm(FemurCirc ~ FemurLen,data = Aves)
 Aveslm <-train(FemurCirc ~ FemurLen, data = Aves, method = "lm", trControl = ctrl)
@@ -167,8 +170,7 @@ Avespoly2Clade2 <-train(FemurCirc ~ poly(FemurLen,2) + Clade.2, data = Aves, met
 
 
 
-#specify the cross-validation method
-ctrl <- trainControl(method = "LOOCV")
+
 
 models <- c("Aveslm","Avesloglog","AvesClade1","AvesLogClade1", "AvesClade2","AvesLogClade2", "Avespoly2","Avespoly2Clade1","Avespoly2Clade2")
 
@@ -188,7 +190,7 @@ ggplot(tab2, aes(y = Values)) +
 
 ```
 
-### Prediction Femur circumference 
+### Prediction Femur circumference
 
 ```{r}
 # 
@@ -196,21 +198,33 @@ dim(Aves)
 colnames(data)
 
 clde <- levels(as.factor(Aves$Clade.2))
+
 pred <- data |> 
   filter(Aves == "Y" & is.na(FemurCirc) & !is.na(FemurLen) & as.factor(Clade.2) %in% clde) 
 
 
+data6 <- anti_join(data,pred)
+
+
 levels(as.factor(pred$Clade.2))
 
-pred2 <- pred |> mutate(FemurCirc = exp(predict(Avesloglog, newdata = pred[,c("FemurLen")])))
+predictions <- exp(predict(AvesLogClade2, newdata = pred[,c("FemurLen", 'Clade.2')]))
+
+pred2 <- pred |> mutate(FemurCirc = predictions, "typeFC" = rep("Predicted",nrow(pred))) 
+
+data6 <- data6 |> mutate(typeFC = rep("Observation",nrow(data)))
+
+new <- rbind(data6,pred2)
 
 ggplot(pred2)+
-  geom_point(aes(x = log(FemurLen), y = log(FemurCirc), color = Clade.1))+
-  geom_point(data = Aves, aes(x=log(FemurLen), y=log(FemurCirc), color = Clade.1))
+  geom_point(aes(x=log(FemurLen), y=log(FemurCirc), color = Clade.2), shape = 16)+
+  geom_point(data = Aves, aes(x=log(FemurLen), y=log(FemurCirc), color = Clade.2))
+
   
-new <- rbind(data,pred2)
-  
-  
+
+ggplot(pred2)+
+  geom_point(aes(x = FemurLen, y = FemurCirc, color = Clade.2), shape = 16)+
+  geom_point(data = Aves, aes(x=FemurLen, y=FemurCirc, color = Clade.2))
 
 
 ```
