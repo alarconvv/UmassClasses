@@ -77,6 +77,12 @@ ggplot(Aves, aes(x=FemurLen, y=FemurCirc)) +
   geom_smooth( method = 'lm')#+
   #scale_color_viridis_d()
 
+# classic plot :
+ggplot(Aves, aes(x=log(FemurLen), y=log(FemurCirc))) +
+      geom_point(aes(color= Clade.2, shape = Clade.1)) +
+  geom_smooth( method = 'lm')#+
+  #scale_color_viridis_d()
+
 ```
 
 ## Fitting and checking models models
@@ -179,6 +185,7 @@ tab <- rbind(Aveslm[4][[1]],Avesloglog[4][[1]],AvesClade1[4][[1]],AvesLogClade1[
 
 tab <- cbind(models, tab)
  
+tab
 
 tab2 <- tab |> pivot_longer(cols = 3:5,names_to = "Error", values_to = "Values")
 
@@ -201,19 +208,21 @@ clde <- levels(as.factor(Aves$Clade.2))
 
 pred <- data |> 
   filter(Aves == "Y" & is.na(FemurCirc) & !is.na(FemurLen) & as.factor(Clade.2) %in% clde) 
+#pred <- data |> 
+  #filter(Aves == "Y" & is.na(FemurCirc) & !is.na(FemurLen)) 
 
 
 data6 <- anti_join(data,pred)
 
 
-levels(as.factor(pred$Clade.2))
 
-predictions <- exp(predict(AvesLogClade2, newdata = pred[,c("FemurLen", 'Clade.2')]))
+predictions <- round(exp(predict(AvesLogClade2, newdata = pred[,c("FemurLen", "Clade.2")])),2)
 
-pred2 <- pred |> mutate(FemurCirc = predictions, "typeFC" = rep("Predicted",nrow(pred))) 
+pred2 <- pred |> mutate(FemurCirc = predictions, typeFC = rep("Predicted",nrow(pred))) 
 
-data6 <- data6 |> mutate(typeFC = rep("Observation",nrow(data)))
+data6 <- data6 |> mutate(typeFC = rep("Observation",nrow(data6)))
 
+#
 new <- rbind(data6,pred2)
 
 ggplot(pred2)+
@@ -226,9 +235,211 @@ ggplot(pred2)+
   geom_point(aes(x = FemurLen, y = FemurCirc, color = Clade.2), shape = 16)+
   geom_point(data = Aves, aes(x=FemurLen, y=FemurCirc, color = Clade.2))
 
+ggplot(pred2)+
+  geom_point(aes(x = FemurLen, y = FemurCirc, color = Clade.2), shape = 16)
+  #geom_point(data = Aves, aes(x=FemurLen, y=FemurCirc, color = Clade.2))
+
 
 ```
 
-# Fitting a model to predict Body Mass
+# Predicting Body Mass
 
-## Testing prediction
+### Exploring
+
+```{r}
+# Femur circunference
+
+# head 
+head(data)
+
+colnames(new)
+
+#
+BodyMassPrd <- new |> filter(!is.na(FemurCirc) & !is.na(BM.g))
+
+# Femur circumference
+ggplot(BodyMassPrd, aes( FemurCirc)) +
+  geom_histogram(aes( fill = Aves), alpha = 0.5)+
+    facet_grid(Aves ~ ., scales = "free")
+
+# Femur Lenght
+ggplot(BodyMassPrd, aes( BM.g)) +
+  geom_histogram(aes( fill = Aves), alpha = 0.5)+
+    facet_grid(Aves ~ ., scales = "free")
+
+
+# Distribution Femur circumference and Body Mass Including predictions
+
+# classic plot :
+ggplot(BodyMassPrd, aes(x=FemurCirc, y=BM.g)) +
+      geom_point(aes(color=Clade.1, shape = typeFC)) +
+  geom_smooth(aes(color =Aves))+
+  facet_grid(Aves ~ .)
+  scale_color_viridis_d()
+  
+  ggplot(BodyMassPrd, aes(x=FemurCirc, y=BM.g)) +
+      geom_point(aes(color=Clade.1, shape = typeFC)) +
+  geom_smooth(aes(color =Aves))+
+  facet_grid(Aves ~ ., scales = 'free')
+  
+  ####### No predictions in FC
+  
+  
+#
+BodyMassObs <- new |> filter(!is.na(FemurCirc) & !is.na(BM.g) & typeFC == "Observation")
+
+# Femur circumference
+ggplot(BodyMassObs, aes( FemurCirc)) +
+  geom_histogram(aes( fill = Aves), alpha = 0.5)+
+    facet_grid(Aves ~ ., scales = "free")
+
+# Femur Lenght
+ggplot(BodyMassObs, aes( BM.g)) +
+  geom_histogram(aes( fill = Aves), alpha = 0.5)+
+    facet_grid(Aves ~ ., scales = "free")
+
+
+# Distribution Femur circumference and Body Mass Including predictions
+
+# classic plot :
+ggplot(BodyMassObs, aes(x=FemurCirc, y=BM.g)) +
+      geom_point(aes(color=Clade.1, shape = Method)) +
+  geom_smooth(aes(color =Aves))+
+  facet_grid(Aves ~ .)+
+  scale_color_viridis_d()
+  
+  ggplot(BodyMassObs, aes(x=FemurCirc, y=BM.g)) +
+      geom_point(aes(color=Clade.1,shape = Method)) +
+  geom_smooth(aes(color =Aves))+
+  facet_grid(Aves ~ ., scales = 'free')
+  scale_color_viridis_d()
+  
+```
+
+## Fitting models
+
+```{r}
+
+BMavesPrd <- BodyMassPrd |> filter(Aves == "Y" )
+
+ggplot(BMavesPrd, aes(x=FemurCirc, y= BM.g)) +
+      geom_point(aes(color=Clade.1, shape = typeFC)) +
+  geom_smooth()
+
+#### LOOOCV
+
+#specify the cross-validation method
+ctrl <- trainControl(method = "LOOCV")
+
+# Linear model
+BMlmPrd <- lm(BM.g ~ FemurCirc,data = BMavesPrd)
+BMlmCVPrd <-train(BM.g ~ FemurCirc, data = BMavesPrd, method = "lm", trControl = ctrl)
+
+# Linear log-log model
+BMloglogPrd <- lm(log(BM.g) ~ log(FemurCirc), data = BMavesPrd)
+BMloglogCVPrd <-train(log(BM.g) ~ log(FemurCirc), data = BMavesPrd, method = "lm", trControl = ctrl)
+
+
+# Multiple loglog linear regression Clade 2
+BMlogClade2Prd <- lm(log(BM.g) ~ log(FemurCirc) + Clade.2, data = BMavesPrd)
+BMlogClade2CVPrd <-train(log(BM.g) ~ log(FemurCirc) + Clade.2, data = BMavesPrd, method = "lm", trControl = ctrl)
+
+# Poly model 
+BMpolyPrd <- lm(BM.g ~ poly(FemurCirc, 2), data = BMavesPrd)
+BMpolyCVPrd <-train(BM.g ~ poly(FemurCirc,2) , data = BMavesPrd, method = "lm", trControl = ctrl)
+
+library(splines)
+BMSplinePrd <- lm(BM.g ~bs(FemurCirc, knots = 35), data = BMavesPrd)
+BMSplineCVPrd <- train(BM.g ~bs(FemurCirc, knots = 35), data = BMavesPrd, method = "lm", trControl = ctrl)
+
+
+
+AIC(BMlmPrd,BMloglogPrd,BMlogClade2Prd, BMpolyPrd, BMSplinePrd)
+
+models <- c("BMlmPrd","BMloglogPrd","BMlogClade2Prd", "BMpolyPrd", "BMSplinePrd")
+
+
+tabPrd <- rbind(BMlmCVPrd[4][[1]],BMloglogCVPrd[4][[1]],BMlogClade2CVPrd[4][[1]], BMpolyCVPrd[4][[1]], BMSplineCVPrd[4][[1]])
+
+tabPrd <- cbind(models, tabPrd)
+ 
+
+tab2Prd <- tabPrd |> pivot_longer(cols = 3:5,names_to = "Error", values_to = "Values")
+
+ggplot(tab2Prd, aes(y = Values)) +
+  geom_point(aes(x = Error, color = models), position = 'jitter')+
+  scale_colour_viridis_d()
+```
+
+```{r}
+#
+BodyMassObs <- new |> filter(!is.na(FemurCirc) & !is.na(BM.g) & typeFC == "Observation")
+
+BMavesObs <- BodyMassObs |> filter(Aves == "Y" )
+
+ggplot(BMavesObs, aes(x=FemurCirc, y= BM.g)) +
+      geom_point(aes(color=Clade.1, shape = typeFC)) +
+  geom_smooth()
+
+#### LOOOCV
+
+#specify the cross-validation method
+ctrl <- trainControl(method = "LOOCV")
+
+# Linear model
+BMlmObs <- lm(BM.g ~ FemurCirc,data = BMavesObs)
+BMlmCVObs <-train(BM.g ~ FemurCirc, data = BMavesObs, method = "lm", trControl = ctrl)
+
+# Linear log-log model
+BMloglogObs <- lm(log(BM.g) ~ log(FemurCirc), data = BMavesObs)
+BMloglogCVObs <-train(log(BM.g) ~ log(FemurCirc), data = BMavesObs, method = "lm", trControl = ctrl)
+
+
+# Multiple loglog linear regression Clade 2
+BMlogClade2Obs <- lm(log(BM.g) ~ log(FemurCirc) + Clade.2, data = BMavesObs)
+BMlogClade2CVObs <-train(log(BM.g) ~ log(FemurCirc) + Clade.2, data = BMavesObs, method = "lm", trControl = ctrl)
+
+# Poly model 
+BMpolyObs <- lm(BM.g ~ poly(FemurCirc, 2), data = BMavesObs)
+BMpolyCVObs <-train(BM.g ~ poly(FemurCirc,2) , data = BMavesObs, method = "lm", trControl = ctrl)
+
+library(splines)
+BMSplineObs <- lm(BM.g ~bs(FemurCirc, knots = 35), data = BMavesObs)
+BMSplineCVObs <- train(BM.g ~bs(FemurCirc, knots = 35), data = BMavesObs, method = "lm", trControl = ctrl)
+
+
+
+AIC(BMlmObs,BMloglogObs,BMlogClade2Obs, BMpolyObs, BMSplineObs)
+
+models <- c("BMlmObs","BMloglogObs","BMlogClade2Obs", "BMpolyObs", "BMSplineObs")
+
+
+tabObs <- rbind(BMlmCVObs[4][[1]],BMloglogCVObs[4][[1]],BMlogClade2CVObs[4][[1]], BMpolyCVObs[4][[1]], BMSplineCVObs[4][[1]])
+
+tabObs <- cbind(models, tabObs)
+
+ View(rbind(tabObs, tabPrd))
+
+tab2Obs <- tabObs |> pivot_longer(cols = 3:5,names_to = "Error", values_to = "Values")
+
+ggplot(tab2Obs, aes(y = Values)) +
+  geom_point(aes(x = Error, color = models), position = 'jitter')+
+  scale_colour_viridis_d()
+
+
+```
+
+## Tarsus vr sex
+
+```{r}
+
+ colnames(new)
+ 
+ AvesSex <- new |> filter(!is.na(Sex) & !is.na(TarsusLen) & Aves == "Y")
+ 
+ ggplot(AvesSex, aes(x = Sex, y = TarsusLen)) +
+   geom_boxplot()
+ 
+ ggplot(AvesSex, aes(y = Sex, x = TarsusLen)) +
+   geom_point(aes(color= Sex))
+```
