@@ -1,0 +1,338 @@
+---
+title: "Body Mass in Non-avian Dinosaurs"
+author: "Viviana Romero Alarcon"
+format: html
+editor: visual
+---
+
+```{r}
+# load libraries
+
+set.seed(999)
+library(pacman)
+pacman::p_load(caret,tidyverse,dplyr,readr, ggplot2, broom, performance, here)
+
+setwd(here::here())
+
+
+# read data
+
+data <- read_csv(file = "DataBase231129.csv")
+data <- data |> filter(Sec_Ref != "Brinkworth_et_al_2023")
+
+
+
+```
+
+I will explore how the distribution looks in each variables: Body mass, Femur circumference and Femur Length
+
+```{r}
+colnames(data)
+distributions <- data |> dplyr::select(Clade.1, Clade.2, Taxon, Aves,BM.g, FemurCirc, FemurLen, Aves, Living) |>
+  pivot_longer(cols = c(FemurCirc, FemurLen), names_to = "Covars",values_to = "vals")
+
+
+# Femur lenght distribution
+
+ggplot(distributions, aes(x = vals, y = BM.g)) +
+  geom_point(aes( color = Clade.1, shape = as.factor(Living)), alpha = 0.5) +
+  facet_wrap(Aves ~ Covars, scales = 'free')
+```
+
+### Femur Circumference prediction
+
+```{r}
+# Filter data to use: 
+
+colnames(data)
+
+avesFCFL <- data |> filter( Aves == "Y" & !is.na(FemurCirc) & !is.na(FemurLen))
+
+# Training and testing sets
+
+
+sample.test <-c(sample(x = 1:nrow(avesFCFL),size = ceiling(nrow(avesFCFL)* 0.2)),which(avesFCFL$Clade.2 =="Sphenisciformes"))
+
+avesFCFL.test <- avesFCFL[sample.test,]
+avesFCFL.train <- avesFCFL[-sample(x = 1:nrow(avesFCFL),size = ceiling(nrow(avesFCFL)* 0.2)),]
+
+# Femur Circumference distribution
+ggplot(avesFCFL) +
+      geom_histogram(aes( x=FemurCirc, fill= Clade.1))
+
+# Femur Length distribution
+ggplot(avesFCFL) +
+      geom_histogram(aes( x=FemurLen, fill= Clade.1))
+
+# Plot FC ~ FL
+
+ggplot(avesFCFL, aes(x=FemurLen, y=FemurCirc)) +
+      geom_point(aes(color= Clade.1, shape = as.factor(Living)))
+
+```
+
+## Fitting models
+
+```{r}
+# Fit lineal model
+lm_FC <- lm(FemurCirc ~ FemurLen, data = avesFCFL.train)
+
+# Fit loglog model
+loglog_FC <- lm(log(FemurCirc) ~ log(FemurLen), data = avesFCFL.train)
+
+# Multiple linear regression Clade 1
+lmClade1_FC <- lm(FemurCirc ~ FemurLen + Clade.1, data = avesFCFL.train)
+
+
+# Multiple loglog linear regression Clade 1
+logClade1_FC <- lm(log(FemurCirc) ~ log(FemurLen) + Clade.1, data = avesFCFL.train)
+
+
+# Multiple linear regression Clade 2
+lmClade2_FC <- lm(FemurCirc ~ FemurLen + Clade.2, data = avesFCFL.train)
+
+# Multiple loglog linear regression Clade 2
+logClade2_FC <- lm(log(FemurCirc) ~ log(FemurLen) + Clade.2, data = avesFCFL.train)
+
+# Poly model 
+poly2_FC <- lm(FemurCirc ~ poly(FemurLen,2), data = avesFCFL.train)
+
+
+# Multiple Poly model Clade 1
+poly2Clade1_FC <- lm(FemurCirc ~ poly(FemurLen,2) + Clade.1 , data = avesFCFL.train)
+
+# Multiple Poly model Clade 2
+poly2Clade2_FC <- lm(FemurCirc ~ poly(FemurLen,2) + Clade.2, data = avesFCFL.train)
+
+
+
+# Fit values
+
+fitvals_FC.train <- data.frame(FemurLen = avesFCFL.train$FemurLen, 
+                         trueFC = avesFCFL.train$FemurCirc,
+                         lm_FC = lm_FC$fitted.values, 
+                         loglog_FC = exp(loglog_FC$fitted.values),
+                         lmClade1_FC = lmClade1_FC$fitted.values,
+                         logClade1_FC = exp(logClade1_FC$fitted.values),
+                         lmClade2_FC = lmClade2_FC$fitted.values,
+                         logClade2_FC = exp(logClade2_FC$fitted.values),
+                         poly2_FC = poly2_FC$fitted.values,
+                         poly2Clade1_FC = poly2Clade1_FC$fitted.values,
+                         poly2Clade2_FC = poly2Clade2_FC$fitted.values)
+
+
+fitvals_FC.long <- fitvals_FC.train %>% pivot_longer(-FemurLen, names_to = 'model', values_to = 'FemurCirc')
+
+ggplot(data = fitvals_FC.long) +
+  geom_line(aes(x = FemurLen, y = FemurCirc, color = model)) +
+  geom_point(data = avesFCFL.train, aes(x=FemurLen, y=FemurCirc), size = 0.5, alpha = 1, color = 'darkblue') 
+
+```
+
+Estimating MSE
+
+```{r}
+
+n <- length(avesFCFL.train$FemurLen)
+lm_FC.MSE.train <- 1/n * sum((avesFCFL.train$FemurCirc - lm_FC$fitted.values)^2) 
+loglog_FC.MSE.train <- 1/n * sum((log(avesFCFL.train$FemurCirc) - loglog_FC$fitted.values)^2)
+lmClade1_FC.MSE.train <- 1/n * sum((avesFCFL.train$FemurCirc - lmClade1_FC$fitted.values)^2)
+logClade1_FC.MSE.train <- 1/n * sum((log(avesFCFL.train$FemurCirc) - logClade1_FC$fitted.values)^2)
+lmClade2_FC.MSE.train <- 1/n * sum((avesFCFL.train$FemurCirc - lmClade2_FC$fitted.values)^2)
+logClade2_FC.MSE.train <- 1/n * sum((log(avesFCFL.train$FemurCirc) - logClade2_FC$fitted.values)^2)
+poly2_FC.MSE.train <- 1/n * sum((avesFCFL.train$FemurCirc - poly2_FC$fitted.values)^2)
+poly2Clade1_FC.MSE.train <- 1/n * sum((avesFCFL.train$FemurCirc - poly2Clade1_FC$fitted.values)^2)
+poly2Clade2_FC.MSE.train <- 1/n * sum((avesFCFL.train$FemurCirc - poly2Clade2_FC$fitted.values)^2)
+
+MSE.train <- data.frame(type = 'train', lm_FC = lm_FC.MSE.train, 
+                        loglog_FC =loglog_FC.MSE.train,
+                        lmClade1_FC = lmClade1_FC.MSE.train,
+                        logClade1_FC = logClade1_FC.MSE.train,
+                        lmClade2_FC = lmClade2_FC.MSE.train,
+                       logClade2_FC = logClade2_FC.MSE.train,
+                        poly2_FC =poly2_FC.MSE.train,
+                        poly2Clade1_FC = poly2Clade1_FC.MSE.train,
+                        poly2Clade2_FC = poly2Clade2_FC.MSE.train)
+```
+
+### Prediction: test dataset
+
+```{r}
+
+lm_FC.prd <- predict(lm_FC, newdata = data.frame(FemurLen = avesFCFL.test$FemurLen))
+loglog_FC.prd <- predict(loglog_FC, newdata = data.frame(FemurLen = log(avesFCFL.test$FemurLen)))
+lmClade1_FC.prd <- predict(lmClade1_FC, 
+                           newdata = data.frame(FemurLen = avesFCFL.test$FemurLen,
+                                                Clade.1= avesFCFL.test$Clade.1))
+logClade1_FC.prd <- predict(logClade1_FC, newdata = data.frame(FemurLen = log(avesFCFL.test$FemurLen),
+                                                Clade.1= avesFCFL.test$Clade.1))
+lmClade2_FC.prd <- predict(lmClade2_FC, newdata = data.frame(FemurLen = avesFCFL.test$FemurLen,
+                                                Clade.2= avesFCFL.test$Clade.2))
+logClade2_FC.prd <- predict(logClade2_FC, newdata = data.frame(FemurLen = log(avesFCFL.test$FemurLen),
+                                                Clade.2= avesFCFL.test$Clade.2))
+poly2_FC.prd <- predict(poly2_FC, newdata = data.frame(FemurLen = avesFCFL.test$FemurLen))
+poly2Clade1_FC.prd <- predict(poly2Clade1_FC, newdata = data.frame(FemurLen = avesFCFL.test$FemurLen,
+                                                Clade.1= avesFCFL.test$Clade.1))
+poly2Clade2_FC.prd <- predict(poly2Clade2_FC, newdata = data.frame(FemurLen = avesFCFL.test$FemurLen,
+                                                Clade.2= avesFCFL.test$Clade.2))
+```
+
+### Mean Standard Error Training vr Test
+
+```{r}
+n <- length(avesFCFL.test$FemurLen)
+
+lm_FC.MSE.test <- 1/n * sum((avesFCFL.test$FemurCirc - lm_FC.prd)^2) 
+loglog_FC.MSE.test <- 1/n * sum((log(avesFCFL.test$FemurCirc) - loglog_FC.prd)^2)
+lmClade1_FC.MSE.test <- 1/n * sum((avesFCFL.test$FemurCirc - lmClade1_FC.prd)^2)
+logClade1_FC.MSE.test <- 1/n * sum((log(avesFCFL.test$FemurCirc) - logClade1_FC.prd)^2)
+lmClade2_FC.MSE.test <- 1/n * sum((avesFCFL.test$FemurCirc - lmClade2_FC.prd)^2)
+logClade2_FC.MSE.test <- 1/n * sum((log(avesFCFL.test$FemurCirc) - logClade2_FC.prd)^2)
+poly2_FC.MSE.test <- 1/n * sum((avesFCFL.test$FemurCirc - poly2_FC.prd)^2)
+poly2Clade1_FC.MSE.test <- 1/n * sum((avesFCFL.test$FemurCirc - poly2Clade1_FC.prd)^2)
+poly2Clade2_FC.MSE.test <- 1/n * sum((avesFCFL.test$FemurCirc - poly2Clade2_FC.prd)^2)
+
+MSE.test <- data.frame(type = 'test', lm_FC = lm_FC.MSE.test, 
+                        loglog_FC = loglog_FC.MSE.test,
+                        lmClade1_FC = lmClade1_FC.MSE.test,
+                        logClade1_FC = logClade1_FC.MSE.test,
+                        lmClade2_FC = lmClade2_FC.MSE.test,
+                        logClade2_FC = logClade2_FC.MSE.test,
+                        poly2_FC = poly2_FC.MSE.test,
+                        poly2Clade1_FC = poly2Clade1_FC.MSE.test,
+                        poly2Clade2_FC = poly2Clade2_FC.MSE.test)
+
+
+MSE <- rbind(MSE.train, MSE.test)
+
+MSE.long <- MSE %>% pivot_longer(-type, names_to = 'model', values_to = 'MSE')
+
+
+levels(as.factor(MSE.long$model))
+ MSE.long$model <- factor(MSE.long$model, 
+                           levels = c("lm_FC","lmClade1_FC","lmClade2_FC","loglog_FC","logClade1_FC","logClade2_FC","poly2_FC","poly2Clade1_FC","poly2Clade2_FC"
+                                      ))
+
+
+ggplot(data = MSE.long, aes(x = model, y = MSE)) +
+  geom_line(aes(group = type, color = type) )+ 
+  geom_point(aes(color = model))
+  
+
+
+
+```
+
+### Repeated k-fold Cross Validation
+
+```{r}
+# No test dataset is necessary
+
+train.control <- trainControl(method = "repeatedcv", 
+                              number = 20, repeats = 10)
+
+
+# Fit lineal model
+lm_FC <- train(FemurCirc ~ FemurLen, data = avesFCFL, method = "lm",
+               trControl = train.control)
+
+# Fit loglog model
+loglog_FC <- train(log(FemurCirc) ~ log(FemurLen), data = avesFCFL, method = "lm",
+               trControl = train.control)
+
+# Multiple linear regression Clade 1
+lmClade1_FC <- train(FemurCirc ~ FemurLen + Clade.1,data = avesFCFL, method = "lm",
+               trControl = train.control)
+
+
+# Multiple loglog linear regression Clade 1
+logClade1_FC <- train(log(FemurCirc) ~ log(FemurLen) + Clade.1, data = avesFCFL, method = "lm",
+               trControl = train.control)
+
+
+# Multiple linear regression Clade 2
+lmClade2_FC <- train(FemurCirc ~ FemurLen + Clade.2, data = avesFCFL, method = "lm",
+               trControl = train.control)
+
+# Multiple loglog linear regression Clade 2
+logClade2_FC <- train(log(FemurCirc) ~ log(FemurLen) + Clade.2, data = avesFCFL, method = "lm",
+               trControl = train.control)
+
+# Poly model 
+poly2_FC <- train(FemurCirc ~ poly(FemurLen,2), data = avesFCFL, method = "lm",
+               trControl = train.control)
+
+
+# Multiple Poly model Clade 1
+poly2Clade1_FC <- train(FemurCirc ~ poly(FemurLen,2) + Clade.1 , data = avesFCFL, method = "lm",
+               trControl = train.control)
+
+# Multiple Poly model Clade 2
+poly2Clade2_FC <- train(FemurCirc ~ poly(FemurLen,2) + Clade.2, data = avesFCFL, method = "lm",
+               trControl = train.control)
+
+
+MAE <- data.frame(type = 'cv', lm_FC = lm_FC$results$MAE, 
+                        loglog_FC = loglog_FC$results$MAE,
+                        lmClade1_FC = lmClade1_FC$results$MAE,
+                        logClade1_FC = logClade1_FC$results$MAE,
+                        lmClade2_FC = lmClade2_FC$results$MAE,
+                        logClade2_FC = logClade2_FC$results$MAE,
+                        poly2_FC = poly2_FC$results$MAE,
+                        poly2Clade1_FC = poly2Clade1_FC$results$MAE,
+                        poly2Clade2_FC = poly2Clade2_FC$results$MAE)
+
+MSE.long <- MAE %>% pivot_longer(-type, names_to = 'model', values_to = 'MAE')
+
+ggplot(data = MSE.long, aes(x = model, y = MAE)) +
+  geom_line(aes(group = type, color = type) )+ 
+  geom_point(aes(color = model))
+
+
+
+
+
+
+```
+
+# Predicting Femur circumference
+
+```{r}
+dim(Aves)
+colnames(data)
+
+clde <- levels(as.factor(Aves$Clade.2))
+
+pred <- data |> 
+  filter(Aves == "Y" & is.na(FemurCirc) & !is.na(FemurLen) & as.factor(Clade.2) %in% clde) 
+#pred <- data |> 
+  #filter(Aves == "Y" & is.na(FemurCirc) & !is.na(FemurLen)) 
+
+
+data6 <- anti_join(data,pred)
+
+
+
+predictions <- round(exp(predict(AvesLogClade2, newdata = pred[,c("FemurLen", "Clade.2")])),2)
+
+pred2 <- pred |> mutate(FemurCirc = predictions, typeFC = rep("Predicted",nrow(pred))) 
+
+data6 <- data6 |> mutate(typeFC = rep("Observation",nrow(data6)))
+
+#
+new <- rbind(data6,pred2)
+
+ggplot(pred2)+
+  geom_point(aes(x=log(FemurLen), y=log(FemurCirc), color = Clade.2), shape = 16)+
+  geom_point(data = Aves, aes(x=log(FemurLen), y=log(FemurCirc), color = Clade.2))
+
+  
+
+ggplot(pred2)+
+  geom_point(aes(x = FemurLen, y = FemurCirc, color = Clade.2), shape = 16)+
+  geom_point(data = Aves, aes(x=FemurLen, y=FemurCirc, color = Clade.2))
+
+ggplot(pred2)+
+  geom_point(aes(x = FemurLen, y = FemurCirc, color = Clade.2), shape = 16)
+  #geom_point(data = Aves, aes(x=FemurLen, y=FemurCirc, color = Clade.2))
+```

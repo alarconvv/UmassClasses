@@ -23,7 +23,8 @@ setwd(here::here())
 
 # read data
 
-data <- read_csv(file = "DataBase231121.csv")
+data <- read_csv(file = "DataBase231129.csv")
+data <- data |> filter(Sec_Ref != "Brinkworth_et_al_2023")
 ```
 
 I will explore relation between Femur circumference and femur length. Thus, I will filter Avian and no-avian observations with information in both variables, then I will explore the variable distributions by group and by clades.
@@ -39,7 +40,7 @@ Femurs <- data |> filter(!is.na(FemurCirc) & !is.na(FemurLen))
 
 # Femur circumference
 ggplot(Femurs, aes( FemurCirc)) +
-  geom_histogram(aes( fill = Aves), alpha = 0.5)+
+  geom_histogram(aes( fill = Aves), alpha = 0.5) +
     facet_grid(Aves ~ ., scales = "free")
 
 # Femur Lenght
@@ -79,7 +80,7 @@ ggplot(Aves, aes(x=FemurLen, y=FemurCirc)) +
 
 # classic plot :
 ggplot(Aves, aes(x=log(FemurLen), y=log(FemurCirc))) +
-      geom_point(aes(color= Clade.2, shape = Clade.1)) +
+      geom_point(aes(color= Clade.1, shape = as.factor(Living))) +
   geom_smooth( method = 'lm')#+
   #scale_color_viridis_d()
 
@@ -321,9 +322,9 @@ ggplot(BodyMassObs, aes(x=FemurCirc, y=BM.g)) +
 ```{r}
 
 BMavesPrd <- BodyMassPrd |> filter(Aves == "Y" )
-
-ggplot(BMavesPrd, aes(x=FemurCirc, y= BM.g)) +
-      geom_point(aes(color=Clade.1, shape = typeFC)) +
+colnames(BMavesPrd)
+ggplot(BMavesPrd|> filter(Clade.1 == "Palaeognathae"), aes(x=FemurCirc, y= BM.g)) +
+      geom_point(aes(color=Taxon, shape = typeFC)) +
   geom_smooth()
 
 #### LOOOCV
@@ -335,9 +336,12 @@ ctrl <- trainControl(method = "LOOCV")
 BMlmPrd <- lm(BM.g ~ FemurCirc,data = BMavesPrd)
 BMlmCVPrd <-train(BM.g ~ FemurCirc, data = BMavesPrd, method = "lm", trControl = ctrl)
 
+
+
 # Linear log-log model
 BMloglogPrd <- lm(log(BM.g) ~ log(FemurCirc), data = BMavesPrd)
 BMloglogCVPrd <-train(log(BM.g) ~ log(FemurCirc), data = BMavesPrd, method = "lm", trControl = ctrl)
+summary(BMloglogCVPrd)
 
 
 # Multiple loglog linear regression Clade 2
@@ -349,8 +353,8 @@ BMpolyPrd <- lm(BM.g ~ poly(FemurCirc, 2), data = BMavesPrd)
 BMpolyCVPrd <-train(BM.g ~ poly(FemurCirc,2) , data = BMavesPrd, method = "lm", trControl = ctrl)
 
 library(splines)
-BMSplinePrd <- lm(BM.g ~bs(FemurCirc, knots = 35), data = BMavesPrd)
-BMSplineCVPrd <- train(BM.g ~bs(FemurCirc, knots = 35), data = BMavesPrd, method = "lm", trControl = ctrl)
+BMSplinePrd <- lm(BM.g ~bs(FemurCirc, knots = 50), data = BMavesPrd)
+BMSplineCVPrd <- train(BM.g ~bs(FemurCirc, knots = 50), data = BMavesPrd, method = "lm", trControl = ctrl)
 
 
 
@@ -362,11 +366,11 @@ models <- c("BMlmPrd","BMloglogPrd","BMlogClade2Prd", "BMpolyPrd", "BMSplinePrd"
 tabPrd <- rbind(BMlmCVPrd[4][[1]],BMloglogCVPrd[4][[1]],BMlogClade2CVPrd[4][[1]], BMpolyCVPrd[4][[1]], BMSplineCVPrd[4][[1]])
 
 tabPrd <- cbind(models, tabPrd)
- 
+ tabPrd
 
 tab2Prd <- tabPrd |> pivot_longer(cols = 3:5,names_to = "Error", values_to = "Values")
 
-ggplot(tab2Prd, aes(y = Values)) +
+ggplot(tab2Prd , aes(y = Values)) +
   geom_point(aes(x = Error, color = models), position = 'jitter')+
   scale_colour_viridis_d()
 ```
@@ -393,7 +397,7 @@ BMlmCVObs <-train(BM.g ~ FemurCirc, data = BMavesObs, method = "lm", trControl =
 # Linear log-log model
 BMloglogObs <- lm(log(BM.g) ~ log(FemurCirc), data = BMavesObs)
 BMloglogCVObs <-train(log(BM.g) ~ log(FemurCirc), data = BMavesObs, method = "lm", trControl = ctrl)
-
+summary()
 
 # Multiple loglog linear regression Clade 2
 BMlogClade2Obs <- lm(log(BM.g) ~ log(FemurCirc) + Clade.2, data = BMavesObs)
@@ -418,7 +422,8 @@ tabObs <- rbind(BMlmCVObs[4][[1]],BMloglogCVObs[4][[1]],BMlogClade2CVObs[4][[1]]
 
 tabObs <- cbind(models, tabObs)
 
- View(rbind(tabObs, tabPrd))
+both <-rbind(tabObs, tabPrd)
+both
 
 tab2Obs <- tabObs |> pivot_longer(cols = 3:5,names_to = "Error", values_to = "Values")
 
@@ -435,11 +440,19 @@ ggplot(tab2Obs, aes(y = Values)) +
 
  colnames(new)
  
- AvesSex <- new |> filter(!is.na(Sex) & !is.na(TarsusLen) & Aves == "Y")
+ AvesSex <- new |> filter(Aves == "Y" & !is.na(Sex) &
+                            !is.na(BM.g) &
+                            !is.na(HumerusLen) &
+                            !is.na(HumerusCirc) &
+                            !is.na(FemurCirc) &
+                            !is.na(FemurLen) &
+                            !is.na(TibulaLen) &
+                          !is.na(TarsusLen) &
+                            !is.na(TarusCirc))
  
- ggplot(AvesSex, aes(x = Sex, y = TarsusLen)) +
-   geom_boxplot()
+ ggplot(AvesSex, aes(x = Clade.2, y =HumerusLen)) +
+   geom_boxplot(aes(color= Sex))
  
- ggplot(AvesSex, aes(y = Sex, x = TarsusLen)) +
+ ggplot(AvesSex, aes(y = Sex, x = BM.g)) +
    geom_point(aes(color= Sex))
 ```
