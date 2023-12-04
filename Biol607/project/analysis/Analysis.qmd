@@ -571,11 +571,12 @@ poly3_BM <- train(BM.g ~ poly(FemurCirc,3), data = newAves, method = "lm",
 
 # Spline model 1 knots
 library(splines)
+hist(newAves$FemurCirc)
 Spline_BM1 <- train(BM.g ~bs(FemurCirc, knots = 50), data = newAves, method = "lm",
                trControl = train.control)
 
 # Spline model 2 knots
-Spline_BM2 <- train(BM.g ~ bs(FemurCirc, knots = c(35, 50)), data = avesFCBM.train, method = "lm",
+Spline_BM2 <- train(BM.g ~ bs(FemurCirc, knots = c(25, 50)), data = avesFCBM.train, method = "lm",
                trControl = train.control)
 
 
@@ -841,4 +842,24 @@ meansPPE
 
 ggplot(modelsPPE) +
   geom_boxplot(aes(x = Models, y = PPE, group = Models, color = Models))
+```
+
+### Plot presentation
+
+```{r}
+
+levels(as.factor(new$Sec_Ref))
+
+plotIntro <- new |> filter(Aves == "Y") |> mutate(Ref = ifelse( Sec_Ref == "Campione_et_al_(2014)", "Campione_et_al_2014", ifelse( Sec_Ref == "Field_et_al_(2013)","Field_et_al_2013", ifelse( typeFC == "Predicted", "NewSource", "NewSource")))) |> filter(!is.na(BM.g) & !is.na(FemurCirc)) |> filter(Ref != "NewSource")
+
+
+
+
+# Plot FC ~ FL
+
+
+ggplot(plotIntro, aes(x = FemurCirc, y = BM.g)) +
+  geom_point(aes( color = Ref, shape = Clade.1)) +
+  geom_smooth(color = "darkgray", alpha = 0.5, size = 0.5)+
+  facet_grid(Ref ~ .)
 ```
