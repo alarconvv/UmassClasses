@@ -1,0 +1,134 @@
+---
+format:   
+  revealjs: 
+    theme: simple
+Slide Layout: center
+---
+
+
+<h1> Predicting body mass in bipedal dinosaurs  </h1>
+
+<hr style="border-top: 1px solid #EE450F; background: transparent;"> 
+
+<h3> Viviana Romero Alarcon - Biol 607 </h3> 
+
+<h4> 2023-12-15 </h4>
+<br>
+
+![](Biol607_files/pics/back.png){.absolute top=400 right=-150 width="350" height="200"}
+
+
+## 
+:::: {.columns}
+
+::: {.column width="40%"}
+
+<h3>Why is Body Mass relevant?</h3> 
+
+![](Biol607_files/pics/slide2.png){.absolute top=150 right=630 width="450" height="600" }
+
+:::
+
+::: {.column width="60%"}
+
+```{mermaid}
+
+graph TD
+    A[Body Mass] --> B((Physiology))
+    B --> C(Thermoregularization)
+    A --> D((Ecology))
+    D --> E(Habitat)
+    A --> F((Evolution))
+    F --> G(Diversification rates)
+  
+```
+
+![](Biol607_files/pics/slide2b.jpg){.absolute top=350 right=-200 width="750" height="350" }
+
+:::
+
+::::
+
+##
+
+:::: {.columns}
+
+::: {.column width="40%"}
+
+
+![](Biol607_files/pics/slide3a.png){.absolute top=35 right=650 width="550" height="700" }
+
+:::
+
+::: {.column width="60%"}
+
+::: {.callout-note appearance="simple"}
+## How to get Body Mass?
+
+Get body mass extant species => weigh
+
+Get body mass extinct species => Prediction
+
+:::
+
+![](Biol607_files/pics/slide3b.png){.absolute top=250 right=-150 width="750" height="450" }
+
+:::
+
+::::
+
+## 
+<h3>Sample
+<br>
+
+:::: {.columns}
+::: {.column width=40% }
+
+
+BM ~ 0.16 Cfemur 2.73 
+(Anderson et al 1985)
+
+BM ~ 2.411 log10 Cfemur – 0.065 
+(Cambell Jr & Marcus 1992)
+
+BM ~ 2.4 log Cfemur – 0.11 
+(Field et al 2013)
+
+BM ~ 2.754 log Cfemur – 0.683
+(Campione et al 2014)
+
+
+:::
+::: {.column width=60%}
+
+```{r}
+#| echo: false
+#| classes: plot-padding
+
+library(tidyverse)
+library(ggplot2)
+
+data <- read_csv("Biol607_files/data/DataBase231129.csv") 
+
+data <- data |>
+  filter(Sec_Ref != "Brinkworth_et_al_2023")  |>
+   filter(Aves == "Y" & !is.na(BM.g) & !is.na(FemurCirc) )
+
+
+
+ggplot(data, aes(x = FemurCirc, y = BM.g)) +
+  geom_point(aes( color = Sec_Ref, shape = Clade.1))+
+  geom_smooth(color = "darkgray", alpha = 0.5, size = 0.5)+
+  facet_grid(Sec_Ref ~ .)+
+  geom_rect(aes(xmin=50, xmax=150, ymin=0, ymax=150000), color = "red", fill=NA)
+
+
+```
+:::
+::::
+
+
+
+
+
+

@@ -870,5 +870,6 @@ plotIntro <- new |> filter(Aves == "Y") |> mutate(Ref = ifelse( Sec_Ref == "Camp
 ggplot(plotIntro, aes(x = FemurCirc, y = BM.g)) +
   geom_point(aes( color = Ref, shape = Clade.1)) +
   geom_smooth(color = "darkgray", alpha = 0.5, size = 0.5)+
-  facet_grid(Ref ~ .)
+  facet_grid(Ref ~ .)+
+  geom_rect(aes(xmin=8, xmax=100, ymin=0.8, ymax=8))
 ```
