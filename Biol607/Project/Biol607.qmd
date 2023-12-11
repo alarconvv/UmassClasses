@@ -1,36 +1,36 @@
 ---
 format:   
   revealjs: 
-    theme: simple
+    margin: 0
+    html-math-method: 
+      method: mathjax
+      url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    
 Slide Layout: center
 ---
 
+<h1>Predicting body mass in bipedal dinosaurs</h1>
 
-<h1> Predicting body mass in bipedal dinosaurs  </h1>
+<hr style="border-top: 1px solid #EE450F; background: transparent;">
 
-<hr style="border-top: 1px solid #EE450F; background: transparent;"> 
+<h3>Viviana Romero Alarcon - Biol 607</h3>
 
-<h3> Viviana Romero Alarcon - Biol 607 </h3> 
+<h4>2023-12-15</h4>
 
-<h4> 2023-12-15 </h4>
 <br>
 
-![](Biol607_files/pics/back.png){.absolute top=400 right=-150 width="350" height="200"}
-
+![](Biol607_files/pics/back.png){.absolute top="400" right="-150" width="350" height="200"}
 
 ## 
-:::: {.columns}
 
+::: columns
 ::: {.column width="40%"}
+<h3>Why is Body Mass relevant?</h3>
 
-<h3>Why is Body Mass relevant?</h3> 
-
-![](Biol607_files/pics/slide2.png){.absolute top=150 right=630 width="450" height="600" }
-
+![](Biol607_files/pics/slide2.png){.absolute top="150" right="630" width="450" height="600"}
 :::
 
 ::: {.column width="60%"}
-
 ```{mermaid}
 
 graph TD
@@ -43,67 +43,65 @@ graph TD
   
 ```
 
-![](Biol607_files/pics/slide2b.jpg){.absolute top=350 right=-200 width="750" height="350" }
-
+![](Biol607_files/pics/slide2b.jpg){.absolute top="350" right="-200" width="750" height="350"}
+:::
 :::
 
-::::
+## 
 
-##
-
-:::: {.columns}
-
+::: columns
 ::: {.column width="40%"}
-
-
-![](Biol607_files/pics/slide3a.png){.absolute top=35 right=650 width="550" height="700" }
-
+![](Biol607_files/pics/slide3a.png){.absolute top="35" right="650" width="550" height="700"}
 :::
 
 ::: {.column width="60%"}
 
+::: {style="font-size: 32px;"}
+
 ::: {.callout-note appearance="simple"}
+
+
+
 ## How to get Body Mass?
 
-Get body mass extant species => weigh
+Getting body mass from extant species =\> weigh
 
-Get body mass extinct species => Prediction
+Getting body mass from extinct species =\> Prediction
 
-:::
-
-![](Biol607_files/pics/slide3b.png){.absolute top=250 right=-150 width="750" height="450" }
 
 :::
 
-::::
+:::
+![](Biol607_files/pics/slide3b.png){.absolute top="250" right="-150" width="750" height="450"}
+:::
+:::
 
 ## 
-<h3>Sample
-<br>
 
-:::: {.columns}
-::: {.column width=40% }
+<h3>Extant-scaling approach</h3>
 
 
-BM ~ 0.16 Cfemur 2.73 
-(Anderson et al 1985)
 
-BM ~ 2.411 log10 Cfemur – 0.065 
-(Cambell Jr & Marcus 1992)
-
-BM ~ 2.4 log Cfemur – 0.11 
-(Field et al 2013)
-
-BM ~ 2.754 log Cfemur – 0.683
-(Campione et al 2014)
-
-
+::: {.columns style="display: flex !important"}
+::: {.column width="30%" style="display: flex; justify-content: center; align-items: center;"}
+::: {style="font-size: 14px;"}
+| Author                   | Model                                      |
+|--------------------------|--------------------------------------------|
+| Anderson et al 1985      | BM \~ 0.16 FemurCirc 2.73                  |
+| Cambell Jr & Marcus 1992 | log10 BM \~ 2.411 log10 FemurCirc -- 0.065 |
+| Field et al 2013         | log BM \~ 2.4 log FemurCirc -- 0.11        |
+| Campione et al 2014      | log BM \~ 2.754 log FemurCirc -- 0.683     |
 :::
-::: {.column width=60%}
+:::
 
-```{r}
-#| echo: false
-#| classes: plot-padding
+::: {.column width="70%" }
+```{r fig.dim = c(16, 12)}
+#| label: fig-1Sample
+#| fig-cap: "Bias in datasets - No Palaeognathae observation"
+#| message: false
+#| warning: false
+#| font-size: 0.5em
+
 
 library(tidyverse)
 library(ggplot2)
@@ -117,18 +115,90 @@ data <- data |>
 
 
 ggplot(data, aes(x = FemurCirc, y = BM.g)) +
-  geom_point(aes( color = Sec_Ref, shape = Clade.1))+
+  geom_point(aes( shape = Sec_Ref, color = Clade.1), size = 4)+
   geom_smooth(color = "darkgray", alpha = 0.5, size = 0.5)+
   facet_grid(Sec_Ref ~ .)+
-  geom_rect(aes(xmin=50, xmax=150, ymin=0, ymax=150000), color = "red", fill=NA)
+  geom_rect(aes(xmin=50, xmax=150, ymin=0, ymax=150000), color = "red", fill=NA)+
+  theme_gray(base_size = 25)
 
 
 ```
 :::
-::::
+:::
+
+## 
+
+<h3>Palaeognathae position</h3>
 
 
 
+![](Biol607_files/pics/slide5a.jpg){.absolute top="160" right="-220" width="650" height="450"}
+
+```{r}
+#| out.width="60%"
+
+ggplot(data, aes( x = BM.g)) +
+  geom_histogram(aes( fill = Clade.1))+
+geom_segment(aes(x = 1000, y = 200, xend = 1000, yend = 30), color= "darkred",
+                  arrow = arrow(length = unit(0.5, "cm")))+
+  geom_segment(aes(x = 20000, y = 200, xend = 20000, yend = 30), color= "darkred",
+                  arrow = arrow(length = unit(0.5, "cm")))+
+  geom_segment(aes(x = 140000, y = 200, xend = 140000, yend = 30), color= "darkred",
+                  arrow = arrow(length = unit(0.5, "cm")))+
+    theme_gray(base_size = 20)
+```
+
+::: {style="font-size: 28px;"}
+::: {.callout-note appearance="simple"}
+## Palaeognathae group:
+
+Heaviest modern birds (extant species)
+
+Flightless birds \~ Theropods
+:::
+:::
+## 
+
+![](Biol607_files/pics/slide6a.png){.absolute top="0" right="400" width="800" height="300"} ![](Biol607_files/pics/slide6b.png){.absolute top="300" right="-200" width="800" height="300"}
+
+<br><br><br><br><br><br>
+
+::: {.columns style="display: flex !important"}
+::: {.column width="30%" style="display: flex; justify-content: center; align-items: center;"}
+::: {style="font-size: 40px;"}
+::: {.callout-tip appearance="simple"}
+Could I improve the model to predict Body Mass in Dinosaurs, if I included samples from the Palaeognathae group?
+:::
+:::
+:::
+
+::: {.column width="70%"}
+:::
+:::
+
+## Dataset: the first problem
+
+<br>
+
+::: {style="font-size: 20px;"}
+| Species   | Body Mass (g) | Femur Circumference (mm) | Femur lenght (mm) |
+|-----------|:-------------:|:------------------------:|:-----------------:|
+| species 1 |       x       |                          |         x         |
+| species 1 |       x       |                          |         x         |
+| species 2 |       x       |                          |         x         |
+| species 3 |       x       |            x             |         x         |
+| species 4 |       x       |            x             |         x         |
+| species 5 |       x       |            x             |         x         |
+| species 5 |       x       |            x             |         x         |
+| species 6 |               |            x             |         x         |
+| species 7 |               |            x             |         x         |
+| species 7 |               |            x             |         x         |
+:::
 
 
+##
+
+```{mermaid}
+
+```
 
