@@ -109,7 +109,7 @@ Getting body mass from extinct species =\> Prediction
 
 set.seed(999)
 library(pacman)
-pacman::p_load(caret,tidyverse,dplyr,readr, ggplot2, broom, performance, here, gtExtras)
+pacman::p_load(caret,tidyverse,dplyr,readr, ggplot2, broom, performance, here, gtExtras,npreg)
 
 setwd(here::here())
 
@@ -122,7 +122,7 @@ data1 <- data |>
 
 
 ggplot(data1, aes(x = FemurCirc, y = BM.g)) +
-  geom_point(aes( shape = Sec_Ref, color = Clade.1), size = 4)+
+  geom_point(aes( shape = Sec_Ref, color = Clade.1), size = 6)+
   geom_smooth(color = "darkgray", alpha = 0.5, size = 0.5)+
   facet_grid(Sec_Ref ~ .)+
   geom_rect(aes(xmin=50, xmax=150, ymin=0, ymax=150000), color = "red", fill=NA)+
@@ -153,11 +153,13 @@ geom_segment(aes(x = 1000, y = 200, xend = 1000, yend = 30), color= "darkred",
                   arrow = arrow(length = unit(0.5, "cm")))+
   geom_segment(aes(x = 140000, y = 200, xend = 140000, yend = 30), color= "darkred",
                   arrow = arrow(length = unit(0.5, "cm")))+
-    theme_gray(base_size = 20)
+  theme_gray(base_size = 20)
 ```
 
 ::: {style="font-size: 28px;"}
 ::: {.callout-note appearance="simple"}
+
+
 ## Palaeognathae group:
 
 Heaviest modern birds (extant species)
@@ -223,7 +225,7 @@ Could I improve the model to predict Body Mass in Dinosaurs, if I included sampl
 
 :::: {.columns}
 
-::: {.column width="60%"}
+::: {.column width="50%"}
 
 ```{r}
 #| echo: False
@@ -290,14 +292,15 @@ fitvals_FC.long <- fitvals_FC.train %>% pivot_longer(-FemurLen, names_to = 'mode
 ```
 
 
-```{r}
+```{r fig.dim = c(16, 12)}
 #| message: false
 #| warning: false
-#| font-size: 0.5em
+#| font-size: 1em
+#| 
 ggplot(data = fitvals_FC.long) +
   geom_line(aes(x = FemurLen, y = FemurCirc, color = model)) +
   geom_point(data = avesFCFL.train, aes(x=FemurLen, y=FemurCirc), size = 0.5, alpha = 1, color = 'darkblue')+
-    theme_gray(base_size = 20)
+  theme_gray(base_size = 35)
 ```
 
 
@@ -305,10 +308,11 @@ ggplot(data = fitvals_FC.long) +
 #| message: false
 #| warning: false
 #| font-size: 0.5em
+#| 
 AICs <- dplyr::tibble(cbind(Models = c("lm_FC", "lmClade1_FC", "lmClade2_FC", "loglog_FC","logClade1_FC", "logClade2_FC", "poly2_FC", "poly2Clade1_FC","poly2Clade2_FC" ), AIC(lm_FC, lmClade1_FC, lmClade2_FC, loglog_FC,logClade1_FC, logClade2_FC, poly2_FC, poly2Clade1_FC,poly2Clade2_FC ), adjR2 = c(0.9243, 0.9243, 0.96,0.9685, 0.9701, 0.9849, 0.9712, 0.9712,0.9794 ) )) |> gt::gt()
 
 AICs |> 
-  gt::tab_options(table.font.size = 13, data_row.padding = gt::px(1), 
+  gt::tab_options(table.font.size = 10, data_row.padding = gt::px(1), 
     summary_row.padding = gt::px(1), grand_summary_row.padding = gt::px(1), 
     footnotes.padding = gt::px(1), source_notes.padding = gt::px(1), 
     row_group.padding = gt::px(1)) |> gtExtras::gt_highlight_rows(
@@ -321,9 +325,11 @@ AICs |>
 
 
 
+
+
 :::
 
-::: {.column width="40%"}
+::: {.column width="50%"}
 
 ```{r}
 n <- length(avesFCFL.train$FemurLen)
@@ -404,11 +410,16 @@ MSE.long <- MSE %>% pivot_longer(-type, names_to = 'model', values_to = 'MSE')
 
 ```
 
-```{r}
+```{r }
 ggplot(data = MSE.long, aes(x = model, y = MSE)) +
   geom_line(aes(group = type, color = type) )+ 
-  geom_point(aes(color = model))+
-    theme_gray(base_size = 20)
+  geom_point(aes(color = model), size= 4)+
+  theme_gray(base_size = 20) +
+  theme(legend.position="none")+
+scale_x_discrete(guide = guide_axis(angle = 45))+
+geom_segment(aes(x = 6, y = 50, xend = 6, yend = 20), color= "darkred",
+                  arrow = arrow(length = unit(0.5, "cm")))
+
 ```
 
 
@@ -472,12 +483,20 @@ RMSE <- data.frame(type = 'cv', lm_FC = lm_FC$results$RMSE,
 
 RMSE.long <- RMSE %>% pivot_longer(-type, names_to = 'model', values_to = 'RMSE')
 
-ggplot(data = RMSE.long, aes(x = model, y = RMSE)) +
-  geom_line(aes(group = type, color = type) )+ 
-  geom_point(aes(color = model))+
-    theme_gray(base_size = 20)
+
 
 ```
+```{r }
+ggplot(data = RMSE.long, aes(x = model, y = RMSE)) +
+  geom_line(aes(group = type, color = type) )+ 
+  geom_point(aes(color = model), size= 4)+
+    theme_gray(base_size = 20)+
+  theme(legend.position="none")+
+scale_x_discrete(guide = guide_axis(angle = 45))+
+geom_segment(aes(x = 5, y = 4, xend = 5, yend = 0.5), color= "darkred",
+                  arrow = arrow(length = unit(0.5, "cm")))
+```
+
 
 
 :::
@@ -487,3 +506,109 @@ ggplot(data = RMSE.long, aes(x = model, y = RMSE)) +
 ## 
 
 ![](Biol607_files/pics/experimentalDesign4.png)
+
+##
+
+```{r}
+
+## Predicting femur circumference 
+
+clde <- levels(as.factor(avesFCFL$Clade.2))
+
+pred <- data |> 
+  filter(Aves == "Y" & is.na(FemurCirc) & !is.na(FemurLen) & as.factor(Clade.2) %in% clde) 
+#pred <- data |> 
+  #filter(Aves == "Y" & is.na(FemurCirc) & !is.na(FemurLen)) 
+
+
+data6 <- anti_join(data,pred)
+
+predictions <- round(exp(predict(logClade2_FC, newdata = pred[,c("FemurLen", "Clade.2")])),2)
+
+pred2 <- pred |> mutate(FemurCirc = predictions, typeFC = rep("Predicted",nrow(pred))) 
+
+data6 <- data6 |> mutate(typeFC = rep("Observation",nrow(data6)))
+
+#
+new <- rbind(data6,pred2)
+
+
+### Data set for Body Mass
+newAves <-new |> filter(Aves == "Y") |> mutate(Ref = ifelse( Sec_Ref == "Campione_et_al_(2014)", "Campione_et_al_2014", ifelse( Sec_Ref == "Field_et_al_(2013)","Field_et_al_2013", ifelse( typeFC == "Predicted", "NewSource", "NewSource")))) |> filter(!is.na(BM.g) & !is.na(FemurCirc))
+
+sample.test <-sample(x = 1:nrow(newAves),size = ceiling(nrow(newAves)* 0.2))
+
+avesFCBM.test <- newAves[sample.test,]
+avesFCBM.train <- newAves[-sample.test,]
+
+# Fit lineal model
+lm_BM <- lm(BM.g ~FemurCirc, data = avesFCBM.train)
+
+# Fit loglog model
+loglog_BM <- lm(log(BM.g) ~ log(FemurCirc), data = avesFCBM.train)
+
+# Poly 2 model 
+poly2_BM <- lm(BM.g ~ poly(FemurCirc,2), data = avesFCBM.train)
+
+# Poly 2 model 
+poly3_BM <- lm(BM.g ~ poly(FemurCirc,3), data = avesFCBM.train)
+
+# Spline model 1 knots
+library(splines)
+Spline_BM1 <- lm(BM.g ~bs(FemurCirc, knots = 50), data = avesFCBM.train)
+ss.AIC1 <- ss(avesFCBM.train$FemurCirc, avesFCBM.train$BM.g, method = "AIC", nknots = 50)
+ss.AIC1
+# Spline model 2 knots
+Spline_BM2 <- lm(BM.g ~ bs(FemurCirc, knots = c(35, 50)), data = avesFCBM.train)
+ss.AIC2 <- ss(avesFCBM.train$FemurCirc, avesFCBM.train$BM.g, method = "AIC", nknots = c(35, 50))
+ss.AIC2
+##### Fit models
+# Fit values
+fitvals_BM.train <- data.frame(FemurCirc = avesFCBM.train$FemurCirc, 
+                         trueBM = avesFCBM.train$BM.g,
+                         lm_BM = lm_BM$fitted.values, 
+                         loglog_BM = exp(loglog_BM$fitted.values),
+                         poly2_BM = poly2_BM$fitted.values,
+                         poly3_BM = poly3_BM$fitted.values,
+                         Spline_BM1 = Spline_BM1$fitted.values,
+                         Spline_BM2 = Spline_BM2$fitted.values)
+
+
+fitvals_BM.long <- fitvals_BM.train %>% pivot_longer(-FemurCirc, names_to = 'model', values_to = 'BM')
+
+
+```
+
+```{r fig.dim = c(16, 12)}
+#| message: false
+#| warning: false
+#| font-size: 1em
+#| 
+ggplot(data = fitvals_BM.long) +
+  geom_line(aes(x = FemurCirc, y = BM, color = model)) +
+  geom_point(data = avesFCBM.train, aes(x = FemurCirc, y = BM.g), size = 0.5, alpha = 1, color = 'darkblue')+
+  theme_gray(base_size = 35)
+```
+
+```{r}
+#| message: false
+#| warning: false
+#| font-size: 0.5em
+
+mat <-as.data.frame(cbind(Models = c("lm_BM", "loglog_BM", "poly2_BM", "poly3_BM","Spline_BM1", "Spline_BM2" ), df= c(3,3,4,5,16,14 ),AIC = round(as.numeric(c(AIC(lm_BM, loglog_BM, poly2_BM, poly3_BM)$AIC,c(ss.AIC1$aic, ss.AIC2$aic))),2), adjR2 = as.numeric(c(0.5909 ,0.9103,0.9405,0.9406,0.9431,0.9438))))
+
+
+AICs <- dplyr::tibble(mat) |> gt::gt()
+
+AICs |> 
+  gt::tab_options(table.font.size = 10, data_row.padding = gt::px(1), 
+    summary_row.padding = gt::px(1), grand_summary_row.padding = gt::px(1), 
+    footnotes.padding = gt::px(1), source_notes.padding = gt::px(1), 
+    row_group.padding = gt::px(1)) |> gtExtras::gt_highlight_rows(
+     rows = 2,
+     fill = "red",
+     bold_target_only = TRUE,
+     target_col = 1:4
+   )
+
+```
