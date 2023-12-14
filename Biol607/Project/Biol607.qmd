@@ -196,9 +196,96 @@ Could I improve the model to predict Body Mass in Dinosaurs, if I included sampl
 :::
 
 
-##
+## 
 
-```{mermaid}
+![](Biol607_files/pics/experimentalDesign.png)
 
-```
+## Dataset: the first problem
+
+<br>
+
+::: {style="font-size: 20px;"}
+| Species   | Body Mass (g) | Femur Circumference (mm) | Femur lenght (mm) |
+|-----------|:-------------:|:------------------------:|:-----------------:|
+| species 1 |       x       |                          |         x         |
+| species 1 |       x       |                          |         x         |
+| species 2 |       x       |                          |         x         |
+| species 3 |       x       |            x             |         x         |
+| species 4 |       x       |            x             |         x         |
+| species 5 |       x       |            x             |         x         |
+| species 5 |       x       |            x             |         x         |
+| species 6 |               |            x             |         x         |
+| species 7 |               |            x             |         x         |
+| species 7 |               |            x             |         x         |
+:::
+
+## 
+
+![](Biol607_files/pics/experimentalDesign2.png)
+## Dataset: the first problem
+
+<br>
+
+::: {style="font-size: 20px;"}
+| Species   | Body Mass (g) | Femur Circumference (mm) | Femur lenght (mm) |
+|-----------|:-------------:|:------------------------:|:-----------------:|
+| species 1 |       x       |                          |         x         |
+| species 1 |       x       |                          |         x         |
+| species 2 |       x       |                          |         x         |
+| species 3 |       x       |            x             |         x         |
+| species 4 |       x       |            x             |         x         |
+| species 5 |       x       |            x             |         x         |
+| species 5 |       x       |            x             |         x         |
+| species 6 |               |            x             |         x         |
+| species 7 |               |            x             |         x         |
+| species 7 |               |            x             |         x         |
+:::
+
+## 
+
+![](Biol607_files/pics/experimentalDesign3.png)
+## Dataset: the first problem
+
+<br>
+
+::: {style="font-size: 20px;"}
+| Species   | Body Mass (g) | Femur Circumference (mm) | Femur lenght (mm) |
+|-----------|:-------------:|:------------------------:|:-----------------:|
+| species 1 |       x       |                          |         x         |
+| species 1 |       x       |                          |         x         |
+| species 2 |       x       |                          |         x         |
+| species 3 |       x       |            x             |         x         |
+| species 4 |       x       |            x             |         x         |
+| species 5 |       x       |            x             |         x         |
+| species 5 |       x       |            x             |         x         |
+| species 6 |               |            x             |         x         |
+| species 7 |               |            x             |         x         |
+| species 7 |               |            x             |         x         |
+:::
+
+## 
+
+![](Biol607_files/pics/experimentalDesign4.png)
+## Dataset: the first problem
+
+<br>
+
+::: {style="font-size: 20px;"}
+| Species   | Body Mass (g) | Femur Circumference (mm) | Femur lenght (mm) |
+|-----------|:-------------:|:------------------------:|:-----------------:|
+| species 1 |       x       |                          |         x         |
+| species 1 |       x       |                          |         x         |
+| species 2 |       x       |                          |         x         |
+| species 3 |       x       |            x             |         x         |
+| species 4 |       x       |            x             |         x         |
+| species 5 |       x       |            x             |         x         |
+| species 5 |       x       |            x             |         x         |
+| species 6 |               |            x             |         x         |
+| species 7 |               |            x             |         x         |
+| species 7 |               |            x             |         x         |
+:::
+
+## 
+
+![](Biol607_files/pics/experimentalDesign5.png)
 
