@@ -23,14 +23,16 @@ Slide Layout: center
 
 ## 
 
-::: columns
-::: {.column width="40%"}
 <h3>Why is Body Mass relevant?</h3>
 
-![](Biol607_files/pics/slide2.png){.absolute top="150" right="630" width="450" height="600"}
+::: {.columns style="display: flex !important"}
+::: {.column width="40%"}
+
+![](Biol607_files/pics/slide2.png){.absolute top="100" right="630" width="450" height="600"}
 :::
 
-::: {.column width="60%"}
+
+::: {.column width="60%" style="display: flex; justify-content: center; align-items: center;"}
 ```{mermaid}
 
 graph TD
@@ -43,7 +45,7 @@ graph TD
   
 ```
 
-![](Biol607_files/pics/slide2b.jpg){.absolute top="350" right="-200" width="750" height="350"}
+
 :::
 :::
 
@@ -103,18 +105,23 @@ Getting body mass from extinct species =\> Prediction
 #| font-size: 0.5em
 
 
-library(tidyverse)
-library(ggplot2)
+# load libraries
+
+set.seed(999)
+library(pacman)
+pacman::p_load(caret,tidyverse,dplyr,readr, ggplot2, broom, performance, here, gtExtras)
+
+setwd(here::here())
 
 data <- read_csv("Biol607_files/data/DataBase231129.csv") 
 
-data <- data |>
+data1 <- data |>
   filter(Sec_Ref != "Brinkworth_et_al_2023")  |>
    filter(Aves == "Y" & !is.na(BM.g) & !is.na(FemurCirc) )
 
 
 
-ggplot(data, aes(x = FemurCirc, y = BM.g)) +
+ggplot(data1, aes(x = FemurCirc, y = BM.g)) +
   geom_point(aes( shape = Sec_Ref, color = Clade.1), size = 4)+
   geom_smooth(color = "darkgray", alpha = 0.5, size = 0.5)+
   facet_grid(Sec_Ref ~ .)+
@@ -137,7 +144,8 @@ ggplot(data, aes(x = FemurCirc, y = BM.g)) +
 ```{r}
 #| out.width="60%"
 
-ggplot(data, aes( x = BM.g)) +
+
+ggplot(data1, aes( x = BM.g)) +
   geom_histogram(aes( fill = Clade.1))+
 geom_segment(aes(x = 1000, y = 200, xend = 1000, yend = 30), color= "darkred",
                   arrow = arrow(length = unit(0.5, "cm")))+
@@ -200,92 +208,282 @@ Could I improve the model to predict Body Mass in Dinosaurs, if I included sampl
 
 ![](Biol607_files/pics/experimentalDesign.png)
 
-## Dataset: the first problem
 
-<br>
 
-::: {style="font-size: 20px;"}
-| Species   | Body Mass (g) | Femur Circumference (mm) | Femur lenght (mm) |
-|-----------|:-------------:|:------------------------:|:-----------------:|
-| species 1 |       x       |                          |         x         |
-| species 1 |       x       |                          |         x         |
-| species 2 |       x       |                          |         x         |
-| species 3 |       x       |            x             |         x         |
-| species 4 |       x       |            x             |         x         |
-| species 5 |       x       |            x             |         x         |
-| species 5 |       x       |            x             |         x         |
-| species 6 |               |            x             |         x         |
-| species 7 |               |            x             |         x         |
-| species 7 |               |            x             |         x         |
-:::
 
 ## 
-
 ![](Biol607_files/pics/experimentalDesign2.png)
-## Dataset: the first problem
-
-<br>
-
-::: {style="font-size: 20px;"}
-| Species   | Body Mass (g) | Femur Circumference (mm) | Femur lenght (mm) |
-|-----------|:-------------:|:------------------------:|:-----------------:|
-| species 1 |       x       |                          |         x         |
-| species 1 |       x       |                          |         x         |
-| species 2 |       x       |                          |         x         |
-| species 3 |       x       |            x             |         x         |
-| species 4 |       x       |            x             |         x         |
-| species 5 |       x       |            x             |         x         |
-| species 5 |       x       |            x             |         x         |
-| species 6 |               |            x             |         x         |
-| species 7 |               |            x             |         x         |
-| species 7 |               |            x             |         x         |
-:::
 
 ## 
 
 ![](Biol607_files/pics/experimentalDesign3.png)
-## Dataset: the first problem
 
-<br>
 
-::: {style="font-size: 20px;"}
-| Species   | Body Mass (g) | Femur Circumference (mm) | Femur lenght (mm) |
-|-----------|:-------------:|:------------------------:|:-----------------:|
-| species 1 |       x       |                          |         x         |
-| species 1 |       x       |                          |         x         |
-| species 2 |       x       |                          |         x         |
-| species 3 |       x       |            x             |         x         |
-| species 4 |       x       |            x             |         x         |
-| species 5 |       x       |            x             |         x         |
-| species 5 |       x       |            x             |         x         |
-| species 6 |               |            x             |         x         |
-| species 7 |               |            x             |         x         |
-| species 7 |               |            x             |         x         |
+## Predicting Femur Circ ~ Femur Length
+
+:::: {.columns}
+
+::: {.column width="60%"}
+
+```{r}
+#| echo: False
+
+set.seed(999)
+avesFCFL <- data |> filter(Sec_Ref != "Brinkworth_et_al_2023") |> filter( Aves == "Y" & !is.na(FemurCirc) & !is.na(FemurLen))
+
+# Training and testing sets
+
+
+sample.test <-c(sample(x = 1:nrow(avesFCFL),size = ceiling(nrow(avesFCFL)* 0.3)),which(avesFCFL$Clade.2 =="Sphenisciformes"))
+
+avesFCFL.test <- avesFCFL[sample.test,]
+avesFCFL.train <- avesFCFL[-sample(x = 1:nrow(avesFCFL),size = ceiling(nrow(avesFCFL)* 0.2)),]
+
+# Fit lineal model
+lm_FC <- lm(FemurCirc ~ FemurLen, data = avesFCFL.train)
+
+# Fit loglog model
+loglog_FC <- lm(log(FemurCirc) ~ log(FemurLen), data = avesFCFL.train)
+
+# Multiple linear regression Clade 1
+lmClade1_FC <- lm(FemurCirc ~ FemurLen + Clade.1, data = avesFCFL.train)
+
+
+# Multiple loglog linear regression Clade 1
+logClade1_FC <- lm(log(FemurCirc) ~ log(FemurLen) + Clade.1, data = avesFCFL.train)
+
+
+# Multiple linear regression Clade 2
+lmClade2_FC <- lm(FemurCirc ~ FemurLen + Clade.2, data = avesFCFL.train)
+
+# Multiple loglog linear regression Clade 2
+logClade2_FC <- lm(log(FemurCirc) ~ log(FemurLen) + Clade.2, data = avesFCFL.train)
+
+# Poly model 
+poly2_FC <- lm(FemurCirc ~ poly(FemurLen,2), data = avesFCFL.train)
+
+
+# Multiple Poly model Clade 1
+poly2Clade1_FC <- lm(FemurCirc ~ poly(FemurLen,2) + Clade.1 , data = avesFCFL.train)
+
+# Multiple Poly model Clade 2
+poly2Clade2_FC <- lm(FemurCirc ~ poly(FemurLen,2) + Clade.2, data = avesFCFL.train)
+
+fitvals_FC.train <- data.frame(FemurLen = avesFCFL.train$FemurLen, 
+                         trueFC = avesFCFL.train$FemurCirc,
+                         lm_FC = lm_FC$fitted.values, 
+                         loglog_FC = exp(loglog_FC$fitted.values),
+                         lmClade1_FC = lmClade1_FC$fitted.values,
+                         logClade1_FC = exp(logClade1_FC$fitted.values),
+                         lmClade2_FC = lmClade2_FC$fitted.values,
+                         logClade2_FC = exp(logClade2_FC$fitted.values),
+                         poly2_FC = poly2_FC$fitted.values,
+                         poly2Clade1_FC = poly2Clade1_FC$fitted.values,
+                         poly2Clade2_FC = poly2Clade2_FC$fitted.values)
+
+
+fitvals_FC.long <- fitvals_FC.train %>% pivot_longer(-FemurLen, names_to = 'model', values_to = 'FemurCirc')
+
+
+
+
+```
+
+
+```{r}
+#| message: false
+#| warning: false
+#| font-size: 0.5em
+ggplot(data = fitvals_FC.long) +
+  geom_line(aes(x = FemurLen, y = FemurCirc, color = model)) +
+  geom_point(data = avesFCFL.train, aes(x=FemurLen, y=FemurCirc), size = 0.5, alpha = 1, color = 'darkblue')+
+    theme_gray(base_size = 20)
+```
+
+
+```{r}
+#| message: false
+#| warning: false
+#| font-size: 0.5em
+AICs <- dplyr::tibble(cbind(Models = c("lm_FC", "lmClade1_FC", "lmClade2_FC", "loglog_FC","logClade1_FC", "logClade2_FC", "poly2_FC", "poly2Clade1_FC","poly2Clade2_FC" ), AIC(lm_FC, lmClade1_FC, lmClade2_FC, loglog_FC,logClade1_FC, logClade2_FC, poly2_FC, poly2Clade1_FC,poly2Clade2_FC ), adjR2 = c(0.9243, 0.9243, 0.96,0.9685, 0.9701, 0.9849, 0.9712, 0.9712,0.9794 ) )) |> gt::gt()
+
+AICs |> 
+  gt::tab_options(table.font.size = 13, data_row.padding = gt::px(1), 
+    summary_row.padding = gt::px(1), grand_summary_row.padding = gt::px(1), 
+    footnotes.padding = gt::px(1), source_notes.padding = gt::px(1), 
+    row_group.padding = gt::px(1)) |> gtExtras::gt_highlight_rows(
+     rows = 6,
+     fill = "red",
+     bold_target_only = TRUE,
+     target_col = 1:4
+   )
+```
+
+
+
 :::
+
+::: {.column width="40%"}
+
+```{r}
+n <- length(avesFCFL.train$FemurLen)
+lm_FC.MSE.train <- 1/n * sum((avesFCFL.train$FemurCirc - lm_FC$fitted.values)^2) 
+loglog_FC.MSE.train <- 1/n * sum((log(avesFCFL.train$FemurCirc) - loglog_FC$fitted.values)^2)
+lmClade1_FC.MSE.train <- 1/n * sum((avesFCFL.train$FemurCirc - lmClade1_FC$fitted.values)^2)
+logClade1_FC.MSE.train <- 1/n * sum((log(avesFCFL.train$FemurCirc) - logClade1_FC$fitted.values)^2)
+lmClade2_FC.MSE.train <- 1/n * sum((avesFCFL.train$FemurCirc - lmClade2_FC$fitted.values)^2)
+logClade2_FC.MSE.train <- 1/n * sum((log(avesFCFL.train$FemurCirc) - logClade2_FC$fitted.values)^2)
+poly2_FC.MSE.train <- 1/n * sum((avesFCFL.train$FemurCirc - poly2_FC$fitted.values)^2)
+poly2Clade1_FC.MSE.train <- 1/n * sum((avesFCFL.train$FemurCirc - poly2Clade1_FC$fitted.values)^2)
+poly2Clade2_FC.MSE.train <- 1/n * sum((avesFCFL.train$FemurCirc - poly2Clade2_FC$fitted.values)^2)
+
+MSE.train <- data.frame(type = 'train', lm_FC = lm_FC.MSE.train, 
+                        loglog_FC =loglog_FC.MSE.train,
+                        lmClade1_FC = lmClade1_FC.MSE.train,
+                        logClade1_FC = logClade1_FC.MSE.train,
+                        lmClade2_FC = lmClade2_FC.MSE.train,
+                       logClade2_FC = logClade2_FC.MSE.train,
+                        poly2_FC =poly2_FC.MSE.train,
+                        poly2Clade1_FC = poly2Clade1_FC.MSE.train,
+                        poly2Clade2_FC = poly2Clade2_FC.MSE.train)
+
+lm_FC.prd <- predict(lm_FC, newdata = data.frame(FemurLen = avesFCFL.test$FemurLen))
+loglog_FC.prd <- predict(loglog_FC, newdata = data.frame(FemurLen = log(avesFCFL.test$FemurLen)))
+lmClade1_FC.prd <- predict(lmClade1_FC, 
+                           newdata = data.frame(FemurLen = avesFCFL.test$FemurLen,
+                                                Clade.1= avesFCFL.test$Clade.1))
+logClade1_FC.prd <- predict(logClade1_FC, newdata = data.frame(FemurLen = log(avesFCFL.test$FemurLen),
+                                                Clade.1= avesFCFL.test$Clade.1))
+lmClade2_FC.prd <- predict(lmClade2_FC, newdata = data.frame(FemurLen = avesFCFL.test$FemurLen,
+                                                Clade.2= avesFCFL.test$Clade.2))
+logClade2_FC.prd <- predict(logClade2_FC, newdata = data.frame(FemurLen = log(avesFCFL.test$FemurLen),
+                                                Clade.2= avesFCFL.test$Clade.2))
+poly2_FC.prd <- predict(poly2_FC, newdata = data.frame(FemurLen = avesFCFL.test$FemurLen))
+poly2Clade1_FC.prd <- predict(poly2Clade1_FC, newdata = data.frame(FemurLen = avesFCFL.test$FemurLen,
+                                                Clade.1= avesFCFL.test$Clade.1))
+poly2Clade2_FC.prd <- predict(poly2Clade2_FC, newdata = data.frame(FemurLen = avesFCFL.test$FemurLen,
+                                                Clade.2= avesFCFL.test$Clade.2))
+
+n <- length(avesFCFL.test$FemurLen)
+
+lm_FC.MSE.test <- 1/n * sum((avesFCFL.test$FemurCirc - lm_FC.prd)^2) 
+loglog_FC.MSE.test <- 1/n * sum((log(avesFCFL.test$FemurCirc) - loglog_FC.prd)^2)
+lmClade1_FC.MSE.test <- 1/n * sum((avesFCFL.test$FemurCirc - lmClade1_FC.prd)^2)
+logClade1_FC.MSE.test <- 1/n * sum((log(avesFCFL.test$FemurCirc) - logClade1_FC.prd)^2)
+lmClade2_FC.MSE.test <- 1/n * sum((avesFCFL.test$FemurCirc - lmClade2_FC.prd)^2)
+logClade2_FC.MSE.test <- 1/n * sum((log(avesFCFL.test$FemurCirc) - logClade2_FC.prd)^2)
+poly2_FC.MSE.test <- 1/n * sum((avesFCFL.test$FemurCirc - poly2_FC.prd)^2)
+poly2Clade1_FC.MSE.test <- 1/n * sum((avesFCFL.test$FemurCirc - poly2Clade1_FC.prd)^2)
+poly2Clade2_FC.MSE.test <- 1/n * sum((avesFCFL.test$FemurCirc - poly2Clade2_FC.prd)^2)
+
+MSE.test <- data.frame(type = 'test', lm_FC = lm_FC.MSE.test, 
+                        loglog_FC = loglog_FC.MSE.test,
+                        lmClade1_FC = lmClade1_FC.MSE.test,
+                        logClade1_FC = logClade1_FC.MSE.test,
+                        lmClade2_FC = lmClade2_FC.MSE.test,
+                        logClade2_FC = logClade2_FC.MSE.test,
+                        poly2_FC = poly2_FC.MSE.test,
+                        poly2Clade1_FC = poly2Clade1_FC.MSE.test,
+                        poly2Clade2_FC = poly2Clade2_FC.MSE.test)
+
+
+MSE <- rbind(MSE.train, MSE.test)
+
+#MSE 
+
+MSE.long <- MSE %>% pivot_longer(-type, names_to = 'model', values_to = 'MSE')
+
+
+#levels(as.factor(MSE.long$model))
+
+ MSE.long$model <- factor(MSE.long$model, 
+                            levels = c("lm_FC","lmClade1_FC","lmClade2_FC","loglog_FC","logClade1_FC","logClade2_FC","poly2_FC","poly2Clade1_FC","poly2Clade2_FC"))
+ 
+
+
+
+```
+
+```{r}
+ggplot(data = MSE.long, aes(x = model, y = MSE)) +
+  geom_line(aes(group = type, color = type) )+ 
+  geom_point(aes(color = model))+
+    theme_gray(base_size = 20)
+```
+
+
+
+```{r}
+# No test dataset is necessary
+
+train.control <- trainControl(method = "repeatedcv", 
+                              number = 20, repeats = 10)
+
+
+# Fit lineal model
+lm_FC <- train(FemurCirc ~ FemurLen, data = avesFCFL, method = "lm",
+               trControl = train.control)
+
+# Fit loglog model
+loglog_FC <- train(log(FemurCirc) ~ log(FemurLen), data = avesFCFL, method = "lm",
+               trControl = train.control)
+
+# Multiple linear regression Clade 1
+lmClade1_FC <- train(FemurCirc ~ FemurLen + Clade.1,data = avesFCFL, method = "lm",
+               trControl = train.control)
+
+
+# Multiple loglog linear regression Clade 1
+logClade1_FC <- train(log(FemurCirc) ~ log(FemurLen) + Clade.1, data = avesFCFL, method = "lm",
+               trControl = train.control)
+
+
+# Multiple linear regression Clade 2
+lmClade2_FC <- train(FemurCirc ~ FemurLen + Clade.2, data = avesFCFL, method = "lm",
+               trControl = train.control)
+
+# Multiple loglog linear regression Clade 2
+logClade2_FC <- train(log(FemurCirc) ~ log(FemurLen) + Clade.2, data = avesFCFL, method = "lm",
+               trControl = train.control)
+
+# Poly model 
+poly2_FC <- train(FemurCirc ~ poly(FemurLen,2), data = avesFCFL, method = "lm",
+               trControl = train.control)
+
+
+# Multiple Poly model Clade 1
+poly2Clade1_FC <- train(FemurCirc ~ poly(FemurLen,2) + Clade.1 , data = avesFCFL, method = "lm",
+               trControl = train.control)
+
+# Multiple Poly model Clade 2
+poly2Clade2_FC <- train(FemurCirc ~ poly(FemurLen,2) + Clade.2, data = avesFCFL, method = "lm",
+               trControl = train.control)
+
+
+RMSE <- data.frame(type = 'cv', lm_FC = lm_FC$results$RMSE, 
+                        loglog_FC = loglog_FC$results$RMSE,
+                        lmClade1_FC = lmClade1_FC$results$RMSE,
+                        logClade1_FC = logClade1_FC$results$RMSE,
+                        lmClade2_FC = lmClade2_FC$results$RMSE,
+                        logClade2_FC = logClade2_FC$results$RMSE,
+                        poly2_FC = poly2_FC$results$RMSE,
+                        poly2Clade1_FC = poly2Clade1_FC$results$RMSE,
+                        poly2Clade2_FC = poly2Clade2_FC$results$RMSE)
+
+RMSE.long <- RMSE %>% pivot_longer(-type, names_to = 'model', values_to = 'RMSE')
+
+ggplot(data = RMSE.long, aes(x = model, y = RMSE)) +
+  geom_line(aes(group = type, color = type) )+ 
+  geom_point(aes(color = model))+
+    theme_gray(base_size = 20)
+
+```
+
+
+:::
+
+::::
 
 ## 
 
 ![](Biol607_files/pics/experimentalDesign4.png)
-## Dataset: the first problem
-
-<br>
-
-::: {style="font-size: 20px;"}
-| Species   | Body Mass (g) | Femur Circumference (mm) | Femur lenght (mm) |
-|-----------|:-------------:|:------------------------:|:-----------------:|
-| species 1 |       x       |                          |         x         |
-| species 1 |       x       |                          |         x         |
-| species 2 |       x       |                          |         x         |
-| species 3 |       x       |            x             |         x         |
-| species 4 |       x       |            x             |         x         |
-| species 5 |       x       |            x             |         x         |
-| species 5 |       x       |            x             |         x         |
-| species 6 |               |            x             |         x         |
-| species 7 |               |            x             |         x         |
-| species 7 |               |            x             |         x         |
-:::
-
-## 
-
-![](Biol607_files/pics/experimentalDesign5.png)
-
