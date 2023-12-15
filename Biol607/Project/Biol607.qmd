@@ -33,6 +33,7 @@ Slide Layout: center
 
 
 ::: {.column width="60%" style="display: flex; justify-content: center; align-items: center;"}
+
 ```{mermaid}
 
 graph TD
@@ -51,12 +52,12 @@ graph TD
 
 ## 
 
-::: {.columns style="display: flex !important"}
-::: {.column width="40%" style="display: flex; justify-content: center; align-items: center;"}
+::: columns
+::: {.column width="40%" }
 ![](Biol607_files/pics/slide3a.png){.absolute top="35" right="650" width="550" height="700"}
 :::
 
-::: {.column width="60%" style="display: flex; justify-content: center; align-items: center;"}
+::: {.column width="60%" }
 
 ::: {style="font-size: 32px;"}
 
@@ -66,9 +67,9 @@ graph TD
 
 ## How to get Body Mass?
 
-Getting body mass from extant species =\> weigh
+Getting body mass from **extant** species =\> **weigh**
 
-Getting body mass from extinct species =\> Prediction
+Getting body mass from **extinct** species =\> **Prediction**
 
 
 :::
@@ -97,19 +98,30 @@ Getting body mass from extinct species =\> Prediction
 :::
 
 ::: {.column width="70%" style="display: flex; justify-content: center; align-items: center;"}
+
 ```{r fig.dim = c(16, 12)}
-#| label: fig-1Sample
-#| fig-cap: "Bias in datasets - No Palaeognathae observation"
+
 #| message: false
 #| warning: false
-#| font-size: 0.5em
+#| fig-dpi: 160
+#| 
 
 
 # load libraries
 
 set.seed(999)
-library(pacman)
-pacman::p_load(caret,tidyverse,dplyr,readr, ggplot2, broom, performance, here, gtExtras,npreg)
+#library(pacman)
+#pacman::p_load(caret,tidyverse,dplyr,readr, ggplot2, broom, performance, here, gtExtras,npreg)
+library(caret)
+library(tidyverse)
+library(dplyr)
+library(readr)
+library(ggplot2)
+library(broom)
+library(performance)
+library(here)
+library(gtExtras)
+library(npreg)
 
 setwd(here::here())
 
@@ -119,14 +131,26 @@ data1 <- data |>
   filter(Sec_Ref != "Brinkworth_et_al_2023")  |>
    filter(Aves == "Y" & !is.na(BM.g) & !is.na(FemurCirc) )
 
+```
+
+
+```{r fig.dim= c(25,21)}
+
+#| message: false
+#| warning: false
+#| fig-dpi: 160
+#| 
+
 
 
 ggplot(data1, aes(x = FemurCirc, y = BM.g)) +
-  geom_point(aes( shape = Sec_Ref, color = Clade.1), size = 6)+
+  geom_point(aes( shape = Sec_Ref, color = Clade.1), size = 12)+
   geom_smooth(color = "darkgray", alpha = 0.5, size = 0.5)+
   facet_grid(Sec_Ref ~ .)+
   geom_rect(aes(xmin=50, xmax=150, ymin=0, ymax=150000), color = "red", fill=NA)+
-  theme_gray(base_size = 25)
+  theme_gray(base_size = 40)+
+  theme(title = element_text(size = 50,face = "bold"))+
+ labs(title = "Bias in datasets \n No Palaeognathae observation",y = "Body Mass (g)", x = "Femur circumference (mm)")
 
 
 ```
@@ -139,7 +163,7 @@ ggplot(data1, aes(x = FemurCirc, y = BM.g)) +
 
 
 
-![](Biol607_files/pics/slide5a.jpg){.absolute top="160" right="-220" width="650" height="450"}
+![](Biol607_files/pics/slide5a.jpg){.absolute top="180" right="-120" width="500" height="450"}
 
 ```{r}
 #| out.width="60%"
@@ -153,7 +177,9 @@ geom_segment(aes(x = 1000, y = 200, xend = 1000, yend = 30), color= "darkred",
                   arrow = arrow(length = unit(0.5, "cm")))+
   geom_segment(aes(x = 140000, y = 200, xend = 140000, yend = 30), color= "darkred",
                   arrow = arrow(length = unit(0.5, "cm")))+
-  theme_gray(base_size = 20)
+  theme_gray(base_size = 20)+
+  theme(title = element_text(size = 20,face = "bold"))+
+ labs(title = "Body Mass distribution in modern birds",y = "Abs Freq", x = "Body Mass (g)")
 ```
 
 ::: {style="font-size: 28px;"}
@@ -169,7 +195,9 @@ Flightless birds \~ Theropods
 :::
 ## 
 
-![](Biol607_files/pics/slide6a.png){.absolute top="0" right="400" width="800" height="300"} ![](Biol607_files/pics/slide6b.png){.absolute top="300" right="-200" width="800" height="300"}
+![](Biol607_files/pics/slide6a.png){.absolute top="0" right="400" width="800" height="300"} 
+
+![](Biol607_files/pics/slide6b.png){.absolute top="300" right="-170" width="800" height="300"}
 
 <br><br><br><br><br><br>
 
@@ -208,20 +236,36 @@ Could I improve the model to predict Body Mass in Dinosaurs, if I included sampl
 
 ## 
 
+::: {.columns style="display: flex !important"}
+::: {.column width="100%" style="display: flex; justify-content: center; align-items: center;"}
+
 ![](Biol607_files/pics/experimentalDesign.png)
 
-
+:::
+:::
 
 
 ## 
+
+::: {.columns style="display: flex !important"}
+::: {.column width="100%" style="display: flex; justify-content: center; align-items: center;"}
+
 ![](Biol607_files/pics/experimentalDesign2.png)
+:::
+:::
+
 
 ## 
+
+::: {.columns style="display: flex !important"}
+::: {.column width="100%" style="display: flex; justify-content: center; align-items: center;"}
 
 ![](Biol607_files/pics/experimentalDesign3.png)
+:::
+:::
 
-
-## Predicting Femur Circ ~ Femur Length
+## 
+<h4>Predicting Femur Circumference ~ Femur Length </h4>
 
 ::: columns
 
@@ -299,8 +343,10 @@ fitvals_FC.long <- fitvals_FC.train %>% pivot_longer(-FemurLen, names_to = 'mode
 #| 
 ggplot(data = fitvals_FC.long) +
   geom_line(aes(x = FemurLen, y = FemurCirc, color = model)) +
-  geom_point(data = avesFCFL.train, aes(x=FemurLen, y=FemurCirc), size = 0.5, alpha = 1, color = 'darkblue')+
-  theme_gray(base_size = 35)
+  geom_point(data = avesFCFL.train, aes(x=FemurLen, y=FemurCirc), size = 2, alpha = 1, color = 'darkgrey')+
+  theme_gray(base_size = 35)+
+  theme(title = element_text(size = 40,face = "bold"),axis.title = element_text(size = 30), legend.title = element_text(size = 30))+
+ labs(title = "Fitting models to the true data",y = "Femur Circumference (mm)", x = "Femur Lenght (mm)")
 ```
 
 
@@ -418,7 +464,10 @@ ggplot(data = MSE.long, aes(x = model, y = MSE)) +
   theme(legend.position="none")+
 scale_x_discrete(guide = guide_axis(angle = 45))+
 geom_segment(aes(x = 6, y = 50, xend = 6, yend = 20), color= "darkred",
-                  arrow = arrow(length = unit(0.5, "cm")))
+                  arrow = arrow(length = unit(0.5, "cm")))+
+  theme_gray(base_size = 20)+
+  theme(title = element_text(size = 25,face = "bold"),axis.title = element_text(size = 20), legend.title = element_text(size = 20))+
+ labs(title = "Mean Standard Error Train/test sets",y = "MSE", x = "Models")
 
 ```
 
@@ -486,6 +535,8 @@ RMSE.long <- RMSE %>% pivot_longer(-type, names_to = 'model', values_to = 'RMSE'
 
 
 ```
+
+
 ```{r }
 ggplot(data = RMSE.long, aes(x = model, y = RMSE)) +
   geom_line(aes(group = type, color = type) )+ 
@@ -494,7 +545,10 @@ ggplot(data = RMSE.long, aes(x = model, y = RMSE)) +
   theme(legend.position="none")+
 scale_x_discrete(guide = guide_axis(angle = 45))+
 geom_segment(aes(x = 5, y = 4, xend = 5, yend = 0.5), color= "darkred",
-                  arrow = arrow(length = unit(0.5, "cm")))
+                  arrow = arrow(length = unit(0.5, "cm")))+
+  theme_gray(base_size = 20)+
+  theme(title = element_text(size = 25,face = "bold"),axis.title = element_text(size = 20), legend.title = element_text(size = 20))+
+ labs(title = "Root Mean Standard Error CrossVal",y = "RMSE", x = "Models")
 ```
 
 
@@ -504,10 +558,16 @@ geom_segment(aes(x = 5, y = 4, xend = 5, yend = 0.5), color= "darkred",
 ::::
 
 ## 
+::: {.columns style="display: flex !important"}
+::: {.column width="100%" style="display: flex; justify-content: center; align-items: center;"}
 
 ![](Biol607_files/pics/experimentalDesign4.png)
 
+::: 
+::: 
+
 ##
+<h4>Predicting Body Mass ~ Femur Circumference </h4>
 
 ::: columns 
 
@@ -591,8 +651,10 @@ fitvals_BM.long <- fitvals_BM.train %>% pivot_longer(-FemurCirc, names_to = 'mod
 #| 
 ggplot(data = fitvals_BM.long) +
   geom_line(aes(x = FemurCirc, y = BM, color = model)) +
-  geom_point(data = avesFCBM.train, aes(x = FemurCirc, y = BM.g), size = 0.5, alpha = 1, color = 'darkblue')+
-  theme_gray(base_size = 35)
+  geom_point(data = avesFCBM.train, aes(x = FemurCirc, y = BM.g), size = 2, alpha = 1, color = 'darkgrey')+
+  theme_gray(base_size = 35)+
+  theme(title = element_text(size = 40,face = "bold"),axis.title = element_text(size = 30), legend.title = element_text(size = 30))+
+ labs(title = "Fitting models in actual data",y = "Body Mass (gr)", x = "Femur Circumference (mm)")
 ```
 
 ```{r}
@@ -696,7 +758,10 @@ ggplot(data = MSE.longBM, aes(x = model, y = MSE)) +
   theme(legend.position="none")+
 scale_x_discrete(guide = guide_axis(angle = 45))+
 geom_segment(aes(x = 2, y = 6000000, xend = 2, yend = 1000000), color= "darkred",
-                  arrow = arrow(length = unit(0.5, "cm")))
+                  arrow = arrow(length = unit(0.5, "cm")))+
+  theme_gray(base_size = 20)+
+  theme(title = element_text(size = 25,face = "bold"),axis.title = element_text(size = 20), legend.title = element_text(size = 20))+
+ labs(title = "Mean Standard Error Train/test sets",y = "MSE", x = "Models")
 
 ```
 
@@ -755,12 +820,192 @@ ggplot(data = RMSE.longBM, aes(x = model, y = RMSE)) +
   theme(legend.position="none")+
 scale_x_discrete(guide = guide_axis(angle = 45))+
 geom_segment(aes(x = 2, y = 2000, xend = 2, yend = 200), color= "darkred",
-                  arrow = arrow(length = unit(0.5, "cm")))
+                  arrow = arrow(length = unit(0.5, "cm")))+
+  theme_gray(base_size = 20)+
+  theme(title = element_text(size = 25,face = "bold"),axis.title = element_text(size = 20), legend.title = element_text(size = 20))+
+ labs(title = "Root Mean Standard Error CrossVal",y = "RMSE", x = "Models")
 ```
 
 :::
 
 :::
 
+## 
+
+::: {.columns style="display: flex !important"}
+::: {.column width="100%" style="display: flex; justify-content: center; align-items: center;"}
+
+![](Biol607_files/pics/experimentalDesign5.png)
+
+::: 
+::: 
+
+
+##
+<h4> Comparing my best model with previous proposals </h4>
+
+![](Biol607_files/pics/slide16a.png){.absolute top="50" right="600" width="250" height="170"}
+
+![](Biol607_files/pics/slide15b.png){.absolute top="20" right="-50" width="200" height="200"}
+
+::: columns
+::: {.column width="50%" }
+
+<h7> Theropoda </h7>
+
+```{r}
+# Theropoda
+
+Dinos <- read_csv('Biol607_files/data/Estimated.csv')
+
+Andersonetal1985 <-   0.16 * Dinos$FemurCirc^2.37699
+
+CampbellMarcus1992 <- 10^(-0.065 + 2.411*log10(Dinos$FemurCirc))
+
+CampioneEtal2014 <- 10^(-0.683 + 2.754*log10(Dinos$FemurCirc))
+
+FieldEtal2013 <- exp(-0.11 + 2.4*log(Dinos$FemurCirc))
+
+RomeroAlarcon2023 <-  exp(-0.09121 + 2.37699*log(Dinos$FemurCirc))
+
+
+
+modelsPredict1 <- as.data.frame(cbind(trueBM.g = Dinos$BM.g, FemurCirc = Dinos$FemurCirc, CampbellMarcus1992, FieldEtal2013, CampioneEtal2014, RomeroAlarcon2023, Andersonetal1985))
+
+modelsPredict.BackDinos <- modelsPredict1 |> pivot_longer(cols = c(CampbellMarcus1992, FieldEtal2013, CampioneEtal2014, RomeroAlarcon2023, Andersonetal1985), names_to = "Models", values_to = "predBM.g")
+
+
+
+```
+
+```{r}
+ggplot(data = modelsPredict.BackDinos) +
+  geom_smooth(aes(y = predBM.g, x = FemurCirc, color = Models)) +
+  geom_point(data = Dinos,aes(y = BM.g, x = FemurCirc, shape = Method)) +
+  theme_gray(base_size = 20)+
+  theme(title = element_text(size = 25,face = "bold"),axis.title = element_text(size = 20), legend.title = element_text(size = 20))+
+ labs(title = "Fitted models to VD estimation",y = "VD-Body Mass (g)", x = "Femur Circumference")
+```
+
+```{r}
+modelsPE <- modelsPredict.BackDinos |> group_by(Models) |> mutate(PE = (abs(as.numeric(trueBM.g) - as.numeric(predBM.g))/as.numeric(predBM.g))/100) 
+
+meansPE.th <- modelsPE |> group_by(Models) |> summarize( MPE = mean(PE), sdPE = sd(PE))
+
+```
+
+```{r}
+ggplot(data = meansPE.th, aes(x = Models, y = MPE)) +
+   geom_line(aes(group= 1), color = "lightgreen")+
+  geom_point(aes(color = Models), size= 4)+
+    theme_gray(base_size = 20)+
+  theme(legend.position="none")+
+scale_x_discrete(guide = guide_axis(angle = 45))+
+  geom_segment(aes(x = 3, y = 0.1, xend = 3, yend = 0.01), color= "darkred",
+                  arrow = arrow(length = unit(0.5, "cm")))+
+  theme_gray(base_size = 20)+
+  theme(title = element_text(size = 25,face = "bold"),axis.title = element_text(size = 20), legend.title = element_text(size = 20))+
+ labs(title = "Mean Percentage Error",y = "MPE", x = "Models")
+
+```
+
+:::
+
+
+::: {.column width="50%" }
+
+<h7> Palaeognathae </h7>
+
+```{r}
+
+#Palaeognathae
+
+palaeognathae <- newAves |> filter(Clade.1 == "Palaeognathae" & !is.na(BM.g) & !is.na(FemurCirc))
+Andersonetal1985 <-   0.16 * palaeognathae$FemurCirc^2.37699
+
+CampbellMarcus1992 <- 10^(-0.065 + 2.411*log10(palaeognathae$FemurCirc))
+
+CampioneEtal2014 <- 10^(-0.683 + 2.754*log10(palaeognathae$FemurCirc))
+
+FieldEtal2013 <- exp(-0.11 + 2.4*log(palaeognathae$FemurCirc))
+
+RomeroAlarcon2023 <-  exp(-0.09121 + 2.37699*log(palaeognathae$FemurCirc))
+
+
+modelsPredict1 <- as.data.frame(cbind(trueBM.g = palaeognathae$BM.g, FemurCirc = palaeognathae$FemurCirc, CampbellMarcus1992, FieldEtal2013, CampioneEtal2014, RomeroAlarcon2023,Andersonetal1985))
+
+modelsPredict.backPalae <- modelsPredict1 |> pivot_longer(cols = c(CampbellMarcus1992, FieldEtal2013, CampioneEtal2014, RomeroAlarcon2023,Andersonetal1985), names_to = "Models", values_to = "predBM.g")
+
+
+```
+
+```{r}
+ggplot(data = modelsPredict.backPalae) +
+  geom_smooth(aes(y = predBM.g, x = FemurCirc, color = Models)) +
+  geom_point(data = palaeognathae,aes(y = BM.g, x = FemurCirc)) + theme_gray(base_size = 20)+
+  theme(title = element_text(size = 25,face = "bold"),axis.title = element_text(size = 20), legend.title = element_text(size = 20))+
+ labs(title = "Fitted models to actual Body Mass",y = "Body Mass (g)", x = "Femur Circumference")
+```
+
+```{r}
+
+modelsPE <- modelsPredict.backPalae  |> group_by(Models) |> mutate(PE = (abs(as.numeric(trueBM.g) - as.numeric(predBM.g))/as.numeric(predBM.g))/ 100) 
+
+
+
+meansPPE.Pa <- modelsPE |> group_by(Models) |> summarize( MPE = mean(PE), sdPPE = sd(PE))
+
+
+```
+
+```{r}
+ggplot(data = meansPPE.Pa, aes(x = Models, y = MPE)) +
+   geom_line(aes(group= 1), color = "lightgreen")+
+  geom_point(aes(color = Models), size= 4)+
+    theme_gray(base_size = 20)+
+  theme(legend.position="none")+
+scale_x_discrete(guide = guide_axis(angle = 45))+
+  geom_segment(aes(x = 5, y = 0.1, xend = 5, yend = 0.02), color= "darkred",
+                  arrow = arrow(length = unit(0.5, "cm")))+
+  theme_gray(base_size = 20)+
+  theme(title = element_text(size = 25,face = "bold"),axis.title = element_text(size = 20), legend.title = element_text(size = 20))+
+ labs(title = "Mean Percentage Error",y = "MPE", x = "Models")
+```
+
+:::
+:::
+
+
+##
+
+<h3> Conclusion </h3>
+
+
+::: columns
+::: {.column width="50%"}
+::: {style="font-size: 25px;"}
+
+**Could I improve the current model?**
+
+- NO but...
+
+- I realized that (maybe) Body mass prediction is structured by size. So, I could be wrong to predict BM in small animals  and big animals using the same model.
+
+- Not every fossil is a dinosaur and not every dinosaur is big as a _T.rex_
+
+
+
+**What is next?**
+
+- Evaluate models using size ranges
+
+- Create a shiny app in which people can use the different approaches.
+:::
+:::
+
+::: {.column width="50%"}
+:::
+:::
+![](Biol607_files/pics/slide16b.pnga.png){.absolute top="20" right="-50" width="600" height="950"}
 
 
