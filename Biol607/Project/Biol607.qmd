@@ -26,7 +26,7 @@ Slide Layout: center
 <h3>Why is Body Mass relevant?</h3>
 
 ::: {.columns style="display: flex !important"}
-::: {.column width="40%"}
+::: {.column width="40%" style="display: flex; justify-content: center; align-items: center;"}
 
 ![](Biol607_files/pics/slide2.png){.absolute top="100" right="630" width="450" height="600"}
 :::
@@ -51,12 +51,12 @@ graph TD
 
 ## 
 
-::: columns
-::: {.column width="40%"}
+::: {.columns style="display: flex !important"}
+::: {.column width="40%" style="display: flex; justify-content: center; align-items: center;"}
 ![](Biol607_files/pics/slide3a.png){.absolute top="35" right="650" width="550" height="700"}
 :::
 
-::: {.column width="60%"}
+::: {.column width="60%" style="display: flex; justify-content: center; align-items: center;"}
 
 ::: {style="font-size: 32px;"}
 
@@ -96,7 +96,7 @@ Getting body mass from extinct species =\> Prediction
 :::
 :::
 
-::: {.column width="70%" }
+::: {.column width="70%" style="display: flex; justify-content: center; align-items: center;"}
 ```{r fig.dim = c(16, 12)}
 #| label: fig-1Sample
 #| fig-cap: "Bias in datasets - No Palaeognathae observation"
@@ -223,9 +223,9 @@ Could I improve the model to predict Body Mass in Dinosaurs, if I included sampl
 
 ## Predicting Femur Circ ~ Femur Length
 
-:::: {.columns}
+::: columns
 
-::: {.column width="50%"}
+::: {.column width="50%" }
 
 ```{r}
 #| echo: False
@@ -329,7 +329,7 @@ AICs |>
 
 :::
 
-::: {.column width="50%"}
+::: {.column width="50%" }
 
 ```{r}
 n <- length(avesFCFL.train$FemurLen)
@@ -509,8 +509,13 @@ geom_segment(aes(x = 5, y = 4, xend = 5, yend = 0.5), color= "darkred",
 
 ##
 
-```{r}
+::: columns 
 
+::: {.column width="50%" }
+
+```{r}
+#| message: false
+#| warning: false
 ## Predicting femur circumference 
 
 clde <- levels(as.factor(avesFCFL$Clade.2))
@@ -557,11 +562,11 @@ poly3_BM <- lm(BM.g ~ poly(FemurCirc,3), data = avesFCBM.train)
 library(splines)
 Spline_BM1 <- lm(BM.g ~bs(FemurCirc, knots = 50), data = avesFCBM.train)
 ss.AIC1 <- ss(avesFCBM.train$FemurCirc, avesFCBM.train$BM.g, method = "AIC", nknots = 50)
-ss.AIC1
+
 # Spline model 2 knots
 Spline_BM2 <- lm(BM.g ~ bs(FemurCirc, knots = c(35, 50)), data = avesFCBM.train)
 ss.AIC2 <- ss(avesFCBM.train$FemurCirc, avesFCBM.train$BM.g, method = "AIC", nknots = c(35, 50))
-ss.AIC2
+
 ##### Fit models
 # Fit values
 fitvals_BM.train <- data.frame(FemurCirc = avesFCBM.train$FemurCirc, 
@@ -612,3 +617,150 @@ AICs |>
    )
 
 ```
+
+:::
+
+
+::: {.column width="50%" }
+
+```{r}
+n <- length(avesFCBM.train$BM.g)
+
+
+lm_BM.MSE.train <- 1/n * sum((avesFCBM.train$BM.g - lm_BM$fitted.values)^2) 
+loglog_BM.MSE.train <- 1/n * sum((log(avesFCBM.train$BM.g) - loglog_BM$fitted.values)^2)
+poly2_BM.MSE.train <- 1/n * sum((avesFCBM.train$BM.g - poly2_BM$fitted.values)^2)
+poly3_BM.MSE.train <- 1/n * sum((avesFCBM.train$BM.g - poly3_BM$fitted.values)^2)
+Spline_BM1.MSE.train <- 1/n * sum((avesFCBM.train$BM.g - Spline_BM1$fitted.values)^2)
+Spline_BM2.MSE.train <- 1/n * sum((avesFCBM.train$BM.g - Spline_BM2$fitted.values)^2)
+
+
+MSE.trainBM <- data.frame(type = 'train', lm_BM = lm_BM.MSE.train, 
+                        loglog_BM =loglog_BM.MSE.train,
+                        poly2_BM = poly2_BM.MSE.train,
+                        poly3_BM = poly3_BM.MSE.train,
+                        Spline_BM1 = Spline_BM1.MSE.train,
+                       Spline_BM2 = Spline_BM2.MSE.train)
+
+# Fit lineal model
+lm_BM.prd <- predict(lm_BM, newdata = data.frame(FemurCirc = avesFCBM.test$FemurCirc))
+
+# Fit loglog model
+loglog_BM.prd <- predict(loglog_BM, newdata = data.frame(FemurCirc = avesFCBM.test$FemurCirc))
+
+# Poly 2 model 
+poly2_BM.prd <- predict(poly2_BM, newdata = data.frame(FemurCirc = avesFCBM.test$FemurCirc))
+
+# Poly 3 model 
+poly3_BM.prd <- predict(poly3_BM, newdata = data.frame(FemurCirc = avesFCBM.test$FemurCirc))
+
+# Spline model 1 knots
+library(splines)
+Spline_BM1.prd <- predict(Spline_BM1, newdata = data.frame(FemurCirc = avesFCBM.test$FemurCirc))
+# Spline model 2 knots
+Spline_BM2.prd <- predict(Spline_BM2, newdata = data.frame(FemurCirc = avesFCBM.test$FemurCirc))
+
+
+n <- length(avesFCBM.test$BM.g)
+
+
+
+lm_BM.MSE.test <- 1/n * sum((avesFCBM.test$BM.g - lm_BM.prd)^2) 
+loglog_BM.MSE.test <- 1/n * sum((log(avesFCBM.test$BM.g) - loglog_BM.prd)^2)
+poly2_BM.MSE.test <- 1/n * sum((avesFCBM.test$BM.g - poly2_BM.prd)^2)
+poly3_BM.MSE.test <- 1/n * sum((avesFCBM.test$BM.g - poly3_BM.prd)^2)
+Spline_BM1.MSE.test <- 1/n * sum((avesFCBM.test$BM.g - Spline_BM1.prd)^2)
+Spline_BM2.MSE.test <- 1/n * sum((avesFCBM.test$BM.g - Spline_BM2.prd)^2)
+
+
+MSE.testBM <- data.frame(type = 'test', lm_BM = lm_BM.MSE.test, 
+                        loglog_BM =loglog_BM.MSE.test,
+                        poly2_BM = poly2_BM.MSE.test,
+                        poly3_BM = poly3_BM.MSE.test,
+                        Spline_BM1 = Spline_BM1.MSE.test,
+                       Spline_BM2 = Spline_BM2.MSE.test)
+
+MSE <- rbind(MSE.trainBM, MSE.testBM)
+
+MSE.longBM <- MSE %>% pivot_longer(-type, names_to = 'model', values_to = 'MSE')
+
+
+
+```
+
+```{r }
+ggplot(data = MSE.longBM, aes(x = model, y = MSE)) +
+  geom_line(aes(group = type, color = type) )+ 
+  geom_point(aes(color = model), size= 4)+
+  theme_gray(base_size = 20) +
+  theme(legend.position="none")+
+scale_x_discrete(guide = guide_axis(angle = 45))+
+geom_segment(aes(x = 2, y = 6000000, xend = 2, yend = 1000000), color= "darkred",
+                  arrow = arrow(length = unit(0.5, "cm")))
+
+```
+
+```{r}
+
+# No test dataset is necessary
+
+#train.control <- trainControl(method = "LOOCV")
+train.control <- trainControl(method = "repeatedcv", 
+                              number = 10, repeats = 5)
+
+# Fit lineal model
+lm_BM <- train(BM.g ~FemurCirc, data = newAves, method = "lm",
+               trControl = train.control)
+
+# Fit loglog model
+loglog_BM <- train(log(BM.g) ~ log(FemurCirc), data = newAves, method = "lm",
+               trControl = train.control)
+
+# Poly 2 model 
+poly2_BM <- train(BM.g ~ poly(FemurCirc,2), data = newAves, method = "lm",
+               trControl = train.control)
+
+# Poly 2 model 
+poly3_BM <- train(BM.g ~ poly(FemurCirc,3), data = newAves, method = "lm",
+               trControl = train.control)
+
+# Spline model 1 knots
+library(splines)
+
+Spline_BM1 <- train(BM.g ~bs(FemurCirc, knots = 50), data = newAves, method = "lm",
+               trControl = train.control)
+
+# Spline model 2 knots
+Spline_BM2 <- train(BM.g ~ bs(FemurCirc, knots = c(25, 50)), data = avesFCBM.train, method = "lm",
+               trControl = train.control)
+
+
+RMSE.BM <- data.frame(type = 'cv', lm_BM = lm_BM$results$RMSE, 
+                        loglog_BM = loglog_BM$results$RMSE,
+                        poly2_BM = poly2_BM$results$RMSE,
+                        poly3_BM = poly3_BM$results$RMSE,
+                        Spline_BM1 = Spline_BM1$results$RMSE,
+                        Spline_BM2 = Spline_BM2$results$RMSE)
+
+RMSE.longBM <- RMSE.BM %>% pivot_longer(-type, names_to = 'model', values_to = 'RMSE')
+
+
+```
+
+```{r}
+ggplot(data = RMSE.longBM, aes(x = model, y = RMSE)) +
+  geom_line(aes(group = type, color = type) )+ 
+  geom_point(aes(color = model), size= 4)+
+    theme_gray(base_size = 20)+
+  theme(legend.position="none")+
+scale_x_discrete(guide = guide_axis(angle = 45))+
+geom_segment(aes(x = 2, y = 2000, xend = 2, yend = 200), color= "darkred",
+                  arrow = arrow(length = unit(0.5, "cm")))
+```
+
+:::
+
+:::
+
+
+
