@@ -1,0 +1,560 @@
+---
+title: "Predicting body mass in bipedal dinosaurs"
+format: html
+editor: visual
+---
+
+## Introduction
+
+Body mass is one of the significant variables in the biology of an organism. Body mass (BM) could provide insights into their physiology, ecology, or behavior. Indeed, BM could influence speciation and extinction rates, driving patterns such as giantism in some vertebrates like dinosaurs, whales, and ratites. However, while obtaining BM data from extant species is relatively straightforward, it becomes challenging when attempting to obtain this variable for extinct organisms. Therefore, prediction becomes the only viable method to obtain this feature.
+
+Various methods exist to reconstruct body size, shape, and weight from preserved skeletons (Fossils). The most popular approaches are volumetric density (VD) and extant scaling (ES). Although VD was the initial proposal for calculating BM, ES is currently the most widely used tool. It is based on linear models, is easy to replicate and use, and is more cost-effective compared to the scans used by VD. However, current models have faced criticism due to their potential to over- or under-estimate BM. Another challenge arises from the distinct distribution of mass in quadrupeds compared to bipeds, leading to more complexities in calculating the BM of bipeds as predictors need to be restricted only to forelimbs. Furthermore, the wide range of BM distribution in modern birds, ranging from 50g to 130,000g, presents an additional challenge, especially when considering the presence of giantism in the Palaeognatha group, which is represented as an outlier in the distribution.
+
+To address the biped issue, some researchers have proposed models that exclusively utilize modern birds (excluding Palaeognathes), incorporate humans, or eliminate the humerus as a covariant. However, no attempts have been made to fit a model using different datasets, including ratites as an essential part of the sample. Re-evaluating the proposed models is thus warranted, considering that this group could serve as a good proxy for the BM of dinosaurs. 
+
+
+## Materials and Methods
+
+### Preliminar data set
+
+uni diferentes bases de datos considerando que tuvieran representantes de todos los ordenes actuales en aves, que contenieran body mass y circunferencia. Estas bases de datos fueron principalmente los set de datos que se han usado para ajustar los modelos previamente propuesto, y adicionalmente otras que han sido usadas para propositos de analysis evologicos y evolutivos. Cuide que estas tuvieran principalmnete body mas y circunferencia de femur. Sin embargo, esta incluyes extra information tales como sexo xxx, para futuras investigaciones.
+
+### preliminar Palaeognata data set
+Condiderando que mi objetivo era incluir mas observaciones de paleognata, explicitamente los gneros de masa corpral mas grande Anque estasobservaciones contenian body mas, no contenian circumferen. En vez de eso estas tenian lenght. Por esta razon fue necesario realizar gnerar un analisis preliminar para obtener la circumferencia de femur para dichas observaciones.
+
+
+
+![](Biol607_files/pics/experimentalDesign2.png)
+
+
+### Preliminar analisis de modelamiento
+
+para obtener las circunferencia de femur de las observaciones del paleognata data set, yo explore la relacion de las variables circumferencia y longitud. Siguiendo xxxx, quie demuestra que la linearidad de ambas varables se conserva a travez de los grupos, hice un analisis de regresion que me permitiera posteriormente predecir la circunferencia de femur a partir de la longitud. para ello, desde Preliminar data set filtre las observaciones que tuvieran longitud y circunferencia.Dos analisis se realizaron en paralelo, para el primero dividi el set en traning y test data set, y el segundo se mantuvo el 100% de los datos. En el primer caso fije 9 modelos diferentes usando el set de entrenamiento, y repeti el ejercicio para el set de test. Para evaluar, el performace del modelo compare los errores calculadosusando RMSE como metrica de error y AIC como metrica de selesccion. En el segundo caso, con el set completo de datos fije los mismos 9 models usando resampling K-cross validation y comare los modelos usand RMSE como metrica de medida de error. Finalmente use el mejor modelo selecccinado por ambos analisis y predije las circunferencias de las observaciones en el st de paleognata
+
+Estas 71 observaciones fueron adicionadas al set de datos preliminar, obtuviendo al final un set de datos de  xxx especies, xxx ordenes, xx observaciones con body mass y circunferencia information.
+
+
+### Fitting model to predict body mass
+
+Using the final set data, y explore la relacion de ambas variables body mass y circunferencia. al igual  que el analsis preliminar, realice dos analisis en paralelo. En el primero, dividi el set de datos en dos, y fije 6 modelos distintos al set de entrenamiento, usando estos modelos evalue la predicion de ellos usando el set de test. En ambos subsets medi el error como RMSE y el AIC como medida de selection. En el segundo caso, mantuve el 100% de los conjunto de datos y  fije los mismos m6 moleos usando leave-out-one cross validation. RMSE fue la metrica de error, para finalmente seleccionar el mejor modelo de prediccion de body mass.
+
+
+### Comparando modelos
+
+Para evaluar cuan bien este nuevo modelo predice  el body mass, yo compare su performance con respecto a los modelos publicados previamente (citas). 4 modelos en total fueron contrastado con el escogido en este estdio.Para ello, seleccione un set de datos de dinosaurios teropods (xx sp XX ordenes XXX obser) y una muestra de 28 obsercinones del set de datos de paleognata. De esta manera, podria comparar el performece de predicion de todos los modelos, no solo dentro de dinosaurios, sino dentro de crow group de aves.
+
+Datos que los datos retro transformado presentan dificultades al calcular intervalos de confianza y de prediccion, segui las recomendacione sde XXX y use MPPE como metrica de error y comparacion entre modelos.
+
+Para el analisis entero yo fije la semilla en 999
+
+## Results
+
+```{r}
+#| echo: false
+#| output: false
+
+
+# Fit seed
+set.seed(999)
+
+# Libraries
+library(caret)
+library(tidyverse)
+library(dplyr)
+library(readr)
+library(ggplot2)
+library(broom)
+library(performance)
+library(here)
+library(gtExtras)
+library(npreg)
+library(knitr)
+library(gt)
+library(ggpubr)
+
+setwd(here::here())
+
+#Preliminar dataset
+
+data <- read_csv("Biol607_files/data/DataBase231129.csv") |>
+  filter(Sec_Ref != "Brinkworth_et_al_2023")  
+
+
+
+```
+
+
+Preliminar dataset included 1465 samples, which corresponded to non-avian therapods, stem group and crow group of Aves.
+
+```{r}
+#| echo: false
+table1 <- data |> filter(Clade.1 != "Palaeognathae" & !is.na(FemurCirc) ) |>
+  summarise(orders = length(unique(Clade.2)), Species = length(unique(Taxon)), Obs = length(Clade.1) )
+
+gt(table1) |> tab_options(table.width =  "100%") |> 
+  tab_options(column_labels.background.color = "grey90")|>
+  tab_caption(caption = md("**Table 1** Summary of preliminar dataset."))
+```
+
+Preliminar dataset in Palaeognatha included 1115 sample that has information about Femur lenght but not about Femur Circumference. 
+
+```{r}
+#| echo: false
+
+table2 <- data |> filter(Clade.1 == "Palaeognathae" & is.na(FemurCirc) ) |>
+  summarise(orders = length(unique(Clade.2)), Species = length(unique(Taxon)), Obs = length(Clade.1) )
+
+gt(table2) |> tab_options(table.width =  "100%")|> 
+  tab_options(column_labels.background.color = "grey90")|>
+  tab_caption(caption = md("**Table 2** Summary of preliminar dataset in Palaeognathae"))
+
+```
+Thus, the data set for predicting femur circumference included only observations fro the crown group. 1172 Observations for 32 orders and 502 species
+
+
+```{r}
+#| echo: false
+#| output: false
+# Data set for Femur Circumference prediction
+
+avesFCFL <- data |> filter( Aves == "Y" & !is.na(FemurCirc) & !is.na(FemurLen))
+
+```
+
+
+```{r}
+#| echo: false
+
+table3 <- avesFCFL |> summarise(orders = length(unique(Clade.2)), Species = length(unique(Taxon)), Obs = length(Clade.1))
+
+gt(table3) |> tab_options(table.width =  "100%")|> 
+  tab_options(column_labels.background.color = "grey90")|>
+  tab_caption(caption = md("**Table 3** ummary of dataset for predicting femur circumference in Palaeognathae"))
+
+```
+
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+#| #| label: fig-cap-margin
+#| fig-cap: "MPG vs horsepower, colored by transmission."
+#| cap-location: margin
+
+
+
+# Femur Circumference distribution
+fcHist <- ggplot(avesFCFL) +
+      geom_histogram(aes( x=FemurCirc, fill= Clade.1)) + 
+  theme(axis.title = element_text(size = 10), legend.position="none")+
+ labs(y = "Count", x = "Femur Circumference (mm)")
+
+# Femur Length distribution
+FlHist <- ggplot(avesFCFL) + 
+  geom_histogram(aes( x=FemurLen, fill= Clade.1)) + 
+  theme(axis.title = element_text(size = 10), legend.position="none")+
+ labs(y = "Count", x = "Femur Lenght (mm)")
+# Plot FC ~ FL
+FcFl <- ggplot(avesFCFL, aes(x=FemurLen, y=FemurCirc)) +
+      geom_point(aes(color= Clade.1, shape = as.factor(Living)))+
+   theme(legend.text = element_text(size = 7),legend.direction = 'vertical',legend.position ="bottom")+
+  theme(axis.title = element_text(size = 10))+
+ labs(y = "Femur Circunference (mm)", x = "Femur Lenght (mm)")
+
+# Extract the legend. Returns a gtable
+leg <- get_legend(FcFl)
+
+
+
+ggarrange(fcHist, FlHist, FcFl+theme(legend.position="none") , as_ggplot(leg), 
+          labels = c("A", "B", "C"),
+          ncol = 2, nrow = 2)
+
+```
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+
+###########
+# Preliminar Analysis: Case 1: Split database in train and test subsets
+###########
+
+sample.test <-c(sample(x = 1:nrow(avesFCFL),size = ceiling(nrow(avesFCFL)* 0.3)),which(avesFCFL$Clade.2 =="Sphenisciformes"))
+
+avesFCFL.test <- avesFCFL[sample.test,]
+avesFCFL.train <- avesFCFL[-sample(x = 1:nrow(avesFCFL),size = ceiling(nrow(avesFCFL)* 0.3)),]
+
+###########
+# Fit models in training data
+###########
+
+# Fit lineal model
+lm_FC_c1 <- lm(FemurCirc ~ FemurLen, data = avesFCFL.train)
+
+# Fit loglog model
+loglog_FC_c1 <- lm(log(FemurCirc) ~ log(FemurLen), data = avesFCFL.train)
+
+# Multiple linear regression Clade 1
+lmClade1_FC_c1 <- lm(FemurCirc ~ FemurLen + Clade.1, data = avesFCFL.train)
+
+
+# Multiple loglog linear regression Clade 1
+logClade1_FC_c1 <- lm(log(FemurCirc) ~ log(FemurLen) + Clade.1, data = avesFCFL.train)
+
+
+# Multiple linear regression Clade 2
+lmClade2_FC_c1 <- lm(FemurCirc ~ FemurLen + Clade.2, data = avesFCFL.train)
+
+# Multiple loglog linear regression Clade 2
+logClade2_FC_c1 <- lm(log(FemurCirc) ~ log(FemurLen) + Clade.2, data = avesFCFL.train)
+
+# Poly model 
+poly2_FC_c1 <- lm(FemurCirc ~ poly(FemurLen,2), data = avesFCFL.train)
+
+
+# Multiple Poly model Clade 1
+poly2Clade1_FC_c1 <- lm(FemurCirc ~ poly(FemurLen,2) + Clade.1 , data = avesFCFL.train)
+
+# Multiple Poly model Clade 2
+poly2Clade2_FC_c1 <- lm(FemurCirc ~ poly(FemurLen,2) + Clade.2, data = avesFCFL.train)
+
+
+# Poly 3model 
+poly3_FC_c1 <- lm(FemurCirc ~ poly(FemurLen,3), data = avesFCFL.train)
+
+# Multiple Poly3 model Clade 1
+poly3Clade1_FC_c1 <- lm(FemurCirc ~ poly(FemurLen,3) + Clade.1 , data = avesFCFL.train)
+
+# Multiple Poly3 model Clade 2
+poly3Clade2_FC_c1 <- lm(FemurCirc ~ poly(FemurLen,3) + Clade.2, data = avesFCFL.train)
+
+fitvals_FC.train_c1 <- data.frame(FemurLen = avesFCFL.train$FemurLen, 
+                         trueFC = avesFCFL.train$FemurCirc,
+                         FC_FL = lm_FC_c1$fitted.values, 
+                         logFC_logFL = exp(loglog_FC_c1$fitted.values),
+                         FC_FL.Clade1 = lmClade1_FC_c1$fitted.values,
+                         logFC_logFL.Clade1 = exp(logClade1_FC_c1$fitted.values),
+                         FC_FL.Cl2 = lmClade2_FC_c1$fitted.values,
+                         logFC_logFL.Clade2 = exp(logClade2_FC_c1$fitted.values),
+                         FC_poly2FL = poly2_FC_c1$fitted.values,
+                         FC_poly2FL.Clade1 = poly2Clade1_FC_c1$fitted.values,
+                         FC_poly2FL.Clade2 = poly2Clade2_FC_c1$fitted.values,
+                         FC_poly3FL = poly3_FC_c1$fitted.values,
+                         FC_poly3FL.Clade1 = poly3Clade1_FC_c1$fitted.values,
+                         FC_poly3FL.Clade2 = poly3Clade2_FC_c1$fitted.values)
+
+
+fitvals_FC.long_c1 <- fitvals_FC.train_c1 %>% pivot_longer(-FemurLen, names_to = 'model', values_to = 'FemurCirc')
+
+
+###########
+# RRMSE in training data: Case 1
+###########
+
+n <- length(avesFCFL.train$FemurLen)
+
+
+lm_FC_RMSE.trainc1 <- ( sum((avesFCFL.train$FemurCirc - lm_FC_c1$fitted.values)^2)/n)
+loglog_FC_RMSE.trainc1 <- ( sum((log(avesFCFL.train$FemurCirc) - loglog_FC_c1$fitted.values)^2)/n)
+lmClade1_FC_RMSE.trainc1 <- ( sum((avesFCFL.train$FemurCirc - lmClade1_FC_c1$fitted.values)^2)/n)
+logClade1_FC_RMSE.trainc1 <- ( sum((log(avesFCFL.train$FemurCirc) - logClade1_FC_c1$fitted.values)^2)/n)
+poly2_FC_RMSE.trainc1 <- ( sum((avesFCFL.train$FemurCirc - poly2_FC_c1$fitted.values)^2)/n)
+poly2Clade1_FC_RMSE.trainc1 <- ( sum((avesFCFL.train$FemurCirc - poly2Clade1_FC_c1$fitted.values)^2)/n)
+poly3_FC_RMSE.trainc1 <- ( sum((avesFCFL.train$FemurCirc - poly3_FC_c1$fitted.values)^2)/n)
+poly3Clade1_FC_RMSE.trainc1 <- ( sum((avesFCFL.train$FemurCirc - poly3Clade1_FC_c1$fitted.values)^2)/n)
+lmClade2_FC_RMSE.trainc1 <- ( sum((avesFCFL.train$FemurCirc - lmClade2_FC_c1$fitted.values)^2)/n)
+logClade2_FC_RMSE.trainc1 <- ( sum((log(avesFCFL.train$FemurCirc) - logClade2_FC_c1$fitted.values)^2)/n)
+poly2Clade2_FC_RMSE.trainc1 <- ( sum((avesFCFL.train$FemurCirc - poly2Clade2_FC_c1$fitted.values)^2)/n)
+poly3Clade2_FC_RMSE.trainc1 <- ( sum((avesFCFL.train$FemurCirc - poly3Clade2_FC_c1$fitted.values)^2)/n)
+
+
+
+RMSE.train_c1 <- data.frame(type = 'train', 
+                        lm_FC_c1 = lm_FC_RMSE.trainc1,
+                       loglog_FC_c1 = loglog_FC_RMSE.trainc1,
+                       lmClade1_FC_c1 = lmClade1_FC_RMSE.trainc1,
+                       logClade1_FC_c1 = logClade1_FC_RMSE.trainc1,
+                       poly2_FC_c1 = poly2_FC_RMSE.trainc1, 
+                       poly2Clade1_FC_c1 = poly2Clade1_FC_RMSE.trainc1,
+                       poly3_FC_c1 = poly3_FC_RMSE.trainc1,
+                       poly3Clade1_FC_c1 = poly3Clade1_FC_RMSE.trainc1,
+                       lmClade2_FC_c1 = lmClade2_FC_RMSE.trainc1,
+                       logClade2_FC_c1 = logClade2_FC_RMSE.trainc1, 
+                       poly2Clade2_FC_c1 = poly2Clade2_FC_RMSE.trainc1,
+                       poly3Clade2_FC_c1 =  poly3Clade2_FC_RMSE.trainc1)
+
+
+###########
+# predicting  in test data
+###########
+
+
+lm_FC_c1.prd <- predict(lm_FC_c1, newdata = data.frame(FemurLen = avesFCFL.test$FemurLen))
+loglog_FC_c1.prd <- predict(loglog_FC_c1, newdata = data.frame(FemurLen = avesFCFL.test$FemurLen))
+lmClade1_FC_c1.prd <- predict(lmClade1_FC_c1, newdata = data.frame(FemurLen = avesFCFL.test$FemurLen,
+                                                                   Clade.1=avesFCFL.test$Clade.1))
+logClade1_FC_c1.prd <- predict(logClade1_FC_c1, newdata = data.frame(FemurLen = avesFCFL.test$FemurLen,
+                                                                   Clade.1=avesFCFL.test$Clade.1))
+poly2_FC_c1.prd <- predict(poly2_FC_c1, newdata = data.frame(FemurLen = avesFCFL.test$FemurLen))
+poly2Clade1_FC_c1.prd <- predict(poly2Clade1_FC_c1, newdata = data.frame(FemurLen = avesFCFL.test$FemurLen,
+                                                                   Clade.1=avesFCFL.test$Clade.1))
+poly3_FC_c1.prd <- predict(poly3_FC_c1, newdata = data.frame(FemurLen = avesFCFL.test$FemurLen))
+poly3Clade1_FC_c1.prd <- predict(poly3Clade1_FC_c1, newdata = data.frame(FemurLen = avesFCFL.test$FemurLen,
+                                                                   Clade.1=avesFCFL.test$Clade.1))
+lmClade2_FC_c1.prd <- predict(lmClade2_FC_c1, newdata = data.frame(FemurLen = avesFCFL.test$FemurLen,
+                                                                   Clade.2=avesFCFL.test$Clade.2))
+logClade2_FC_c1.prd <- predict(logClade2_FC_c1, newdata = data.frame(FemurLen = avesFCFL.test$FemurLen,
+                                                                   Clade.2=avesFCFL.test$Clade.2))
+poly2Clade2_FC_c1.prd <- predict(poly2Clade2_FC_c1, newdata = data.frame(FemurLen = avesFCFL.test$FemurLen,
+                                                                   Clade.2=avesFCFL.test$Clade.2))
+poly3Clade2_FC_c1.prd  <- predict(poly3Clade2_FC_c1, newdata = data.frame(FemurLen = avesFCFL.test$FemurLen,
+                                                                   Clade.2=avesFCFL.test$Clade.2))
+
+
+
+###########
+# RRMSE in predicting data set: Case 1
+###########
+
+n <- length(avesFCFL.test$FemurLen)
+
+lm_FC_RMSE.testc1 <- ( sum((avesFCFL.test$FemurCirc - lm_FC_c1.prd)^2)/n)
+loglog_FC_RMSE.testc1 <- ( sum((log(avesFCFL.test$FemurCirc) - loglog_FC_c1.prd)^2)/n)
+lmClade1_FC_RMSE.testc1 <- ( sum((avesFCFL.test$FemurCirc - lmClade1_FC_c1.prd)^2)/n)
+logClade1_FC_RMSE.testc1 <- ( sum((log(avesFCFL.test$FemurCirc) - logClade1_FC_c1.prd)^2)/n)
+poly2_FC_RMSE.testc1 <- ( sum((avesFCFL.test$FemurCirc - poly2_FC_c1.prd)^2)/n)
+poly2Clade1_FC_RMSE.testc1 <- ( sum((avesFCFL.test$FemurCirc - poly2Clade1_FC_c1.prd)^2)/n)
+poly3_FC_RMSE.testc1 <- ( sum((avesFCFL.test$FemurCirc - poly3_FC_c1.prd)^2)/n)
+poly3Clade1_FC_RMSE.testc1 <- ( sum((avesFCFL.test$FemurCirc - poly3Clade1_FC_c1.prd)^2)/n)
+lmClade2_FC_RMSE.testc1 <- ( sum((avesFCFL.test$FemurCirc - lmClade2_FC_c1.prd)^2)/n)
+logClade2_FC_RMSE.testc1 <- ( sum((log(avesFCFL.test$FemurCirc) - logClade2_FC_c1.prd)^2)/n)
+poly2Clade2_FC_RMSE.testc1 <- ( sum((avesFCFL.test$FemurCirc - poly2Clade2_FC_c1.prd)^2)/n)
+poly3Clade2_FC_RMSE.testc1 <- ( sum((avesFCFL.test$FemurCirc - poly3Clade2_FC_c1.prd)^2)/n)
+
+
+
+RMSE.test_c1 <- data.frame(type = 'test', 
+                      lm_FC_c1 = lm_FC_RMSE.testc1,
+                       loglog_FC_c1 = loglog_FC_RMSE.testc1,
+                       lmClade1_FC_c1 = lmClade1_FC_RMSE.testc1,
+                       logClade1_FC_c1 = logClade1_FC_RMSE.testc1,
+                       poly2_FC_c1 = poly2_FC_RMSE.testc1, 
+                       poly2Clade1_FC_c1 = poly2Clade1_FC_RMSE.testc1,
+                       poly3_FC_c1 = poly3_FC_RMSE.testc1,
+                       poly3Clade1_FC_c1 = poly3Clade1_FC_RMSE.testc1,
+                       lmClade2_FC_c1 = lmClade2_FC_RMSE.testc1,
+                       logClade2_FC_c1 = logClade2_FC_RMSE.testc1, 
+                       poly2Clade2_FC_c1 = poly2Clade2_FC_RMSE.testc1,
+                       poly3Clade2_FC_c1 =  poly3Clade2_FC_RMSE.testc1)
+
+
+RMSE_c1 <- rbind(RMSE.train_c1, RMSE.test_c1)
+
+#MSE 
+
+RMSE.long_c1 <- RMSE_c1 %>% pivot_longer(-type, names_to = 'model', values_to = 'MSE')
+
+
+#################################################### Cross Validation ##############################################
+
+###########
+# Preliminar Analysis: Case 2: Split Cross validation k fold
+###########
+
+avesFCFL.cv <- avesFCFL
+
+###########
+# Fit models in training data
+###########
+
+
+train.control <- trainControl(method = "repeatedcv", 
+                              number = 10, repeats = 20)
+
+# Fit lineal model
+lm_FC_c2 <- train(FemurCirc ~ FemurLen, data = avesFCFL.cv,method = "lm",
+               trControl = train.control)
+
+# Fit loglog model
+loglog_FC_c2 <- train(log(FemurCirc) ~ log(FemurLen), data = avesFCFL.cv, method = "lm",
+               trControl = train.control)
+
+# Multiple linear regression Clade 1
+lmClade1_FC_c2 <- train(FemurCirc ~ FemurLen + Clade.1, data = avesFCFL.cv, method = "lm",
+               trControl = train.control)
+
+
+# Multiple loglog linear regression Clade 1
+logClade1_FC_c2 <- train(log(FemurCirc) ~ log(FemurLen) + Clade.1, data = avesFCFL.cv, method = "lm",
+               trControl = train.control)
+
+
+# Multiple linear regression Clade 2
+lmClade2_FC_c2 <- train(FemurCirc ~ FemurLen + Clade.2, data = avesFCFL.cv, method = "lm",
+               trControl = train.control)
+
+# Multiple loglog linear regression Clade 2
+logClade2_FC_c2 <- train(log(FemurCirc) ~ log(FemurLen) + Clade.2, data = avesFCFL.cv, method = "lm",
+               trControl = train.control)
+
+# Poly model 
+poly2_FC_c2 <- train(FemurCirc ~ poly(FemurLen,2), data = avesFCFL.cv, method = "lm",
+               trControl = train.control)
+
+
+# Multiple Poly model Clade 1
+poly2Clade1_FC_c2 <- train(FemurCirc ~ poly(FemurLen,2) + Clade.1 , data = avesFCFL.cv, method = "lm",
+               trControl = train.control)
+
+# Multiple Poly model Clade 2
+poly2Clade2_FC_c2 <- train(FemurCirc ~ poly(FemurLen,2) + Clade.2, data = avesFCFL.cv, method = "lm",
+               trControl = train.control)
+
+
+# Poly 3model 
+poly3_FC_c2 <- train(FemurCirc ~ poly(FemurLen,3), data = avesFCFL.cv, method = "lm",
+               trControl = train.control)
+
+# Multiple Poly3 model Clade 1
+poly3Clade1_FC_c2 <- train(FemurCirc ~ poly(FemurLen,3) + Clade.1 , data = avesFCFL.cv, method = "lm",
+               trControl = train.control)
+
+# Multiple Poly3 model Clade 2
+poly3Clade2_FC_c2 <- train(FemurCirc ~ poly(FemurLen,3) + Clade.2, data = avesFCFL.cv, method = "lm",
+               trControl = train.control)
+
+
+fitvals_FC.cv_c2 <- data.frame(type = "cv",
+                         FC_FL = lm_FC_c2$results$RMSE, 
+                         logFC_logFL = exp(loglog_FC_c2$results$RMSE),
+                         FC_FL.Clade1 = lmClade1_FC_c2$results$RMSE,
+                         logFC_logFL.Clade1 = exp(logClade1_FC_c2$results$RMSE),
+                         FC_FL.Cl2 = lmClade2_FC_c2$results$RMSE,
+                         logFC_logFL.Clade2 = exp(logClade2_FC_c2$results$RMSE),
+                         FC_poly2FL = poly2_FC_c2$results$RMSE,
+                         FC_poly2FL.Clade1 = poly2Clade1_FC_c2$results$RMSE,
+                         FC_poly2FL.Clade2 = poly2Clade2_FC_c2$results$RMSE,
+                         FC_poly3FL = poly3_FC_c2$results$RMSE,
+                         FC_poly3FL.Clade1 = poly3Clade1_FC_c2$results$RMSE,
+                         FC_poly3FL.Clade2 = poly3Clade2_FC_c2$results$RMSE)
+
+
+fitvals_FC.long_c2 <- fitvals_FC.cv_c2 %>% pivot_longer(-type, names_to = 'model', values_to = 'RMSE')
+
+
+
+```
+
+
+```{r }
+#| message: false
+#| warning: false
+#| echo: false
+#| #| label: fig-cap-margin
+#| fig-cap: "MPG vs horsepower, colored by transmission."
+#| cap-location: margin
+
+
+Models_c1 <- ggplot(data = fitvals_FC.long_c1) +
+  geom_line(aes(x = FemurLen, y = FemurCirc, color = model)) +
+  geom_point(data = avesFCFL.train, aes(x=FemurLen, y=FemurCirc), size = 1, alpha = 1, color = 'darkgrey')+
+   theme(legend.text = element_text(size = 7),legend.direction = "vertical",legend.position ="bottom")+
+  theme(axis.title = element_text(size = 10))+
+ labs(y = "Femur Circumference (mm)", x = "Femur Lenght (mm)")+
+  guides(col = guide_legend(nrow = 8))
+
+
+
+# Extract the legend. Returns a gtable
+legModels_c1 <- get_legend(Models_c1)
+
+
+# RMSE case 1
+RMSE.longc1 <-ggplot(data = RMSE.long_c1, aes(x = model, y = MSE)) +
+  geom_line(aes(group = type, color = type) )+ 
+  geom_point(aes(color = model), size= 1)+
+scale_x_discrete(guide = guide_axis(angle = 45))+
+geom_segment(aes(x = 5, y = 100, xend = 5, yend = 20), color= "darkred",
+                 arrow = arrow(length = unit(0.5, "cm")))+
+  theme(axis.title = element_text(size = 10), legend.position="none")+
+ labs(y = "MSE", x = "Models")
+
+# RMSE case 1
+RMSE.longc2 <-ggplot(data = fitvals_FC.long_c2 , aes(x = model, y = RMSE)) +
+  geom_line(aes(group = type, color = type) )+ 
+  geom_point(aes(color = model), size= 1)+
+scale_x_discrete(guide = guide_axis(angle = 45))+
+geom_segment(aes(x = 12, y = 10, xend = 12, yend = 2), color= "darkred",
+                 arrow = arrow(length = unit(0.5, "cm")))+
+  theme(axis.title = element_text(size = 10), legend.position="none")+
+ labs(y = "RMSE", x = "Models")
+
+ggarrange( Models_c1+theme(legend.position="none") , as_ggplot(legModels_c1), RMSE.longc1, RMSE.longc2,
+          labels = c("A","", "B", "C"),
+          ncol = 2, nrow = 2)
+```
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+AICs <- dplyr::tibble(cbind(Models = c("FC_FL", 
+                                       "logFC_logFL", 
+                                       "FC_FL.Clade1", 
+                                       "logFC_logFL.Clade1", 
+                                       "FC_poly2FL", 
+                                       "FC_poly2FL.Clade1", 
+                                       "FC_poly3FL", 
+                                       "FC_poly3FL.Clade1", 
+                                       "FC_FL.Clade2",
+                                       "logFC_logFL.Clade2",
+                                       "FC_poly2FL.Clade2", 
+                                       "FC_poly3FL.Clade2"),
+                            AIC(lm_FC_c1,
+                                loglog_FC_c1, 
+                                lmClade1_FC_c1,
+                                logClade1_FC_c1,
+                                poly2_FC_c1, 
+                                poly2Clade1_FC_c1,
+                                poly3_FC_c1,
+                                poly3Clade1_FC_c1, 
+                                lmClade2_FC_c1,
+                                logClade2_FC_c1, 
+                                poly2Clade2_FC_c1, 
+                                poly3Clade2_FC_c1 ), 
+                            adjR2 =c(
+                              summary(lm_FC_c1)$r.squared,
+                              summary(loglog_FC_c1)$r.squared,
+                              summary(lmClade1_FC_c1)$r.squared,
+                              summary(logClade1_FC_c1)$r.squared,
+                              summary(poly2_FC_c1)$r.squared,
+                              summary(poly2Clade1_FC_c1)$r.squared,
+                              summary(poly3_FC_c1)$r.squared,
+                              summary(poly3Clade1_FC_c1)$r.squared,
+                              summary(lmClade2_FC_c1)$r.squared,
+                              summary(logClade2_FC_c1)$r.squared,
+                              summary(poly2Clade2_FC_c1)$r.squared,
+                              summary(poly3Clade2_FC_c1 )$r.squared ))) |> gt::gt() |> 
+  gt::tab_options(table.width =  "100%", 
+                  column_labels.background.color = "grey90",
+                  table.font.size = 10) |> 
+  gtExtras::gt_highlight_rows( rows = 10,
+                               fill = "red",
+                               bold_target_only = TRUE,
+                               target_col = 1:4) |> 
+  tab_caption(caption = md("**Table 4** "))
+
+
+AICs
+```
+
+
+
+
+
+
