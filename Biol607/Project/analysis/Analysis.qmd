@@ -12,7 +12,7 @@ set.seed(999)
 library(pacman)
 pacman::p_load(caret,tidyverse,dplyr,readr, ggplot2, broom, performance, here)
 
-setwd(here::here())
+
 
 
 # read data
