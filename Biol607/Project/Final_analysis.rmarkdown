@@ -6,6 +6,7 @@ format: html
 editor: visual
 ---
 
+
 ::: {style="text-align: justify"}
 
 ## Introduction
@@ -50,6 +51,7 @@ I compared the performance models in two different stages. From the main databas
 
 ## Results and Discussion
 
+
 ```{r}
 #| echo: false
 #| output: false
@@ -84,7 +86,9 @@ data <- read_csv("Biol607_files/data/DataBase231129.csv") |>
 
 ```
 
+
 Preliminary database in therapoda (non-avian + Aves) included 1790 observations, 48 orders and 677 species ( @tbl-cap-marging-tab1 ). This database gathered mainly every observation that has been used to fit models to predict body mass in this group. Also, it included data used for other purpose as evolutionary question. However, I only included observation that correspond to specimen measurements, both alive/museums or fossils . In other words, I did not included averages by species or indirect measurements.
+
 
 ```{r}
 #| tbl-cap-location: margin
@@ -104,7 +108,9 @@ gt(table1) |> tab_options(table.width =  "100%") |>
 #  tab_caption(caption = md("**Table 1** Summary of preliminar dataset."))
 ```
 
+
 Preliminary dataset from Palaeognathae included 115 observations, seven orders and 38 species ( @tbl-cap-marging-tab2 ). Some extinct species in this group were included because they had femur circumference and femur length information. Thus, they were useful to train the model in the preliminary analysis to predict femur circumference.
+
 
 ```{r}
 #| tbl-cap-location: margin
@@ -124,9 +130,11 @@ gt(table2) |> tab_options(table.width =  "100%")|>
 
 ```
 
+
 ### Predicting femur circumference
 
 Thus, the data set for predicting femur circumference included only observations from the crown group. This data set included 1172 Observations for 32 orders and 502 species ( @tbl-cap-marging-tab3 ). Something relevant from this data set was that it included Neognathae fossils (Terror birds), which were as big as the biggest alive Palaeognathae. Even though both species are from different infra-classes, they showed the same pattern ( @fig-cap-margin-plot1 C ), supporting the idea that the relationship between these variable is conserved through lower taxonomic levels [@Batesetal2007, @Campione2017]. Nevertheless, although I included big-exticted species from Neognathae, it is clear that Palaeoghnathae, in the crow-group of Ave, has had and had more living and extinct species with large sizes in comparison with the rest of Neognathae ( @fig-cap-margin-plot1 A and B ). This pattern is supported by the idea of these flightless birds has evolved to not to be aerodynamics and pushing giantims in those clades [@Crouchetal2019] .
+
 
 ```{r}
 #| echo: false
@@ -468,7 +476,9 @@ fitvals_FC.long_c2 <- fitvals_FC.cv_c2 %>% pivot_longer(-type, names_to = 'model
 
 ```
 
+
 After fitting the models, linear log-log models had the best fit ( @fig-cap-margin-plot2 A) and performance in contrast to polynomial ones ( @fig-cap-margin-plot2 B, C). However, the fit increased when the model considered taxonomic levels, even when they had 30 times more of degree of freedom ( @tbl-cap-marging-tab4 ). Thus, the best model to predict femur circumference was a linear log-log model that considered taxonomic order levels ($logFemurCirc \sim{} 1.1276413 logFemurlen + Orders -1.7878937$). It has -1138.5410 in AIC, more than 500 units less that the next best model. It also had the best adjusted $R^2$ with 0.984. Making this, a relationship almost perfect and really convenient to predict femur circumference from femur length. It also support the idea that the ratio between those variable is conserved in low taxonomic levels [@OgormanHone2012]. This contrast the affirmation that Femur circumference is not affected by ancestry [@Campione2017]; however this effect is not evident in higher taxonomic levels such as species, genera or families, but it is clear here, that order level improve considerably the fit of the model.
+
 
 ```{r }
 #| message: false
@@ -577,9 +587,11 @@ AICs <- dplyr::tibble(cbind(Models = c("FC_FL",
 AICs
 ```
 
+
 Subsequently, using the best model I predicted the femur circumference for the extant specimens in Palaeognathae and then I included them to get the main dataset to predict body mass.
 
 After putting together both preliminary database, I filtered by observations with body mass gotten directly from the especimens. It resulted on only observations from extant species (crow-group of Ave). Thus, I got a dataset with 1036 observations, 27 orders and 446 species ( @tbl-cap-marging-tab5 ). Although it only represent 10% of bird biodiversity, this dataset twice times bigger than the biggest data set used to fit or evaluate models to predict body mass in Theropoda [@Fieldetal2013,@Campioneetal2014].
+
 
 ```{r}
 #| message: false
@@ -633,9 +645,11 @@ gt(table5) |> tab_options(table.width =  "100%")|>
 
 ```
 
+
 #### Selecting models to predict Body Mass
 
 Although I tried to increase the sample in Palaeognathae group, it is evident the bias that currently exist to fit models using the extant species to predict body mass. Palaeognathae is only 2% of the dataset. In other words, for every Palaeognathae observation there is 50 from Neognathae. However, 70% of the Palaeognathae sample is included for the first time in this study. Given that, Campion et al 2014 has been the only one which have included some Palaeognathaes, from which only one observation was \*Sturthrio camelus\*, the biggest flighless modern bird [@Campioneetal2014]. Here, I included 12 more sample from that species and 59 more from others orders in Palaeognathae ( @fig-cap-margin-plot3 ).
+
 
 ```{r}
 #| message: false
@@ -884,7 +898,9 @@ fitvals_BM.long_c2 <- fitvals_BM.cv_c2 %>% pivot_longer(-type, names_to = 'model
 
 ```
 
+
 After fitting models, like in the first analysis, linear log-log model was the best model and the model to predict body mass. It got 809.70 in AIC criterion, around 800 units fewer than the second best model ( @tbl-cap-marging-tab4 ). Likewise, MSE and RME showed that this model has the best performance ( @fig-cap-margin-plot4). It is similar to previous studies in which re-scale in log this kind of variables helps to normalize the residuals, improves the fit of the model, and improve the predictability [@More2022]. However, re-escaled models have some weaknesses because one can not interpret it in its original units, back-transformation yields unequal confident intervals and prediction intervals, and finally, back-transformation demand to include the error or residual portion[@Neyman1960]. In contrast to the error measurements (MSEand RMSE), linear log-log model was not the best adjusted $R^2$ ( @tbl-cap-marging-tab4 ). It was polynomial in second degree. It agree with Campione et al. (2014), who propose that even when statistically a log-linear model would be th best, in biological terms we should consider to predict body mass in dinosaurs using a polynomial model in second degree because body mass is a allometric feature. However, considering all problems that bring re-scale variables to prediction, it could be worth it, evaluate this problem from a machine learning view, considering the pros and cons of the used approaches.
+
 
 ```{r }
 #| message: false
@@ -984,11 +1000,13 @@ AICs <- dplyr::tibble(as.data.frame(cbind(Models = c("BM_FC",
 AICs
 ```
 
+
 ### Evaluating model performance
 
 Body mass prediction in dinosaurs is a one-hundred-years question. It is relevant questions that have help to hypothesized evolutionary patterns about gigantisms in those enigmatic animals. However, although dinosaurs are the most charismatic fossils, there are some fossils such as dodo birds or terror birds which are non-dinosaurs extinct species. Those species are related with modern bird, and their femur circumference overlap with the femur circumference from some current bird such as some clades in Palaeognathae [@Crouchetal2019]. Allow me to guess that those birds also had a body mass similar to some living species. Following the same idea, different studies have used the same model [@Campionetal2014] to predict both non-avian dinosaurs and groups closes to modern birds.
 
 Following this idea, I evaluated how model performed predicting non-avian Theropods (Big animals) and Palaeognathaes (modern birds). As a result, Campion et al 2014 was the best model to predict body mass in dinosaurs ( @fig-cap-margin-plot7 ). However, we should keep in mind that it is not a real prediction, because we will never know the real body mass from fossils [@Campionetal2014], rather than, here what I actually are evaluating is how those models are close to the body mass estimation by VD approaches. It support results presented by Campione et al. 2014 and Campion and Evans 2020. They show that, even when that model is a mathematical formula arising from an empirical model to predict quadrupedal body mass, this model is the closest to the VD estimations. However, any studies have evaluated how this preferred model perform inside the crow-group of birds so far. As results I found that this prefered model to predict body mass does not perform well inside Aves clade. In contrast, the model fitted in this study performed better than Campion et al 2014, and close to Field et al 2013 ( @fig-cap-margin-plot8 ). Apparently, for animals over 80 mm in femur circumference Campion et al 2014 is overestimating the body mass. This has strong consequences given that most of the fossils in the crown-group of birds has been estimated using Campion's et al 2014 model.
+
 
 ```{r}
 #| message: false
@@ -1139,6 +1157,7 @@ ggarrange( modelsPala,RMSE.Pala,
 
 ```
 
+
 ## Conclusion
 
 Since sciences start to study dinosaurs, body mass of the biggest animals has been a constant issue to study physiological, ecological and evolutionary aspects in those iconic groups. However, gigantism is a pattern that not only is presented in dinosaurs, but also in other groups as birds. Thus, a good model to predict body mass should have the ability to perform well predicting in the range of the living birds (interpolation) as well as predict large body mass as in dinosaurs (Extrapolation). Otherwise, models to interpolate or extrapolate should be different or reevaluated. Thus, following the results in this study, although I could not improve the model including Palaeognathae samples, I discovered a interested pattern in which prediction could be depending on the size. It implies that models should evaluate considering the size or the range in which I want to predict, because not every fossil is a dinosaur and not every dinosaur is as big as a *Tyrannosaurus rex*.
@@ -1146,3 +1165,4 @@ Since sciences start to study dinosaurs, body mass of the biggest animals has be
 ### References
 
 :::
+

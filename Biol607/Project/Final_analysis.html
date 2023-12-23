@@ -6,6 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Viviana Romero Alarcon">
 
 <title>Predicting body mass in bipedal dinosaurs</title>
 <style>
@@ -34,6 +35,8 @@ ul.task-list li input[type="checkbox"] {
 <link href="Final_analysis_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="Final_analysis_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -53,6 +56,12 @@ ul.task-list li input[type="checkbox"] {
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Viviana Romero Alarcon </p>
+          </div>
+  </div>
     
   
     
@@ -61,46 +70,54 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<div style="text-align: justify" class="page-columns page-full">
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>Body mass is one of the significant variables in the biology of an organism. Body mass (BM) could provide insights into their physiology, ecology, or behavior. Indeed, BM could influence speciation and extinction rates, driving patterns such as giantism in some vertebrates like dinosaurs, whales, and ratites. However, while obtaining BM data from extant species is relatively straightforward, it becomes challenging when attempting to obtain this variable for extinct organisms. Therefore, prediction becomes the only viable method to obtain this feature.</p>
-<p>Various methods exist to reconstruct body size, shape, and weight from preserved skeletons (Fossils). The most popular approaches are volumetric density (VD) and extant scaling (ES). Although VD was the initial proposal for calculating BM, ES is currently the most widely used tool. It is based on linear models, is easy to replicate and use, and is more cost-effective compared to the scans used by VD. However, current models have faced criticism due to their potential to over- or under-estimate BM. Another challenge arises from the distinct distribution of mass in quadrupeds compared to bipeds, leading to more complexities in calculating the BM of bipeds as predictors need to be restricted only to forelimbs. Furthermore, the wide range of BM distribution in modern birds, ranging from 50g to 130,000g, presents an additional challenge, especially when considering the presence of giantism in the Palaeognatha group, which is represented as an outlier in the distribution.</p>
-<p>To address the biped issue, some researchers have proposed models that exclusively utilize modern birds (excluding Palaeognathes), incorporate humans, or eliminate the humerus as a covariant. However, no attempts have been made to fit a model using different datasets, including ratites as an essential part of the sample. Re-evaluating the proposed models is thus warranted, considering that this group could serve as a good proxy for the BM of dinosaurs.</p>
+<p>Body mass (BM) is one of the most significant variables in the biology of an organism. It could provide insights into their physiology, ecology, or behavior. Indeed, it could influence speciation and extinction rates; driving patterns such as gigantism in some vertebrates like dinosaurs, whales, and palaeognathaes <span class="citation" data-cites="ChristiansenFarina2004">[@ChristiansenFarina2004, @CampioneEvans2020]</span>. However, while obtaining BM data from extant species is relatively straightforward, it becomes challenging when attempting to obtain this variable for extinct organisms. Therefore, prediction becomes the only viable method to obtain this feature<span class="citation" data-cites="CampionEvans2012">[@CampionEvans2012]</span>.</p>
+<p>Various methods exist to reconstruct body size, shape, and weight from preserved skeletons (Fossils). The most popular approaches are volumetric density (VD) and extant scaling (ES). Although VD was the initial proposal for calculating BM, ES is currently the most widely used tool. It is based on linear models, is easy to replicate and use, and is more cost-effective compared to the scans used by VD <span class="citation" data-cites="Andersonetal1985">[@Andersonetal1985]</span>. However, current models have faced criticism due to their potential to over- or under-estimate BM. Another challenge arises from the distinct distribution of mass in quadrupeds compared to bipeds, leading to more complexities in calculating the BM of bipeds as predictors need to be restricted only to forelimbs <span class="citation" data-cites="Campioneetal2014">[@Campioneetal2014, @campioneEvans2020]</span>. Furthermore, the wide range of BM distribution in modern birds, ranging from 50g to 130,000g, presents an additional challenge, especially when the presence of giantism in the Palaeognatha group is considered as an outlier in the distribution.</p>
+<p>To address the biped issue, some researchers have proposed models that exclusively utilize modern birds (excluding Palaeognathes), incorporate humans, or eliminate the humerus as a covariant<span class="citation" data-cites="Campioneetal2014">[@Campioneetal2014]</span>. However, no attempts have been made to fit a model using different datasets, including Palaeognathes as an essential part of the sample. Re-evaluating the proposed models is thus warranted, considering that this group could serve as a good proxy for the BM of dinosaurs.</p>
 </section>
-<section id="materials-and-methods" class="level2">
+<section id="materials-and-methods" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="materials-and-methods">Materials and Methods</h2>
-<section id="preliminar-data-set" class="level3">
-<h3 class="anchored" data-anchor-id="preliminar-data-set">Preliminar data set</h3>
-<p>uni diferentes bases de datos considerando que tuvieran representantes de todos los ordenes actuales en aves, que contenieran body mass y circunferencia. Estas bases de datos fueron principalmente los set de datos que se han usado para ajustar los modelos previamente propuesto, y adicionalmente otras que han sido usadas para propositos de analysis evologicos y evolutivos. Cuide que estas tuvieran principalmnete body mas y circunferencia de femur. Sin embargo, esta incluyes extra information tales como sexo xxx, para futuras investigaciones.</p>
+<section id="preliminary-therapoda-data-set" class="level3">
+<h3 class="anchored" data-anchor-id="preliminary-therapoda-data-set">Preliminary Therapoda data set</h3>
+<p>In order to get the preliminary database, I joined observations from Theropoda group, that had avalibale variables such as body mass (BM.g), femur circumference (FemurCirc) and femur length (FemurLen). I gathered those dataset from different sources that have used them mainly for fitting models to predict body mass in non-avian dinosaurs or for evaluating evolutionary and ecological questions. Despite of my aim involved only the three variable named above, I included extra information as sex, estimation type, pneumatic feature among other, for future researching.</p>
 </section>
-<section id="preliminar-palaeognata-data-set" class="level3">
-<h3 class="anchored" data-anchor-id="preliminar-palaeognata-data-set">preliminar Palaeognata data set</h3>
-<p>Condiderando que mi objetivo era incluir mas observaciones de paleognata, explicitamente los gneros de masa corpral mas grande Anque estasobservaciones contenian body mas, no contenian circumferen. En vez de eso estas tenian lenght. Por esta razon fue necesario realizar gnerar un analisis preliminar para obtener la circumferencia de femur para dichas observaciones.</p>
-<p><img src="Biol607_files/pics/experimentalDesign2.png" class="img-fluid"></p>
+<section id="preliminary-palaeognathae-dataset" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="preliminary-palaeognathae-dataset">Preliminary Palaeognathae dataset</h3>
+<p>To include the largest and heaviest living birds in to the the sample, I gathered every published paper with available body mass, and femur circumference or femur length from Palaeognathae group. Most of those observations have been obtained from alive animals, getting only femur length instead of femur circumference measure, given that it is only available from specimens in museums.</p>
+<p>Considering this issue, to collect a workable database, I decided to split the experimental design in three different analysis (see <a href="#fig-expDesign">Figure&nbsp;1</a>). Thus, to use Palaeognathae observations to fit models and then to predict body mass, I had first to predict femur circumference from femur length (see <a href="#fig-expDesign">Figure&nbsp;1</a> A), followed by the main analyses (see <a href="#fig-expDesign">Figure&nbsp;1</a> B and C)</p>
+<div id="fig-expDesign" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="Biol607_files/pics/experimentalDesign2.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption margin-caption">Figure&nbsp;1: Experimental design</figcaption>
+</figure>
+</div>
 </section>
-<section id="preliminar-analisis-de-modelamiento" class="level3">
-<h3 class="anchored" data-anchor-id="preliminar-analisis-de-modelamiento">Preliminar analisis de modelamiento</h3>
-<p>para obtener las circunferencia de femur de las observaciones del paleognata data set, yo explore la relacion de las variables circumferencia y longitud. Siguiendo xxxx, quie demuestra que la linearidad de ambas varables se conserva a travez de los grupos, hice un analisis de regresion que me permitiera posteriormente predecir la circunferencia de femur a partir de la longitud. para ello, desde Preliminar data set filtre las observaciones que tuvieran longitud y circunferencia.Dos analisis se realizaron en paralelo, para el primero dividi el set en traning y test data set, y el segundo se mantuvo el 100% de los datos. En el primer caso fije 9 modelos diferentes usando el set de entrenamiento, y repeti el ejercicio para el set de test. Para evaluar, el performace del modelo compare los errores calculadosusando RMSE como metrica de error y AIC como metrica de selesccion. En el segundo caso, con el set completo de datos fije los mismos 9 models usando resampling K-cross validation y comare los modelos usand RMSE como metrica de medida de error. Finalmente use el mejor modelo selecccinado por ambos analisis y predije las circunferencias de las observaciones en el st de paleognata</p>
-<p>Estas 71 observaciones fueron adicionadas al set de datos preliminar, obtuviendo al final un set de datos de xxx especies, xxx ordenes, xx observaciones con body mass y circunferencia information.</p>
+<section id="preliminary-modeling-analysis-predicting-femur-circumference" class="level3">
+<h3 class="anchored" data-anchor-id="preliminary-modeling-analysis-predicting-femur-circumference">Preliminary modeling analysis: Predicting Femur circumference</h3>
+<p>First off, from preliminary Therapoda and Palaeognathae databases, I filter the observations with femur circumference and length belonging to Class Aves (Crow-group in Therapoda). I explored the relationship between both variables femur circumference and femur length. Then, I decided to fit 12 different models including or not low taxonomic levels (infraclass and order levels) as a categorical co-variant. To get the best model that fitted to my data, I did two parallel analyses (<a href="#fig-expDesign">Figure&nbsp;1</a> A) . For the first one I split the Aves data set in two subsets (training and test). For the training sunset I fit the 12 models ( <a href="#tbl-cap-marging-tab4">Table&nbsp;4</a> ) and then use the coefficients to predict the test subset. I compared the real values with the predicted and used Mean Standard Error as model performance measure and AIC as best-model selector. For the second subset, I kept the whole subset and fitted the 12 models using re-sampling K-folds Cross Validation approach. I used 10 folds and 20 re-sampling iterations. In this case I used Root Mean Standard Error as the measure to evaluate model performance and selection.</p>
+<p>With the best model I predicted femur circumference from femur length for the Palaeognathae database. I joined both preliminaries databases to make a main database to continue with the main analyses ( <a href="#fig-expDesign">Figure&nbsp;1</a> A and B ).</p>
 </section>
 <section id="fitting-model-to-predict-body-mass" class="level3">
 <h3 class="anchored" data-anchor-id="fitting-model-to-predict-body-mass">Fitting model to predict body mass</h3>
-<p>Using the final set data, y explore la relacion de ambas variables body mass y circunferencia. al igual que el analsis preliminar, realice dos analisis en paralelo. En el primero, dividi el set de datos en dos, y fije 6 modelos distintos al set de entrenamiento, usando estos modelos evalue la predicion de ellos usando el set de test. En ambos subsets medi el error como RMSE y el AIC como medida de selection. En el segundo caso, mantuve el 100% de los conjunto de datos y fije los mismos m6 moleos usando leave-out-one cross validation. RMSE fue la metrica de error, para finalmente seleccionar el mejor modelo de prediccion de body mass.</p>
+<p>using the main database, I explored the relationship between both variables body mass (BM.g) and femur Circumference (FemurCirc). I fitted six models, including linear, polynomials and spline models. In this case I did not considered taxonomic levels given that predicting body mass in non-avian dinosaurs is a extrapolation exercise instead of interpolation inside Aves class.</p>
+<p>In the same ways as the last prediction analysis, I repeated the same process ( <a href="#fig-expDesign">Figure&nbsp;1</a> B ). However, instead of using re-sampling K-fold Cross Validation; in this case, I used leave-out-one Cross Validation. I used this technique because the sampling did not take into account taxonomic levels, then if any level has only one observation when it is keep off the level can not be evaluated.</p>
 </section>
-<section id="comparando-modelos" class="level3">
-<h3 class="anchored" data-anchor-id="comparando-modelos">Comparando modelos</h3>
-<p>Para evaluar cuan bien este nuevo modelo predice el body mass, yo compare su performance con respecto a los modelos publicados previamente (citas). 4 modelos en total fueron contrastado con el escogido en este estdio.Para ello, seleccione un set de datos de dinosaurios teropods (xx sp XX ordenes XXX obser) y una muestra de 28 obsercinones del set de datos de paleognata. De esta manera, podria comparar el performece de predicion de todos los modelos, no solo dentro de dinosaurios, sino dentro de crow group de aves.</p>
-<p>Datos que los datos retro transformado presentan dificultades al calcular intervalos de confianza y de prediccion, segui las recomendacione sde XXX y use MPPE como metrica de error y comparacion entre modelos.</p>
-<p>Para el analisis entero yo fije la semilla en 999</p>
+<section id="comparing-previous-models-with-my-best-model" class="level3">
+<h3 class="anchored" data-anchor-id="comparing-previous-models-with-my-best-model">Comparing previous models with my best model</h3>
+<p>To evaluate how good my model predict body mass in non-avian dinosaurs, I compared it performance the most used models for this purpose. I got four models from literature: <span class="math inline">\(BM \sim{} 0.16 FemurCirc 2.73\)</span> <span class="citation" data-cites="Andersonetal1985">[@Andersonetal1985]</span>, <span class="math inline">\(log10 BM \sim{} 2.411 log10 FemurCirc – 0.065\)</span> <span class="citation" data-cites="CambellMarcus1992">[@CambellMarcus1992]</span>, <span class="math inline">\(log BM \sim{}2.4 log FemurCirc – 0.11\)</span> <span class="citation" data-cites="Fieldetal2013">[@Fieldetal2013]</span>, <span class="math inline">\(log BM \sim{} 2.754 log FemurCirc – 0.683\)</span> <span class="citation" data-cites="Campioneetal2014">[@Campioneetal2014]</span> and one model from this study <span class="math inline">\(log BM \sim{} 2.37699 log FemurCirc -0.09121\)</span>.</p>
+<p>I compared the performance models in two different stages. From the main database, I filter all non-avian Therapods whose body mass was estimated by Volumetric- density approaches. This subset was used to evaluate models under a extrapolation scenery. Likewise, I filtered Palaeognathae group to evaluate the performance under a interpolation scenery. In both cases, I used mean percentage prediction error (MPPE). Given that models have different scale I had to back transform the result. It could cause bias in estimations such as MSE, confident intervals or predict intervals. This is way in these cases, MPPE is recommended over another measurements <span class="citation" data-cites="Smith1980">[@Smith1980]</span>. Finally, I fixed the seed in 999 for the entire analysis and make it reproducible.</p>
 </section>
 </section>
-<section id="results" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="results">Results</h2>
-<p>Preliminar dataset included 1465 samples, which corresponded to non-avian therapods, stem group and crow group of Aves.</p>
-<div class="cell">
-<div class="cell-output-display">
+<section id="results-and-discussion" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="results-and-discussion">Results and Discussion</h2>
+<p>Preliminary database in therapoda (non-avian + Aves) included 1790 observations, 48 orders and 677 species ( <a href="#tbl-cap-marging-tab1">Table&nbsp;1</a> ). This database gathered mainly every observation that has been used to fit models to predict body mass in this group. Also, it included data used for other purpose as evolutionary question. However, I only included observation that correspond to specimen measurements, both alive/museums or fossils . In other words, I did not included averages by species or indirect measurements.</p>
+<div class="cell page-columns page-full">
+<div class="cell-output-display page-columns page-full">
+<div id="tbl-cap-marging-tab1" class="anchored page-columns page-full">
 
-<div id="dginazjvcw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="dginazjvcw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;" class="page-columns page-full">
 <style>#dginazjvcw table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
@@ -541,7 +558,6 @@ ul.task-list li input[type="checkbox"] {
 }
 </style>
 <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-  <caption><strong>Table 1</strong> Summary of preliminar dataset.</caption>
   <thead>
     
     <tr class="gt_col_headings">
@@ -551,37 +567,39 @@ ul.task-list li input[type="checkbox"] {
     </tr>
   </thead>
   <tbody class="gt_table_body">
-    <tr><td headers="orders" class="gt_row gt_right">39</td>
-<td headers="Species" class="gt_row gt_right">589</td>
-<td headers="Obs" class="gt_row gt_right">1465</td></tr>
+    <tr><td headers="orders" class="gt_row gt_right">48</td>
+<td headers="Species" class="gt_row gt_right">677</td>
+<td headers="Obs" class="gt_row gt_right">1790</td></tr>
   </tbody>
   
   
 </table>
+<div class="quarto-table-caption margin-caption">Table&nbsp;1:  <p>Preliminary database of Therapoda group.</p> </div></div>
 </div>
 </div>
 </div>
-<p>Preliminar dataset in Palaeognatha included 1115 sample that has information about Femur lenght but not about Femur Circumference.</p>
-<div class="cell">
-<div class="cell-output-display">
+<p>Preliminary dataset from Palaeognathae included 115 observations, seven orders and 38 species ( <a href="#tbl-cap-marging-tab2">Table&nbsp;2</a> ). Some extinct species in this group were included because they had femur circumference and femur length information. Thus, they were useful to train the model in the preliminary analysis to predict femur circumference.</p>
+<div class="cell page-columns page-full">
+<div class="cell-output-display page-columns page-full">
+<div id="tbl-cap-marging-tab2" class="anchored page-columns page-full">
 
-<div id="gfskraeszl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#gfskraeszl table {
+<div id="xoegfskrae" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;" class="page-columns page-full">
+<style>#xoegfskrae table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#gfskraeszl thead, #gfskraeszl tbody, #gfskraeszl tfoot, #gfskraeszl tr, #gfskraeszl td, #gfskraeszl th {
+#xoegfskrae thead, #xoegfskrae tbody, #xoegfskrae tfoot, #xoegfskrae tr, #xoegfskrae td, #xoegfskrae th {
   border-style: none;
 }
 
-#gfskraeszl p {
+#xoegfskrae p {
   margin: 0;
   padding: 0;
 }
 
-#gfskraeszl .gt_table {
+#xoegfskrae .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -607,12 +625,12 @@ ul.task-list li input[type="checkbox"] {
   border-left-color: #D3D3D3;
 }
 
-#gfskraeszl .gt_caption {
+#xoegfskrae .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#gfskraeszl .gt_title {
+#xoegfskrae .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -624,7 +642,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-width: 0;
 }
 
-#gfskraeszl .gt_subtitle {
+#xoegfskrae .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -636,7 +654,7 @@ ul.task-list li input[type="checkbox"] {
   border-top-width: 0;
 }
 
-#gfskraeszl .gt_heading {
+#xoegfskrae .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -648,13 +666,13 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#gfskraeszl .gt_bottom_border {
+#xoegfskrae .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#gfskraeszl .gt_col_headings {
+#xoegfskrae .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -669,7 +687,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#gfskraeszl .gt_col_heading {
+#xoegfskrae .gt_col_heading {
   color: #333333;
   background-color: #E5E5E5;
   font-size: 100%;
@@ -689,7 +707,7 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#gfskraeszl .gt_column_spanner_outer {
+#xoegfskrae .gt_column_spanner_outer {
   color: #333333;
   background-color: #E5E5E5;
   font-size: 100%;
@@ -701,15 +719,15 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 4px;
 }
 
-#gfskraeszl .gt_column_spanner_outer:first-child {
+#xoegfskrae .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#gfskraeszl .gt_column_spanner_outer:last-child {
+#xoegfskrae .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#gfskraeszl .gt_column_spanner {
+#xoegfskrae .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -721,11 +739,11 @@ ul.task-list li input[type="checkbox"] {
   width: 100%;
 }
 
-#gfskraeszl .gt_spanner_row {
+#xoegfskrae .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#gfskraeszl .gt_group_heading {
+#xoegfskrae .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -751,7 +769,7 @@ ul.task-list li input[type="checkbox"] {
   text-align: left;
 }
 
-#gfskraeszl .gt_empty_group_heading {
+#xoegfskrae .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -766,15 +784,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 
-#gfskraeszl .gt_from_md > :first-child {
+#xoegfskrae .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#gfskraeszl .gt_from_md > :last-child {
+#xoegfskrae .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#gfskraeszl .gt_row {
+#xoegfskrae .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -793,7 +811,7 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#gfskraeszl .gt_stub {
+#xoegfskrae .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -806,7 +824,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#gfskraeszl .gt_stub_row_group {
+#xoegfskrae .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -820,15 +838,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: top;
 }
 
-#gfskraeszl .gt_row_group_first td {
+#xoegfskrae .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#gfskraeszl .gt_row_group_first th {
+#xoegfskrae .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#gfskraeszl .gt_summary_row {
+#xoegfskrae .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -838,16 +856,16 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#gfskraeszl .gt_first_summary_row {
+#xoegfskrae .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#gfskraeszl .gt_first_summary_row.thick {
+#xoegfskrae .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#gfskraeszl .gt_last_summary_row {
+#xoegfskrae .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -857,7 +875,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#gfskraeszl .gt_grand_summary_row {
+#xoegfskrae .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -867,7 +885,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#gfskraeszl .gt_first_grand_summary_row {
+#xoegfskrae .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -877,7 +895,7 @@ ul.task-list li input[type="checkbox"] {
   border-top-color: #D3D3D3;
 }
 
-#gfskraeszl .gt_last_grand_summary_row_top {
+#xoegfskrae .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -887,11 +905,11 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#gfskraeszl .gt_striped {
+#xoegfskrae .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#gfskraeszl .gt_table_body {
+#xoegfskrae .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -900,7 +918,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#gfskraeszl .gt_footnotes {
+#xoegfskrae .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -914,7 +932,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#gfskraeszl .gt_footnote {
+#xoegfskrae .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -923,7 +941,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#gfskraeszl .gt_sourcenotes {
+#xoegfskrae .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -937,7 +955,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#gfskraeszl .gt_sourcenote {
+#xoegfskrae .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -945,68 +963,67 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#gfskraeszl .gt_left {
+#xoegfskrae .gt_left {
   text-align: left;
 }
 
-#gfskraeszl .gt_center {
+#xoegfskrae .gt_center {
   text-align: center;
 }
 
-#gfskraeszl .gt_right {
+#xoegfskrae .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#gfskraeszl .gt_font_normal {
+#xoegfskrae .gt_font_normal {
   font-weight: normal;
 }
 
-#gfskraeszl .gt_font_bold {
+#xoegfskrae .gt_font_bold {
   font-weight: bold;
 }
 
-#gfskraeszl .gt_font_italic {
+#xoegfskrae .gt_font_italic {
   font-style: italic;
 }
 
-#gfskraeszl .gt_super {
+#xoegfskrae .gt_super {
   font-size: 65%;
 }
 
-#gfskraeszl .gt_footnote_marks {
+#xoegfskrae .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#gfskraeszl .gt_asterisk {
+#xoegfskrae .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#gfskraeszl .gt_indent_1 {
+#xoegfskrae .gt_indent_1 {
   text-indent: 5px;
 }
 
-#gfskraeszl .gt_indent_2 {
+#xoegfskrae .gt_indent_2 {
   text-indent: 10px;
 }
 
-#gfskraeszl .gt_indent_3 {
+#xoegfskrae .gt_indent_3 {
   text-indent: 15px;
 }
 
-#gfskraeszl .gt_indent_4 {
+#xoegfskrae .gt_indent_4 {
   text-indent: 20px;
 }
 
-#gfskraeszl .gt_indent_5 {
+#xoegfskrae .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
 <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-  <caption><strong>Table 2</strong> Summary of preliminar dataset in Palaeognathae</caption>
   <thead>
     
     <tr class="gt_col_headings">
@@ -1023,30 +1040,34 @@ ul.task-list li input[type="checkbox"] {
   
   
 </table>
+<div class="quarto-table-caption margin-caption">Table&nbsp;2:  <p>Preliminar database from Palaeognathae</p> </div></div>
 </div>
 </div>
 </div>
-<p>Thus, the data set for predicting femur circumference included only observations fro the crown group. 1172 Observations for 32 orders and 502 species</p>
-<div class="cell">
-<div class="cell-output-display">
+<section id="predicting-femur-circumference" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="predicting-femur-circumference">Predicting femur circumference</h3>
+<p>Thus, the data set for predicting femur circumference included only observations from the crown group. This data set included 1172 Observations for 32 orders and 502 species ( <a href="#tbl-cap-marging-tab3">Table&nbsp;3</a> ). Something relevant from this data set was that it included Neognathae fossils (Terror birds), which were as big as the biggest alive Palaeognathae. Even though both species are from different infra-classes, they showed the same pattern ( <a href="#fig-cap-margin-plot1">Figure&nbsp;2</a> C ), supporting the idea that the relationship between these variable is conserved through lower taxonomic levels <span class="citation" data-cites="Batesetal2007">[@Batesetal2007, @Campione2017]</span>. Nevertheless, although I included big-exticted species from Neognathae, it is clear that Palaeoghnathae, in the crow-group of Ave, has had and had more living and extinct species with large sizes in comparison with the rest of Neognathae ( <a href="#fig-cap-margin-plot1">Figure&nbsp;2</a> A and B ). This pattern is supported by the idea of these flightless birds has evolved to not to be aerodynamics and pushing giantims in those clades <span class="citation" data-cites="Crouchetal2019">[@Crouchetal2019]</span> .</p>
+<div class="cell page-columns page-full">
+<div class="cell-output-display page-columns page-full">
+<div id="tbl-cap-marging-tab3" class="anchored page-columns page-full">
 
-<div id="uweyzzdxyo" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#uweyzzdxyo table {
+<div id="szliuweyzz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;" class="page-columns page-full">
+<style>#szliuweyzz table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#uweyzzdxyo thead, #uweyzzdxyo tbody, #uweyzzdxyo tfoot, #uweyzzdxyo tr, #uweyzzdxyo td, #uweyzzdxyo th {
+#szliuweyzz thead, #szliuweyzz tbody, #szliuweyzz tfoot, #szliuweyzz tr, #szliuweyzz td, #szliuweyzz th {
   border-style: none;
 }
 
-#uweyzzdxyo p {
+#szliuweyzz p {
   margin: 0;
   padding: 0;
 }
 
-#uweyzzdxyo .gt_table {
+#szliuweyzz .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1072,12 +1093,12 @@ ul.task-list li input[type="checkbox"] {
   border-left-color: #D3D3D3;
 }
 
-#uweyzzdxyo .gt_caption {
+#szliuweyzz .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#uweyzzdxyo .gt_title {
+#szliuweyzz .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1089,7 +1110,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-width: 0;
 }
 
-#uweyzzdxyo .gt_subtitle {
+#szliuweyzz .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1101,7 +1122,7 @@ ul.task-list li input[type="checkbox"] {
   border-top-width: 0;
 }
 
-#uweyzzdxyo .gt_heading {
+#szliuweyzz .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1113,13 +1134,13 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#uweyzzdxyo .gt_bottom_border {
+#szliuweyzz .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#uweyzzdxyo .gt_col_headings {
+#szliuweyzz .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1134,7 +1155,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#uweyzzdxyo .gt_col_heading {
+#szliuweyzz .gt_col_heading {
   color: #333333;
   background-color: #E5E5E5;
   font-size: 100%;
@@ -1154,7 +1175,7 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#uweyzzdxyo .gt_column_spanner_outer {
+#szliuweyzz .gt_column_spanner_outer {
   color: #333333;
   background-color: #E5E5E5;
   font-size: 100%;
@@ -1166,15 +1187,15 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 4px;
 }
 
-#uweyzzdxyo .gt_column_spanner_outer:first-child {
+#szliuweyzz .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#uweyzzdxyo .gt_column_spanner_outer:last-child {
+#szliuweyzz .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#uweyzzdxyo .gt_column_spanner {
+#szliuweyzz .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1186,11 +1207,11 @@ ul.task-list li input[type="checkbox"] {
   width: 100%;
 }
 
-#uweyzzdxyo .gt_spanner_row {
+#szliuweyzz .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#uweyzzdxyo .gt_group_heading {
+#szliuweyzz .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1216,7 +1237,7 @@ ul.task-list li input[type="checkbox"] {
   text-align: left;
 }
 
-#uweyzzdxyo .gt_empty_group_heading {
+#szliuweyzz .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1231,15 +1252,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 
-#uweyzzdxyo .gt_from_md > :first-child {
+#szliuweyzz .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#uweyzzdxyo .gt_from_md > :last-child {
+#szliuweyzz .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#uweyzzdxyo .gt_row {
+#szliuweyzz .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1258,7 +1279,7 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#uweyzzdxyo .gt_stub {
+#szliuweyzz .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1271,7 +1292,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#uweyzzdxyo .gt_stub_row_group {
+#szliuweyzz .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1285,15 +1306,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: top;
 }
 
-#uweyzzdxyo .gt_row_group_first td {
+#szliuweyzz .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#uweyzzdxyo .gt_row_group_first th {
+#szliuweyzz .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#uweyzzdxyo .gt_summary_row {
+#szliuweyzz .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1303,16 +1324,16 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#uweyzzdxyo .gt_first_summary_row {
+#szliuweyzz .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#uweyzzdxyo .gt_first_summary_row.thick {
+#szliuweyzz .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#uweyzzdxyo .gt_last_summary_row {
+#szliuweyzz .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1322,7 +1343,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#uweyzzdxyo .gt_grand_summary_row {
+#szliuweyzz .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1332,7 +1353,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#uweyzzdxyo .gt_first_grand_summary_row {
+#szliuweyzz .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1342,7 +1363,7 @@ ul.task-list li input[type="checkbox"] {
   border-top-color: #D3D3D3;
 }
 
-#uweyzzdxyo .gt_last_grand_summary_row_top {
+#szliuweyzz .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1352,11 +1373,11 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#uweyzzdxyo .gt_striped {
+#szliuweyzz .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#uweyzzdxyo .gt_table_body {
+#szliuweyzz .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1365,7 +1386,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#uweyzzdxyo .gt_footnotes {
+#szliuweyzz .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1379,7 +1400,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#uweyzzdxyo .gt_footnote {
+#szliuweyzz .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1388,7 +1409,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#uweyzzdxyo .gt_sourcenotes {
+#szliuweyzz .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1402,7 +1423,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#uweyzzdxyo .gt_sourcenote {
+#szliuweyzz .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1410,68 +1431,67 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#uweyzzdxyo .gt_left {
+#szliuweyzz .gt_left {
   text-align: left;
 }
 
-#uweyzzdxyo .gt_center {
+#szliuweyzz .gt_center {
   text-align: center;
 }
 
-#uweyzzdxyo .gt_right {
+#szliuweyzz .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#uweyzzdxyo .gt_font_normal {
+#szliuweyzz .gt_font_normal {
   font-weight: normal;
 }
 
-#uweyzzdxyo .gt_font_bold {
+#szliuweyzz .gt_font_bold {
   font-weight: bold;
 }
 
-#uweyzzdxyo .gt_font_italic {
+#szliuweyzz .gt_font_italic {
   font-style: italic;
 }
 
-#uweyzzdxyo .gt_super {
+#szliuweyzz .gt_super {
   font-size: 65%;
 }
 
-#uweyzzdxyo .gt_footnote_marks {
+#szliuweyzz .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#uweyzzdxyo .gt_asterisk {
+#szliuweyzz .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#uweyzzdxyo .gt_indent_1 {
+#szliuweyzz .gt_indent_1 {
   text-indent: 5px;
 }
 
-#uweyzzdxyo .gt_indent_2 {
+#szliuweyzz .gt_indent_2 {
   text-indent: 10px;
 }
 
-#uweyzzdxyo .gt_indent_3 {
+#szliuweyzz .gt_indent_3 {
   text-indent: 15px;
 }
 
-#uweyzzdxyo .gt_indent_4 {
+#szliuweyzz .gt_indent_4 {
   text-indent: 20px;
 }
 
-#uweyzzdxyo .gt_indent_5 {
+#szliuweyzz .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
 <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-  <caption><strong>Table 3</strong> ummary of dataset for predicting femur circumference in Palaeognathae</caption>
   <thead>
     
     <tr class="gt_col_headings">
@@ -1488,49 +1508,52 @@ ul.task-list li input[type="checkbox"] {
   
   
 </table>
+<div class="quarto-table-caption margin-caption">Table&nbsp;3:  <p>Dataset utilized to fit models to predict femur cierumference</p> </div></div>
 </div>
 </div>
 </div>
 <div class="cell page-columns page-full">
 <div class="cell-output-display page-columns page-full">
-<div class="quarto-figure quarto-figure-center page-columns page-full">
+<div id="fig-cap-margin-plot1" class="quarto-figure quarto-figure-center anchored page-columns page-full">
 <figure class="figure page-columns page-full">
-<p><img src="Final_analysis_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption margin-caption">MPG vs horsepower, colored by transmission.</figcaption>
+<p><img src="Final_analysis_files/figure-html/fig-cap-margin-plot1-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption margin-caption">Figure&nbsp;2: Distribution of dataset used for fit models to predict femur circumference. A) Femur circumference distribution. B) Femur length distribution. C) Relationship between both evaluated variables. Every plot shows data corresponding to Neognathae and Palaeognathae group, as well as, triangle (1) correspond to specimens from extant species and circle (0) specimens from extinct species</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>After fitting the models, linear log-log models had the best fit ( <a href="#fig-cap-margin-plot2">Figure&nbsp;3</a> A) and performance in contrast to polynomial ones ( <a href="#fig-cap-margin-plot2">Figure&nbsp;3</a> B, C). However, the fit increased when the model considered taxonomic levels, even when they had 30 times more of degree of freedom ( <a href="#tbl-cap-marging-tab4">Table&nbsp;4</a> ). Thus, the best model to predict femur circumference was a linear log-log model that considered taxonomic order levels (<span class="math inline">\(logFemurCirc \sim{} 1.1276413 logFemurlen + Orders -1.7878937\)</span>). It has -1138.5410 in AIC, more than 500 units less that the next best model. It also had the best adjusted <span class="math inline">\(R^2\)</span> with 0.984. Making this, a relationship almost perfect and really convenient to predict femur circumference from femur length. It also support the idea that the ratio between those variable is conserved in low taxonomic levels <span class="citation" data-cites="OgormanHone2012">[@OgormanHone2012]</span>. This contrast the affirmation that Femur circumference is not affected by ancestry <span class="citation" data-cites="Campione2017">[@Campione2017]</span>; however this effect is not evident in higher taxonomic levels such as species, genera or families, but it is clear here, that order level improve considerably the fit of the model.</p>
+<div class="cell page-columns page-full">
+<div class="cell-output-display page-columns page-full">
+<div id="fig-cap-margin-plot2" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="Final_analysis_files/figure-html/fig-cap-margin-plot2-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption margin-caption">Figure&nbsp;3: Fit and performance of models to predict femur circumference. A) Relationship femur Length and femur circumference, and how different models fit to the real data. B) Mean standard error for the first cases (train/test subsets). C) Root mean standard error to evaluate performance model in K-fold cross validation</figcaption>
 </figure>
 </div>
 </div>
 </div>
 <div class="cell page-columns page-full">
 <div class="cell-output-display page-columns page-full">
-<div class="quarto-figure quarto-figure-center page-columns page-full">
-<figure class="figure page-columns page-full">
-<p><img src="Final_analysis_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption margin-caption">MPG vs horsepower, colored by transmission.</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
+<div id="tbl-cap-marging-tab4" class="anchored page-columns page-full">
 
-<div id="xmxhluhuqp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#xmxhluhuqp table {
+<div id="mberkwszcs" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;" class="page-columns page-full">
+<style>#mberkwszcs table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#xmxhluhuqp thead, #xmxhluhuqp tbody, #xmxhluhuqp tfoot, #xmxhluhuqp tr, #xmxhluhuqp td, #xmxhluhuqp th {
+#mberkwszcs thead, #mberkwszcs tbody, #mberkwszcs tfoot, #mberkwszcs tr, #mberkwszcs td, #mberkwszcs th {
   border-style: none;
 }
 
-#xmxhluhuqp p {
+#mberkwszcs p {
   margin: 0;
   padding: 0;
 }
 
-#xmxhluhuqp .gt_table {
+#mberkwszcs .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1556,12 +1579,12 @@ ul.task-list li input[type="checkbox"] {
   border-left-color: #D3D3D3;
 }
 
-#xmxhluhuqp .gt_caption {
+#mberkwszcs .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#xmxhluhuqp .gt_title {
+#mberkwszcs .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1573,7 +1596,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-width: 0;
 }
 
-#xmxhluhuqp .gt_subtitle {
+#mberkwszcs .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1585,7 +1608,7 @@ ul.task-list li input[type="checkbox"] {
   border-top-width: 0;
 }
 
-#xmxhluhuqp .gt_heading {
+#mberkwszcs .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1597,13 +1620,13 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#xmxhluhuqp .gt_bottom_border {
+#mberkwszcs .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#xmxhluhuqp .gt_col_headings {
+#mberkwszcs .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1618,7 +1641,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#xmxhluhuqp .gt_col_heading {
+#mberkwszcs .gt_col_heading {
   color: #333333;
   background-color: #E5E5E5;
   font-size: 100%;
@@ -1638,7 +1661,7 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#xmxhluhuqp .gt_column_spanner_outer {
+#mberkwszcs .gt_column_spanner_outer {
   color: #333333;
   background-color: #E5E5E5;
   font-size: 100%;
@@ -1650,15 +1673,15 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 4px;
 }
 
-#xmxhluhuqp .gt_column_spanner_outer:first-child {
+#mberkwszcs .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#xmxhluhuqp .gt_column_spanner_outer:last-child {
+#mberkwszcs .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#xmxhluhuqp .gt_column_spanner {
+#mberkwszcs .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1670,11 +1693,11 @@ ul.task-list li input[type="checkbox"] {
   width: 100%;
 }
 
-#xmxhluhuqp .gt_spanner_row {
+#mberkwszcs .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#xmxhluhuqp .gt_group_heading {
+#mberkwszcs .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1700,7 +1723,7 @@ ul.task-list li input[type="checkbox"] {
   text-align: left;
 }
 
-#xmxhluhuqp .gt_empty_group_heading {
+#mberkwszcs .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1715,15 +1738,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 
-#xmxhluhuqp .gt_from_md > :first-child {
+#mberkwszcs .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#xmxhluhuqp .gt_from_md > :last-child {
+#mberkwszcs .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#xmxhluhuqp .gt_row {
+#mberkwszcs .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1742,7 +1765,7 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#xmxhluhuqp .gt_stub {
+#mberkwszcs .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1755,7 +1778,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#xmxhluhuqp .gt_stub_row_group {
+#mberkwszcs .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1769,15 +1792,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: top;
 }
 
-#xmxhluhuqp .gt_row_group_first td {
+#mberkwszcs .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#xmxhluhuqp .gt_row_group_first th {
+#mberkwszcs .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#xmxhluhuqp .gt_summary_row {
+#mberkwszcs .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1787,16 +1810,16 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#xmxhluhuqp .gt_first_summary_row {
+#mberkwszcs .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#xmxhluhuqp .gt_first_summary_row.thick {
+#mberkwszcs .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#xmxhluhuqp .gt_last_summary_row {
+#mberkwszcs .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1806,7 +1829,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#xmxhluhuqp .gt_grand_summary_row {
+#mberkwszcs .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1816,7 +1839,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#xmxhluhuqp .gt_first_grand_summary_row {
+#mberkwszcs .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1826,7 +1849,7 @@ ul.task-list li input[type="checkbox"] {
   border-top-color: #D3D3D3;
 }
 
-#xmxhluhuqp .gt_last_grand_summary_row_top {
+#mberkwszcs .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1836,11 +1859,11 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#xmxhluhuqp .gt_striped {
+#mberkwszcs .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#xmxhluhuqp .gt_table_body {
+#mberkwszcs .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1849,7 +1872,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#xmxhluhuqp .gt_footnotes {
+#mberkwszcs .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1863,7 +1886,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#xmxhluhuqp .gt_footnote {
+#mberkwszcs .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1872,7 +1895,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#xmxhluhuqp .gt_sourcenotes {
+#mberkwszcs .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1886,7 +1909,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#xmxhluhuqp .gt_sourcenote {
+#mberkwszcs .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1894,68 +1917,67 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#xmxhluhuqp .gt_left {
+#mberkwszcs .gt_left {
   text-align: left;
 }
 
-#xmxhluhuqp .gt_center {
+#mberkwszcs .gt_center {
   text-align: center;
 }
 
-#xmxhluhuqp .gt_right {
+#mberkwszcs .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#xmxhluhuqp .gt_font_normal {
+#mberkwszcs .gt_font_normal {
   font-weight: normal;
 }
 
-#xmxhluhuqp .gt_font_bold {
+#mberkwszcs .gt_font_bold {
   font-weight: bold;
 }
 
-#xmxhluhuqp .gt_font_italic {
+#mberkwszcs .gt_font_italic {
   font-style: italic;
 }
 
-#xmxhluhuqp .gt_super {
+#mberkwszcs .gt_super {
   font-size: 65%;
 }
 
-#xmxhluhuqp .gt_footnote_marks {
+#mberkwszcs .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#xmxhluhuqp .gt_asterisk {
+#mberkwszcs .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#xmxhluhuqp .gt_indent_1 {
+#mberkwszcs .gt_indent_1 {
   text-indent: 5px;
 }
 
-#xmxhluhuqp .gt_indent_2 {
+#mberkwszcs .gt_indent_2 {
   text-indent: 10px;
 }
 
-#xmxhluhuqp .gt_indent_3 {
+#mberkwszcs .gt_indent_3 {
   text-indent: 15px;
 }
 
-#xmxhluhuqp .gt_indent_4 {
+#mberkwszcs .gt_indent_4 {
   text-indent: 20px;
 }
 
-#xmxhluhuqp .gt_indent_5 {
+#mberkwszcs .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
 <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-  <caption><strong>Table 4</strong></caption>
   <thead>
     
     <tr class="gt_col_headings">
@@ -1968,79 +1990,83 @@ ul.task-list li input[type="checkbox"] {
   <tbody class="gt_table_body">
     <tr><td headers="Models" class="gt_row gt_left">FC_FL</td>
 <td headers="df" class="gt_row gt_right">3</td>
-<td headers="AIC" class="gt_row gt_right">5880.9627</td>
-<td headers="adjR2" class="gt_row gt_right">0.9264503</td></tr>
+<td headers="AIC" class="gt_row gt_right">5793.0242</td>
+<td headers="adjR2" class="gt_row gt_right">0.9258922</td></tr>
     <tr><td headers="Models" class="gt_row gt_left">logFC_logFL</td>
 <td headers="df" class="gt_row gt_right">3</td>
-<td headers="AIC" class="gt_row gt_right">-544.8550</td>
-<td headers="adjR2" class="gt_row gt_right">0.9661053</td></tr>
+<td headers="AIC" class="gt_row gt_right">-554.3573</td>
+<td headers="adjR2" class="gt_row gt_right">0.9661845</td></tr>
     <tr><td headers="Models" class="gt_row gt_left">FC_FL.Clade1</td>
 <td headers="df" class="gt_row gt_right">4</td>
-<td headers="AIC" class="gt_row gt_right">5874.8850</td>
-<td headers="adjR2" class="gt_row gt_right">0.9271713</td></tr>
+<td headers="AIC" class="gt_row gt_right">5786.0322</td>
+<td headers="adjR2" class="gt_row gt_right">0.9267005</td></tr>
     <tr><td headers="Models" class="gt_row gt_left">logFC_logFL.Clade1</td>
 <td headers="df" class="gt_row gt_right">4</td>
-<td headers="AIC" class="gt_row gt_right">-583.9097</td>
-<td headers="adjR2" class="gt_row gt_right">0.9677605</td></tr>
+<td headers="AIC" class="gt_row gt_right">-587.0077</td>
+<td headers="adjR2" class="gt_row gt_right">0.9675837</td></tr>
     <tr><td headers="Models" class="gt_row gt_left">FC_poly2FL</td>
 <td headers="df" class="gt_row gt_right">4</td>
-<td headers="AIC" class="gt_row gt_right">5151.7283</td>
-<td headers="adjR2" class="gt_row gt_right">0.9698492</td></tr>
+<td headers="AIC" class="gt_row gt_right">5049.1914</td>
+<td headers="adjR2" class="gt_row gt_right">0.9701565</td></tr>
     <tr><td headers="Models" class="gt_row gt_left">FC_poly2FL.Clade1</td>
 <td headers="df" class="gt_row gt_right">5</td>
-<td headers="AIC" class="gt_row gt_right">5153.6961</td>
-<td headers="adjR2" class="gt_row gt_right">0.9698504</td></tr>
+<td headers="AIC" class="gt_row gt_right">5051.1380</td>
+<td headers="adjR2" class="gt_row gt_right">0.9701584</td></tr>
     <tr><td headers="Models" class="gt_row gt_left">FC_poly3FL</td>
 <td headers="df" class="gt_row gt_right">5</td>
-<td headers="AIC" class="gt_row gt_right">5153.6915</td>
-<td headers="adjR2" class="gt_row gt_right">0.9698505</td></tr>
+<td headers="AIC" class="gt_row gt_right">5050.9238</td>
+<td headers="adjR2" class="gt_row gt_right">0.9701662</td></tr>
     <tr><td headers="Models" class="gt_row gt_left">FC_poly3FL.Clade1</td>
 <td headers="df" class="gt_row gt_right">6</td>
-<td headers="AIC" class="gt_row gt_right">5155.6853</td>
-<td headers="adjR2" class="gt_row gt_right">0.9698508</td></tr>
+<td headers="AIC" class="gt_row gt_right">5052.9117</td>
+<td headers="adjR2" class="gt_row gt_right">0.9701666</td></tr>
     <tr><td headers="Models" class="gt_row gt_left">FC_FL.Clade2</td>
-<td headers="df" class="gt_row gt_right">33</td>
-<td headers="AIC" class="gt_row gt_right">5359.3559</td>
-<td headers="adjR2" class="gt_row gt_right">0.9638135</td></tr>
-    <tr><td headers="Models" class="gt_row gt_left" style="background-color: rgba(255,0,0,0.8); color: #000000; font-weight: bold;">logFC_logFL.Clade2</td>
-<td headers="df" class="gt_row gt_right" style="background-color: rgba(255,0,0,0.8); color: #000000; font-weight: bold;">33</td>
-<td headers="AIC" class="gt_row gt_right" style="background-color: rgba(255,0,0,0.8); color: #000000; font-weight: bold;">-1148.4327</td>
-<td headers="adjR2" class="gt_row gt_right" style="background-color: rgba(255,0,0,0.8); color: #000000; font-weight: bold;">0.9849102</td></tr>
-    <tr><td headers="Models" class="gt_row gt_left">FC_poly2FL.Clade2</td>
 <td headers="df" class="gt_row gt_right">34</td>
-<td headers="AIC" class="gt_row gt_right">4712.3869</td>
-<td headers="adjR2" class="gt_row gt_right">0.9836004</td></tr>
-    <tr><td headers="Models" class="gt_row gt_left">FC_poly3FL.Clade2</td>
+<td headers="AIC" class="gt_row gt_right">5353.2854</td>
+<td headers="adjR2" class="gt_row gt_right">0.9598090</td></tr>
+    <tr><td headers="Models" class="gt_row gt_left" style="background-color: rgba(255,0,0,0.8); color: #000000; font-weight: bold;">logFC_logFL.Clade2</td>
+<td headers="df" class="gt_row gt_right" style="background-color: rgba(255,0,0,0.8); color: #000000; font-weight: bold;">34</td>
+<td headers="AIC" class="gt_row gt_right" style="background-color: rgba(255,0,0,0.8); color: #000000; font-weight: bold;">-1138.5410</td>
+<td headers="adjR2" class="gt_row gt_right" style="background-color: rgba(255,0,0,0.8); color: #000000; font-weight: bold;">0.9846227</td></tr>
+    <tr><td headers="Models" class="gt_row gt_left">FC_poly2FL.Clade2</td>
 <td headers="df" class="gt_row gt_right">35</td>
-<td headers="AIC" class="gt_row gt_right">4699.6713</td>
-<td headers="adjR2" class="gt_row gt_right">0.9838920</td></tr>
+<td headers="AIC" class="gt_row gt_right">4718.8069</td>
+<td headers="adjR2" class="gt_row gt_right">0.9815059</td></tr>
+    <tr><td headers="Models" class="gt_row gt_left">FC_poly3FL.Clade2</td>
+<td headers="df" class="gt_row gt_right">36</td>
+<td headers="AIC" class="gt_row gt_right">4708.8941</td>
+<td headers="adjR2" class="gt_row gt_right">0.9817727</td></tr>
   </tbody>
   
   
 </table>
+<div class="quarto-table-caption margin-caption">Table&nbsp;4:  <p>Model selection by AIC criterion.</p> </div></div>
 </div>
 </div>
 </div>
-<div class="cell">
-<div class="cell-output-display">
+<p>Subsequently, using the best model I predicted the femur circumference for the extant specimens in Palaeognathae and then I included them to get the main dataset to predict body mass.</p>
+<p>After putting together both preliminary database, I filtered by observations with body mass gotten directly from the especimens. It resulted on only observations from extant species (crow-group of Ave). Thus, I got a dataset with 1036 observations, 27 orders and 446 species ( <a href="#tbl-cap-marging-tab5">Table&nbsp;5</a> ). Although it only represent 10% of bird biodiversity, this dataset twice times bigger than the biggest data set used to fit or evaluate models to predict body mass in Theropoda <span class="citation" data-cites="Fieldetal2013">[@Fieldetal2013,@Campioneetal2014]</span>.</p>
+<div class="cell page-columns page-full">
+<div class="cell-output-display page-columns page-full">
+<div id="tbl-cap-marging-tab5" class="anchored page-columns page-full">
 
-<div id="gpkvskfmjy" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#gpkvskfmjy table {
+<div id="dyivsvwzzu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;" class="page-columns page-full">
+<style>#dyivsvwzzu table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#gpkvskfmjy thead, #gpkvskfmjy tbody, #gpkvskfmjy tfoot, #gpkvskfmjy tr, #gpkvskfmjy td, #gpkvskfmjy th {
+#dyivsvwzzu thead, #dyivsvwzzu tbody, #dyivsvwzzu tfoot, #dyivsvwzzu tr, #dyivsvwzzu td, #dyivsvwzzu th {
   border-style: none;
 }
 
-#gpkvskfmjy p {
+#dyivsvwzzu p {
   margin: 0;
   padding: 0;
 }
 
-#gpkvskfmjy .gt_table {
+#dyivsvwzzu .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2066,12 +2092,12 @@ ul.task-list li input[type="checkbox"] {
   border-left-color: #D3D3D3;
 }
 
-#gpkvskfmjy .gt_caption {
+#dyivsvwzzu .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#gpkvskfmjy .gt_title {
+#dyivsvwzzu .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2083,7 +2109,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-width: 0;
 }
 
-#gpkvskfmjy .gt_subtitle {
+#dyivsvwzzu .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2095,7 +2121,7 @@ ul.task-list li input[type="checkbox"] {
   border-top-width: 0;
 }
 
-#gpkvskfmjy .gt_heading {
+#dyivsvwzzu .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2107,13 +2133,13 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#gpkvskfmjy .gt_bottom_border {
+#dyivsvwzzu .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#gpkvskfmjy .gt_col_headings {
+#dyivsvwzzu .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2128,7 +2154,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#gpkvskfmjy .gt_col_heading {
+#dyivsvwzzu .gt_col_heading {
   color: #333333;
   background-color: #E5E5E5;
   font-size: 100%;
@@ -2148,7 +2174,7 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#gpkvskfmjy .gt_column_spanner_outer {
+#dyivsvwzzu .gt_column_spanner_outer {
   color: #333333;
   background-color: #E5E5E5;
   font-size: 100%;
@@ -2160,15 +2186,15 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 4px;
 }
 
-#gpkvskfmjy .gt_column_spanner_outer:first-child {
+#dyivsvwzzu .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#gpkvskfmjy .gt_column_spanner_outer:last-child {
+#dyivsvwzzu .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#gpkvskfmjy .gt_column_spanner {
+#dyivsvwzzu .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2180,11 +2206,11 @@ ul.task-list li input[type="checkbox"] {
   width: 100%;
 }
 
-#gpkvskfmjy .gt_spanner_row {
+#dyivsvwzzu .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#gpkvskfmjy .gt_group_heading {
+#dyivsvwzzu .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2210,7 +2236,7 @@ ul.task-list li input[type="checkbox"] {
   text-align: left;
 }
 
-#gpkvskfmjy .gt_empty_group_heading {
+#dyivsvwzzu .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2225,15 +2251,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 
-#gpkvskfmjy .gt_from_md > :first-child {
+#dyivsvwzzu .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#gpkvskfmjy .gt_from_md > :last-child {
+#dyivsvwzzu .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#gpkvskfmjy .gt_row {
+#dyivsvwzzu .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2252,7 +2278,7 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#gpkvskfmjy .gt_stub {
+#dyivsvwzzu .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2265,7 +2291,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#gpkvskfmjy .gt_stub_row_group {
+#dyivsvwzzu .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2279,15 +2305,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: top;
 }
 
-#gpkvskfmjy .gt_row_group_first td {
+#dyivsvwzzu .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#gpkvskfmjy .gt_row_group_first th {
+#dyivsvwzzu .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#gpkvskfmjy .gt_summary_row {
+#dyivsvwzzu .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2297,16 +2323,16 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#gpkvskfmjy .gt_first_summary_row {
+#dyivsvwzzu .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#gpkvskfmjy .gt_first_summary_row.thick {
+#dyivsvwzzu .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#gpkvskfmjy .gt_last_summary_row {
+#dyivsvwzzu .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2316,7 +2342,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#gpkvskfmjy .gt_grand_summary_row {
+#dyivsvwzzu .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2326,7 +2352,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#gpkvskfmjy .gt_first_grand_summary_row {
+#dyivsvwzzu .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2336,7 +2362,7 @@ ul.task-list li input[type="checkbox"] {
   border-top-color: #D3D3D3;
 }
 
-#gpkvskfmjy .gt_last_grand_summary_row_top {
+#dyivsvwzzu .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2346,11 +2372,11 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#gpkvskfmjy .gt_striped {
+#dyivsvwzzu .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#gpkvskfmjy .gt_table_body {
+#dyivsvwzzu .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2359,7 +2385,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#gpkvskfmjy .gt_footnotes {
+#dyivsvwzzu .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2373,7 +2399,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#gpkvskfmjy .gt_footnote {
+#dyivsvwzzu .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2382,7 +2408,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#gpkvskfmjy .gt_sourcenotes {
+#dyivsvwzzu .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2396,7 +2422,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#gpkvskfmjy .gt_sourcenote {
+#dyivsvwzzu .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2404,68 +2430,67 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#gpkvskfmjy .gt_left {
+#dyivsvwzzu .gt_left {
   text-align: left;
 }
 
-#gpkvskfmjy .gt_center {
+#dyivsvwzzu .gt_center {
   text-align: center;
 }
 
-#gpkvskfmjy .gt_right {
+#dyivsvwzzu .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#gpkvskfmjy .gt_font_normal {
+#dyivsvwzzu .gt_font_normal {
   font-weight: normal;
 }
 
-#gpkvskfmjy .gt_font_bold {
+#dyivsvwzzu .gt_font_bold {
   font-weight: bold;
 }
 
-#gpkvskfmjy .gt_font_italic {
+#dyivsvwzzu .gt_font_italic {
   font-style: italic;
 }
 
-#gpkvskfmjy .gt_super {
+#dyivsvwzzu .gt_super {
   font-size: 65%;
 }
 
-#gpkvskfmjy .gt_footnote_marks {
+#dyivsvwzzu .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#gpkvskfmjy .gt_asterisk {
+#dyivsvwzzu .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#gpkvskfmjy .gt_indent_1 {
+#dyivsvwzzu .gt_indent_1 {
   text-indent: 5px;
 }
 
-#gpkvskfmjy .gt_indent_2 {
+#dyivsvwzzu .gt_indent_2 {
   text-indent: 10px;
 }
 
-#gpkvskfmjy .gt_indent_3 {
+#dyivsvwzzu .gt_indent_3 {
   text-indent: 15px;
 }
 
-#gpkvskfmjy .gt_indent_4 {
+#dyivsvwzzu .gt_indent_4 {
   text-indent: 20px;
 }
 
-#gpkvskfmjy .gt_indent_5 {
+#dyivsvwzzu .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
 <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-  <caption><strong>Table 5</strong> ummary of dataset for predicting femur circumference in Palaeognathae</caption>
   <thead>
     
     <tr class="gt_col_headings">
@@ -2482,49 +2507,55 @@ ul.task-list li input[type="checkbox"] {
   
   
 </table>
+<div class="quarto-table-caption margin-caption">Table&nbsp;5:  <p>Main dataset used to fit models to predict body mass</p> </div></div>
 </div>
 </div>
 </div>
+<section id="selecting-models-to-predict-body-mass" class="level4 page-columns page-full">
+<h4 class="anchored" data-anchor-id="selecting-models-to-predict-body-mass">Selecting models to predict Body Mass</h4>
+<p>Although I tried to increase the sample in Palaeognathae group, it is evident the bias that currently exist to fit models using the extant species to predict body mass. Palaeognathae is only 2% of the dataset. In other words, for every Palaeognathae observation there is 50 from Neognathae. However, 70% of the Palaeognathae sample is included for the first time in this study. Given that, Campion et al 2014 has been the only one which have included some Palaeognathaes, from which only one observation was *Sturthrio camelus*, the biggest flighless modern bird <span class="citation" data-cites="Campioneetal2014">[@Campioneetal2014]</span>. Here, I included 12 more sample from that species and 59 more from others orders in Palaeognathae ( <a href="#fig-cap-margin-plot3">Figure&nbsp;4</a> ).</p>
 <div class="cell page-columns page-full">
 <div class="cell-output-display page-columns page-full">
-<div class="quarto-figure quarto-figure-center page-columns page-full">
+<div id="fig-cap-margin-plot3" class="quarto-figure quarto-figure-center anchored page-columns page-full">
 <figure class="figure page-columns page-full">
-<p><img src="Final_analysis_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption margin-caption">MPG vs horsepower, colored by transmission.</figcaption>
+<p><img src="Final_analysis_files/figure-html/fig-cap-margin-plot3-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption margin-caption">Figure&nbsp;4: Distribution of the main dataset uset to fit and predict body mass. A) Distribution of body mass. B) Distribution of femur circimference. C) Relationship of Body mass and femur circumference</figcaption>
 </figure>
 </div>
 </div>
 </div>
+<p>After fitting models, like in the first analysis, linear log-log model was the best model and the model to predict body mass. It got 809.70 in AIC criterion, around 800 units fewer than the second best model ( <a href="#tbl-cap-marging-tab4">Table&nbsp;4</a> ). Likewise, MSE and RME showed that this model has the best performance ( <strong>?@fig-cap-margin-plot4</strong>). It is similar to previous studies in which re-scale in log this kind of variables helps to normalize the residuals, improves the fit of the model, and improve the predictability <span class="citation" data-cites="More2022">[@More2022]</span>. However, re-escaled models have some weaknesses because one can not interpret it in its original units, back-transformation yields unequal confident intervals and prediction intervals, and finally, back-transformation demand to include the error or residual portion<span class="citation" data-cites="Neyman1960">[@Neyman1960]</span>. In contrast to the error measurements (MSEand RMSE), linear log-log model was not the best adjusted <span class="math inline">\(R^2\)</span> ( <a href="#tbl-cap-marging-tab4">Table&nbsp;4</a> ). It was polynomial in second degree. It agree with Campione et al.&nbsp;(2014), who propose that even when statistically a log-linear model would be th best, in biological terms we should consider to predict body mass in dinosaurs using a polynomial model in second degree because body mass is a allometric feature. However, considering all problems that bring re-scale variables to prediction, it could be worth it, evaluate this problem from a machine learning view, considering the pros and cons of the used approaches.</p>
 <div class="cell page-columns page-full">
 <div class="cell-output-display page-columns page-full">
 <div class="quarto-figure quarto-figure-center page-columns page-full">
 <figure class="figure page-columns page-full">
 <p><img src="Final_analysis_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption margin-caption">MPG vs horsepower, colored by transmission.</figcaption>
+<figcaption class="figure-caption margin-caption">Fit and performance of models to predict Body mass. A) Relationship Body mass and femur circumference, and how different models fit to the real data. B) Mean standard error for the first cases (train/test subsets). C) Root mean standard error to evaluate performance model in LOOC cross validation</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<div class="cell">
-<div class="cell-output-display">
+<div class="cell page-columns page-full">
+<div class="cell-output-display page-columns page-full">
+<div id="tbl-cap-marging-tab6" class="anchored page-columns page-full">
 
-<div id="cosrinhxxe" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#cosrinhxxe table {
+<div id="psbzoxfbfe" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;" class="page-columns page-full">
+<style>#psbzoxfbfe table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#cosrinhxxe thead, #cosrinhxxe tbody, #cosrinhxxe tfoot, #cosrinhxxe tr, #cosrinhxxe td, #cosrinhxxe th {
+#psbzoxfbfe thead, #psbzoxfbfe tbody, #psbzoxfbfe tfoot, #psbzoxfbfe tr, #psbzoxfbfe td, #psbzoxfbfe th {
   border-style: none;
 }
 
-#cosrinhxxe p {
+#psbzoxfbfe p {
   margin: 0;
   padding: 0;
 }
 
-#cosrinhxxe .gt_table {
+#psbzoxfbfe .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2550,12 +2581,12 @@ ul.task-list li input[type="checkbox"] {
   border-left-color: #D3D3D3;
 }
 
-#cosrinhxxe .gt_caption {
+#psbzoxfbfe .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#cosrinhxxe .gt_title {
+#psbzoxfbfe .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2567,7 +2598,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-width: 0;
 }
 
-#cosrinhxxe .gt_subtitle {
+#psbzoxfbfe .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2579,7 +2610,7 @@ ul.task-list li input[type="checkbox"] {
   border-top-width: 0;
 }
 
-#cosrinhxxe .gt_heading {
+#psbzoxfbfe .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2591,13 +2622,13 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#cosrinhxxe .gt_bottom_border {
+#psbzoxfbfe .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#cosrinhxxe .gt_col_headings {
+#psbzoxfbfe .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2612,7 +2643,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#cosrinhxxe .gt_col_heading {
+#psbzoxfbfe .gt_col_heading {
   color: #333333;
   background-color: #E5E5E5;
   font-size: 100%;
@@ -2632,7 +2663,7 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#cosrinhxxe .gt_column_spanner_outer {
+#psbzoxfbfe .gt_column_spanner_outer {
   color: #333333;
   background-color: #E5E5E5;
   font-size: 100%;
@@ -2644,15 +2675,15 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 4px;
 }
 
-#cosrinhxxe .gt_column_spanner_outer:first-child {
+#psbzoxfbfe .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#cosrinhxxe .gt_column_spanner_outer:last-child {
+#psbzoxfbfe .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#cosrinhxxe .gt_column_spanner {
+#psbzoxfbfe .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2664,11 +2695,11 @@ ul.task-list li input[type="checkbox"] {
   width: 100%;
 }
 
-#cosrinhxxe .gt_spanner_row {
+#psbzoxfbfe .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#cosrinhxxe .gt_group_heading {
+#psbzoxfbfe .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2694,7 +2725,7 @@ ul.task-list li input[type="checkbox"] {
   text-align: left;
 }
 
-#cosrinhxxe .gt_empty_group_heading {
+#psbzoxfbfe .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2709,15 +2740,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 
-#cosrinhxxe .gt_from_md > :first-child {
+#psbzoxfbfe .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#cosrinhxxe .gt_from_md > :last-child {
+#psbzoxfbfe .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#cosrinhxxe .gt_row {
+#psbzoxfbfe .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2736,7 +2767,7 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#cosrinhxxe .gt_stub {
+#psbzoxfbfe .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2749,7 +2780,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#cosrinhxxe .gt_stub_row_group {
+#psbzoxfbfe .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2763,15 +2794,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: top;
 }
 
-#cosrinhxxe .gt_row_group_first td {
+#psbzoxfbfe .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#cosrinhxxe .gt_row_group_first th {
+#psbzoxfbfe .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#cosrinhxxe .gt_summary_row {
+#psbzoxfbfe .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2781,16 +2812,16 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#cosrinhxxe .gt_first_summary_row {
+#psbzoxfbfe .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#cosrinhxxe .gt_first_summary_row.thick {
+#psbzoxfbfe .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#cosrinhxxe .gt_last_summary_row {
+#psbzoxfbfe .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2800,7 +2831,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#cosrinhxxe .gt_grand_summary_row {
+#psbzoxfbfe .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2810,7 +2841,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#cosrinhxxe .gt_first_grand_summary_row {
+#psbzoxfbfe .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2820,7 +2851,7 @@ ul.task-list li input[type="checkbox"] {
   border-top-color: #D3D3D3;
 }
 
-#cosrinhxxe .gt_last_grand_summary_row_top {
+#psbzoxfbfe .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2830,11 +2861,11 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#cosrinhxxe .gt_striped {
+#psbzoxfbfe .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#cosrinhxxe .gt_table_body {
+#psbzoxfbfe .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2843,7 +2874,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#cosrinhxxe .gt_footnotes {
+#psbzoxfbfe .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2857,7 +2888,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#cosrinhxxe .gt_footnote {
+#psbzoxfbfe .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2866,7 +2897,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#cosrinhxxe .gt_sourcenotes {
+#psbzoxfbfe .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2880,7 +2911,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#cosrinhxxe .gt_sourcenote {
+#psbzoxfbfe .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2888,68 +2919,67 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#cosrinhxxe .gt_left {
+#psbzoxfbfe .gt_left {
   text-align: left;
 }
 
-#cosrinhxxe .gt_center {
+#psbzoxfbfe .gt_center {
   text-align: center;
 }
 
-#cosrinhxxe .gt_right {
+#psbzoxfbfe .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#cosrinhxxe .gt_font_normal {
+#psbzoxfbfe .gt_font_normal {
   font-weight: normal;
 }
 
-#cosrinhxxe .gt_font_bold {
+#psbzoxfbfe .gt_font_bold {
   font-weight: bold;
 }
 
-#cosrinhxxe .gt_font_italic {
+#psbzoxfbfe .gt_font_italic {
   font-style: italic;
 }
 
-#cosrinhxxe .gt_super {
+#psbzoxfbfe .gt_super {
   font-size: 65%;
 }
 
-#cosrinhxxe .gt_footnote_marks {
+#psbzoxfbfe .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#cosrinhxxe .gt_asterisk {
+#psbzoxfbfe .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#cosrinhxxe .gt_indent_1 {
+#psbzoxfbfe .gt_indent_1 {
   text-indent: 5px;
 }
 
-#cosrinhxxe .gt_indent_2 {
+#psbzoxfbfe .gt_indent_2 {
   text-indent: 10px;
 }
 
-#cosrinhxxe .gt_indent_3 {
+#psbzoxfbfe .gt_indent_3 {
   text-indent: 15px;
 }
 
-#cosrinhxxe .gt_indent_4 {
+#psbzoxfbfe .gt_indent_4 {
   text-indent: 20px;
 }
 
-#cosrinhxxe .gt_indent_5 {
+#psbzoxfbfe .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
 <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-  <caption><strong>Table 6</strong></caption>
   <thead>
     
     <tr class="gt_col_headings">
@@ -2962,63 +2992,76 @@ ul.task-list li input[type="checkbox"] {
   <tbody class="gt_table_body">
     <tr><td headers="Models" class="gt_row gt_left">BM_FC</td>
 <td headers="DF" class="gt_row gt_right">3</td>
-<td headers="AIC" class="gt_row gt_right">16397.9312951746</td>
-<td headers="adjR2" class="gt_row gt_right">0.669235932199287</td></tr>
+<td headers="AIC" class="gt_row gt_right">16393.9376001463</td>
+<td headers="adjR2" class="gt_row gt_right">0.664245607357889</td></tr>
     <tr><td headers="Models" class="gt_row gt_left" style="background-color: rgba(255,0,0,0.8); color: #000000; font-weight: bold;">logBM_logFC</td>
 <td headers="DF" class="gt_row gt_right" style="background-color: rgba(255,0,0,0.8); color: #000000; font-weight: bold;">3</td>
-<td headers="AIC" class="gt_row gt_right" style="background-color: rgba(255,0,0,0.8); color: #000000; font-weight: bold;">819.682575372177</td>
-<td headers="adjR2" class="gt_row gt_right" style="background-color: rgba(255,0,0,0.8); color: #000000; font-weight: bold;">0.955181917089114</td></tr>
+<td headers="AIC" class="gt_row gt_right" style="background-color: rgba(255,0,0,0.8); color: #000000; font-weight: bold;">808.313403286504</td>
+<td headers="adjR2" class="gt_row gt_right" style="background-color: rgba(255,0,0,0.8); color: #000000; font-weight: bold;">0.955983623367339</td></tr>
     <tr><td headers="Models" class="gt_row gt_left">BM_poly2FC</td>
 <td headers="DF" class="gt_row gt_right">4</td>
-<td headers="AIC" class="gt_row gt_right">14448.239157122</td>
-<td headers="adjR2" class="gt_row gt_right">0.968678986617428</td></tr>
+<td headers="AIC" class="gt_row gt_right">14432.4220187293</td>
+<td headers="adjR2" class="gt_row gt_right">0.96865720899441</td></tr>
     <tr><td headers="Models" class="gt_row gt_left">BM_poly3FC</td>
 <td headers="DF" class="gt_row gt_right">5</td>
-<td headers="AIC" class="gt_row gt_right">14441.0540192917</td>
-<td headers="adjR2" class="gt_row gt_right">0.96902451563337</td></tr>
+<td headers="AIC" class="gt_row gt_right">14425.6720054266</td>
+<td headers="adjR2" class="gt_row gt_right">0.968986684648113</td></tr>
     <tr><td headers="Models" class="gt_row gt_left">BM_spline1</td>
 <td headers="DF" class="gt_row gt_right">9</td>
-<td headers="AIC" class="gt_row gt_right">14399.5778319512</td>
+<td headers="AIC" class="gt_row gt_right">14391.0827181163</td>
 <td headers="adjR2" class="gt_row gt_right">0.96892674034371</td></tr>
     <tr><td headers="Models" class="gt_row gt_left">BM_spline2</td>
 <td headers="DF" class="gt_row gt_right">10</td>
-<td headers="AIC" class="gt_row gt_right">14403.7066201191</td>
+<td headers="AIC" class="gt_row gt_right">14395.8463345584</td>
 <td headers="adjR2" class="gt_row gt_right">0.969138221363873</td></tr>
     <tr><td headers="Models" class="gt_row gt_left">BM_spline3</td>
 <td headers="DF" class="gt_row gt_right">10</td>
-<td headers="AIC" class="gt_row gt_right">14403.7066201191</td>
+<td headers="AIC" class="gt_row gt_right">14395.8463345584</td>
 <td headers="adjR2" class="gt_row gt_right">0.969611722714325</td></tr>
   </tbody>
   
   
 </table>
+<div class="quarto-table-caption margin-caption">Table&nbsp;6:  <p>Model selection by AIC criterion.</p> </div></div>
 </div>
 </div>
 </div>
 </section>
-<section id="eval-models" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="eval-models">Eval models</h2>
+</section>
+<section id="evaluating-model-performance" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="evaluating-model-performance">Evaluating model performance</h3>
+<p>Body mass prediction in dinosaurs is a one-hundred-years question. It is relevant questions that have help to hypothesized evolutionary patterns about gigantisms in those enigmatic animals. However, although dinosaurs are the most charismatic fossils, there are some fossils such as dodo birds or terror birds which are non-dinosaurs extinct species. Those species are related with modern bird, and their femur circumference overlap with the femur circumference from some current bird such as some clades in Palaeognathae <span class="citation" data-cites="Crouchetal2019">[@Crouchetal2019]</span>. Allow me to guess that those birds also had a body mass similar to some living species. Following the same idea, different studies have used the same model <span class="citation" data-cites="Campionetal2014">[@Campionetal2014]</span> to predict both non-avian dinosaurs and groups closes to modern birds.</p>
+<p>Following this idea, I evaluated how model performed predicting non-avian Theropods (Big animals) and Palaeognathaes (modern birds). As a result, Campion et al 2014 was the best model to predict body mass in dinosaurs ( <a href="#fig-cap-margin-plot7">Figure&nbsp;5</a> ). However, we should keep in mind that it is not a real prediction, because we will never know the real body mass from fossils <span class="citation" data-cites="Campionetal2014">[@Campionetal2014]</span>, rather than, here what I actually are evaluating is how those models are close to the body mass estimation by VD approaches. It support results presented by Campione et al.&nbsp;2014 and Campion and Evans 2020. They show that, even when that model is a mathematical formula arising from an empirical model to predict quadrupedal body mass, this model is the closest to the VD estimations. However, any studies have evaluated how this preferred model perform inside the crow-group of birds so far. As results I found that this prefered model to predict body mass does not perform well inside Aves clade. In contrast, the model fitted in this study performed better than Campion et al 2014, and close to Field et al 2013 ( <a href="#fig-cap-margin-plot8">Figure&nbsp;6</a> ). Apparently, for animals over 80 mm in femur circumference Campion et al 2014 is overestimating the body mass. This has strong consequences given that most of the fossils in the crown-group of birds has been estimated using Campion’s et al 2014 model.</p>
 <div class="cell page-columns page-full">
 <div class="cell-output-display page-columns page-full">
-<div class="quarto-figure quarto-figure-center page-columns page-full">
+<div id="fig-cap-margin-plot7" class="quarto-figure quarto-figure-center anchored page-columns page-full">
 <figure class="figure page-columns page-full">
-<p><img src="Final_analysis_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption margin-caption">MPG vs horsepower, colored by transmission.</figcaption>
+<p><img src="Final_analysis_files/figure-html/fig-cap-margin-plot7-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption margin-caption">Figure&nbsp;5: Predicting body mass in non-avian Theropods. A) how models fit to the values predicted by VD apprach. B) Mean standard error - model performance</figcaption>
 </figure>
 </div>
 </div>
 </div>
 <div class="cell page-columns page-full">
 <div class="cell-output-display page-columns page-full">
-<div class="quarto-figure quarto-figure-center page-columns page-full">
+<div id="fig-cap-margin-plot8" class="quarto-figure quarto-figure-center anchored page-columns page-full">
 <figure class="figure page-columns page-full">
-<p><img src="Final_analysis_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption margin-caption">MPG vs horsepower, colored by transmission.</figcaption>
+<p><img src="Final_analysis_files/figure-html/fig-cap-margin-plot8-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption margin-caption">Figure&nbsp;6: Predicting body mass in non-avian Palaeognathae. A) how models fit to the values predicted by VD apprach. B) Mean standard error - model performance</figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>Since sciences start to study dinosaurs, body mass of the biggest animals has been a constant issue to study physiological, ecological and evolutionary aspects in those iconic groups. However, gigantism is a pattern that not only is presented in dinosaurs, but also in other groups as birds. Thus, a good model to predict body mass should have the ability to perform well predicting in the range of the living birds (interpolation) as well as predict large body mass as in dinosaurs (Extrapolation). Otherwise, models to interpolate or extrapolate should be different or reevaluated. Thus, following the results in this study, although I could not improve the model including Palaeognathae samples, I discovered a interested pattern in which prediction could be depending on the size. It implies that models should evaluate considering the size or the range in which I want to predict, because not every fossil is a dinosaur and not every dinosaur is as big as a <em>Tyrannosaurus rex</em>.</p>
+<section id="references" class="level3">
+<h3 class="anchored" data-anchor-id="references">References</h3>
+</section>
+</section>
+</div>
 
 </main>
 <!-- /main column -->

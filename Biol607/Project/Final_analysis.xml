@@ -1,0 +1,732 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE article>
+<article
+  xmlns="http://docbook.org/ns/docbook" version="5.0"
+  xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <info>
+    <title>Predicting body mass in bipedal dinosaurs</title>
+  </info>
+  <para>
+    ##::: {style=<quote>text-align: justify</quote>}
+  </para>
+  <section xml:id="introduction">
+    <title>Introduction</title>
+    <para>
+      Body mass (BM) is one of the most significant variables in the
+      biology of an organism. It could provide insights into their
+      physiology, ecology, or behavior. Indeed, it could influence
+      speciation and extinction rates; driving patterns such as giantism
+      in some vertebrates like dinosaurs, whales, and palaeognathaes.
+      However, while obtaining BM data from extant species is relatively
+      straightforward, it becomes challenging when attempting to obtain
+      this variable for extinct organisms. Therefore, prediction becomes
+      the only viable method to obtain this feature.
+    </para>
+    <para>
+      Various methods exist to reconstruct body size, shape, and weight
+      from preserved skeletons (Fossils). The most popular approaches
+      are volumetric density (VD) and extant scaling (ES). Although VD
+      was the initial proposal for calculating BM, ES is currently the
+      most widely used tool. It is based on linear models, is easy to
+      replicate and use, and is more cost-effective compared to the
+      scans used by VD. However, current models have faced criticism due
+      to their potential to over- or under-estimate BM. Another
+      challenge arises from the distinct distribution of mass in
+      quadrupeds compared to bipeds, leading to more complexities in
+      calculating the BM of bipeds as predictors need to be restricted
+      only to forelimbs. Furthermore, the wide range of BM distribution
+      in modern birds, ranging from 50g to 130,000g, presents an
+      additional challenge, especially when the presence of giantism in
+      the Palaeognatha group is considered as an outlier in the
+      distribution.
+    </para>
+    <para>
+      To address the biped issue, some researchers have proposed models
+      that exclusively utilize modern birds (excluding Palaeognathes),
+      incorporate humans, or eliminate the humerus as a covariant.
+      However, no attempts have been made to fit a model using different
+      datasets, including Palaeognathes as an essential part of the
+      sample. Re-evaluating the proposed models is thus warranted,
+      considering that this group could serve as a good proxy for the BM
+      of dinosaurs.
+    </para>
+  </section>
+  <section xml:id="materials-and-methods">
+    <title>Materials and Methods</title>
+    <section xml:id="preliminary-therapoda-data-set">
+      <title>Preliminary Therapoda data set</title>
+      <para>
+        In order to get the preliminary database, I joined observations
+        from Theropoda group, that had avalibale variables such as body
+        mass (BM.g), femur circumference (FemurCirc) and femur length
+        (FemurLen). I gathered those dataset from different sources that
+        have used them mainly for fitting models to predict body mass in
+        non-avian dinosaurs or for evaluating evolutionary and
+        ecological questions. Despite of my aim involved only the three
+        variable named above, I included extra information as sex,
+        estimation type, pneumatic feature among other, for future
+        researching.
+      </para>
+    </section>
+    <section xml:id="preliminary-palaeognathae-dataset">
+      <title>Preliminary Palaeognathae dataset</title>
+      <para>
+        To include the largest and heaviest living birds in to the the
+        sample, I gathered every published paper with available body
+        mass, and femur circumference or femur length from Palaeognathae
+        group. Most of those observations have been obtained from alive
+        animals, getting only femur length instead of femur
+        circumference measure, given that it is only available from
+        specimens in museums.
+      </para>
+      <para>
+        Considering this issue, to collect a workable database, I
+        decided to split the experimental design in three different
+        analysis (see <link linkend="fig-expDesign">Figure 1</link>).
+        Thus, to use Palaeognathae observations to fit models and then
+        to predict body mass, I had first to predict femur circumference
+        from femur length (see
+        <link linkend="fig-expDesign">Figure 1</link> A), followed by
+        the main analyses (see
+        <link linkend="fig-expDesign">Figure 1</link> B and C)
+      </para>
+      <para>
+        <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Biol607_files/pics/experimentalDesign2.png" id="fig-expDesign" role="margin-caption" />
+          </imageobject>
+          <textobject>
+            <phrase>Figure 1: Experimental design</phrase>
+          </textobject>
+        </inlinemediaobject>
+      </para>
+    </section>
+    <section xml:id="preliminary-modeling-analysis-predicting-femur-circumference">
+      <title>Preliminary modeling analysis: Predicting Femur
+      circumference</title>
+      <para>
+        First off, from preliminary Therapoda and Palaeognathae
+        databases, I filter the observations with femur circumference
+        and length belonging to Class Aves (Crow-group in Therapoda). I
+        explored the relationship between both variables femur
+        circumference and femur length. Then, I decided to fit nine
+        different models including or not low taxonomic levels
+        (infraclass and order levels) as a categorical co-variant. To
+        get the best model that fitted to my data, I did two parallel
+        analyses (<link linkend="fig-expDesign">Figure 1</link> A) . For
+        the first one I split the Aves data set in two subsets (training
+        and test). For the training sunset I fit the 9 models (
+        <link linkend="tbl-cap-marging-tab4">Table 4</link> ) and then
+        use the coefficients to predict the test subset. I compared the
+        real values with the predicted and used Mean Standard Error as
+        model performance measure and AIC as best-model selector. For
+        the second subset, I kept the whole subset and fitted the nine
+        models using re-sampling K-folds Cross Validation approach. I
+        used 10 folds and 20 re-sampling iterations. In this case I used
+        Root Mean Standard Error as the measure to evaluate model
+        performance and selection.
+      </para>
+      <para>
+        With the best model I predicted femur circumference from femur
+        length for the Palaeognathae database. I joined both
+        preliminaries databases to make a main database to continue with
+        the main analyses (
+        <link linkend="fig-expDesign">Figure 1</link> A and B ).
+      </para>
+    </section>
+    <section xml:id="fitting-model-to-predict-body-mass">
+      <title>Fitting model to predict body mass</title>
+      <para>
+        Using the final set data, y explore la relacion de ambas
+        variables body mass y circunferencia. al igual que el analsis
+        preliminar, realice dos analisis en paralelo. En el primero,
+        dividi el set de datos en dos, y fije 6 modelos distintos al set
+        de entrenamiento, usando estos modelos evalue la predicion de
+        ellos usando el set de test. En ambos subsets medi el error como
+        RMSE y el AIC como medida de selection. En el segundo caso,
+        mantuve el 100% de los conjunto de datos y fije los mismos m6
+        moleos usando leave-out-one cross validation. RMSE fue la
+        metrica de error, para finalmente seleccionar el mejor modelo de
+        prediccion de body mass.
+      </para>
+    </section>
+    <section xml:id="comparando-modelos">
+      <title>Comparando modelos</title>
+      <para>
+        Para evaluar cuan bien este nuevo modelo predice el body mass,
+        yo compare su performance con respecto a los modelos publicados
+        previamente (citas). 4 modelos en total fueron contrastado con
+        el escogido en este estdio.Para ello, seleccione un set de datos
+        de dinosaurios teropods (xx sp XX ordenes XXX obser) y una
+        muestra de 28 obsercinones del set de datos de paleognata. De
+        esta manera, podria comparar el performece de predicion de todos
+        los modelos, no solo dentro de dinosaurios, sino dentro de crow
+        group de aves.
+      </para>
+      <para>
+        Datos que los datos retro transformado presentan dificultades al
+        calcular intervalos de confianza y de prediccion, segui las
+        recomendacione sde XXX y use MPPE como metrica de error y
+        comparacion entre modelos.
+      </para>
+      <para>
+        Para el analisis entero yo fije la semilla en 999
+      </para>
+    </section>
+  </section>
+  <section xml:id="results">
+    <title>Results</title>
+    <para>
+      Preliminar dataset included 1465 samples, which corresponded to
+      non-avian therapods, stem group and crow group of Aves.
+    </para>
+    <anchor xml:id="tbl-cap-marging-tab1" />
+    <table>
+      <title>Table 1: MPG vs horsepower, colored by
+      transmission.</title>
+      <tgroup cols="3">
+        <colspec align="left" />
+        <colspec align="left" />
+        <colspec align="left" />
+        <thead>
+          <row>
+            <entry>
+              orders
+            </entry>
+            <entry>
+              Species
+            </entry>
+            <entry>
+              Obs
+            </entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry>
+              39
+            </entry>
+            <entry>
+              589
+            </entry>
+            <entry>
+              1465
+            </entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+    <para>
+      Preliminar dataset in Palaeognatha included 1115 sample that has
+      information about Femur lenght but not about Femur Circumference.
+    </para>
+    <anchor xml:id="tbl-cap-marging-tab2" />
+    <table>
+      <title>Table 2: MPG vs horsepower, colored by
+      transmission.</title>
+      <tgroup cols="3">
+        <colspec align="left" />
+        <colspec align="left" />
+        <colspec align="left" />
+        <thead>
+          <row>
+            <entry>
+              orders
+            </entry>
+            <entry>
+              Species
+            </entry>
+            <entry>
+              Obs
+            </entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry>
+              7
+            </entry>
+            <entry>
+              38
+            </entry>
+            <entry>
+              115
+            </entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+    <para>
+      Thus, the data set for predicting femur circumference included
+      only observations fro the crown group. 1172 Observations for 32
+      orders and 502 species
+    </para>
+    <anchor xml:id="tbl-cap-marging-tab3" />
+    <table>
+      <title>Table 3: MPG vs horsepower, colored by
+      transmission.</title>
+      <tgroup cols="3">
+        <colspec align="left" />
+        <colspec align="left" />
+        <colspec align="left" />
+        <thead>
+          <row>
+            <entry>
+              orders
+            </entry>
+            <entry>
+              Species
+            </entry>
+            <entry>
+              Obs
+            </entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry>
+              32
+            </entry>
+            <entry>
+              502
+            </entry>
+            <entry>
+              1172
+            </entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+    <para>
+      <inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="Final_analysis_files/figure-docbook/fig-cap-margin-plot1-1.png" id="fig-cap-margin-plot1" role="margin-caption" />
+        </imageobject>
+        <textobject>
+          <phrase>Figure 2: MPG vs horsepower, colored by transmission.</phrase>
+        </textobject>
+      </inlinemediaobject>
+    </para>
+    <para>
+      Following XXXX, linearity between both variables is a conserved
+      feature in low taxonomic levels such as like Sauropoda, Therapoda
+      and Ornithischia.
+    </para>
+    <para>
+      <inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="Final_analysis_files/figure-docbook/fig-cap-margin-plot2-1.png" id="fig-cap-margin-plot2" role="margin-caption" />
+        </imageobject>
+        <textobject>
+          <phrase>Figure 3: MPG vs horsepower, colored by transmission.</phrase>
+        </textobject>
+      </inlinemediaobject>
+    </para>
+    <anchor xml:id="tbl-cap-marging-tab4" />
+    <table>
+      <title>Table 4: MPG vs horsepower, colored by
+      transmission.</title>
+      <tgroup cols="4">
+        <colspec align="left" />
+        <colspec align="left" />
+        <colspec align="left" />
+        <colspec align="left" />
+        <thead>
+          <row>
+            <entry>
+              Models
+            </entry>
+            <entry>
+              df
+            </entry>
+            <entry>
+              AIC
+            </entry>
+            <entry>
+              adjR2
+            </entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry>
+              FC_FL
+            </entry>
+            <entry>
+              3
+            </entry>
+            <entry>
+              5793.0242
+            </entry>
+            <entry>
+              0.9258922
+            </entry>
+          </row>
+          <row>
+            <entry>
+              logFC_logFL
+            </entry>
+            <entry>
+              3
+            </entry>
+            <entry>
+              -554.3573
+            </entry>
+            <entry>
+              0.9661845
+            </entry>
+          </row>
+          <row>
+            <entry>
+              FC_FL.Clade1
+            </entry>
+            <entry>
+              4
+            </entry>
+            <entry>
+              5786.0322
+            </entry>
+            <entry>
+              0.9267005
+            </entry>
+          </row>
+          <row>
+            <entry>
+              logFC_logFL.Clade1
+            </entry>
+            <entry>
+              4
+            </entry>
+            <entry>
+              -587.0077
+            </entry>
+            <entry>
+              0.9675837
+            </entry>
+          </row>
+          <row>
+            <entry>
+              FC_poly2FL
+            </entry>
+            <entry>
+              4
+            </entry>
+            <entry>
+              5049.1914
+            </entry>
+            <entry>
+              0.9701565
+            </entry>
+          </row>
+          <row>
+            <entry>
+              FC_poly2FL.Clade1
+            </entry>
+            <entry>
+              5
+            </entry>
+            <entry>
+              5051.1380
+            </entry>
+            <entry>
+              0.9701584
+            </entry>
+          </row>
+          <row>
+            <entry>
+              FC_poly3FL
+            </entry>
+            <entry>
+              5
+            </entry>
+            <entry>
+              5050.9238
+            </entry>
+            <entry>
+              0.9701662
+            </entry>
+          </row>
+          <row>
+            <entry>
+              FC_poly3FL.Clade1
+            </entry>
+            <entry>
+              6
+            </entry>
+            <entry>
+              5052.9117
+            </entry>
+            <entry>
+              0.9701666
+            </entry>
+          </row>
+          <row>
+            <entry>
+              FC_FL.Clade2
+            </entry>
+            <entry>
+              34
+            </entry>
+            <entry>
+              5353.2854
+            </entry>
+            <entry>
+              0.9598090
+            </entry>
+          </row>
+          <row>
+            <entry>
+              logFC_logFL.Clade2
+            </entry>
+            <entry>
+              34
+            </entry>
+            <entry>
+              -1138.5410
+            </entry>
+            <entry>
+              0.9846227
+            </entry>
+          </row>
+          <row>
+            <entry>
+              FC_poly2FL.Clade2
+            </entry>
+            <entry>
+              35
+            </entry>
+            <entry>
+              4718.8069
+            </entry>
+            <entry>
+              0.9815059
+            </entry>
+          </row>
+          <row>
+            <entry>
+              FC_poly3FL.Clade2
+            </entry>
+            <entry>
+              36
+            </entry>
+            <entry>
+              4708.8941
+            </entry>
+            <entry>
+              0.9817727
+            </entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+    <anchor xml:id="tbl-cap-marging-tab5" />
+    <table>
+      <title>Table 5: MPG vs horsepower, colored by
+      transmission.</title>
+      <tgroup cols="3">
+        <colspec align="left" />
+        <colspec align="left" />
+        <colspec align="left" />
+        <thead>
+          <row>
+            <entry>
+              orders
+            </entry>
+            <entry>
+              Species
+            </entry>
+            <entry>
+              Obs
+            </entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry>
+              27
+            </entry>
+            <entry>
+              446
+            </entry>
+            <entry>
+              1036
+            </entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+    <para>
+      <inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="Final_analysis_files/figure-docbook/fig-cap-margin-plot3-1.png" id="fig-cap-margin-plot3" role="margin-caption" />
+        </imageobject>
+        <textobject>
+          <phrase>Figure 4: MPG vs horsepower, colored by transmission.</phrase>
+        </textobject>
+      </inlinemediaobject>
+    </para>
+    <para>
+      <inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="Final_analysis_files/figure-docbook/unnamed-chunk-15-1.png" role="margin-caption" />
+        </imageobject>
+        <textobject>
+          <phrase>MPG vs horsepower, colored by transmission.</phrase>
+        </textobject>
+      </inlinemediaobject>
+    </para>
+    <anchor xml:id="tbl-cap-marging-tab6" />
+    <table>
+      <title>Table 6: MPG vs horsepower, colored by
+      transmission.</title>
+      <tgroup cols="4">
+        <colspec align="left" />
+        <colspec align="left" />
+        <colspec align="left" />
+        <colspec align="left" />
+        <thead>
+          <row>
+            <entry>
+              Models
+            </entry>
+            <entry>
+              DF
+            </entry>
+            <entry>
+              AIC
+            </entry>
+            <entry>
+              adjR2
+            </entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry>
+              BM_FC
+            </entry>
+            <entry>
+              3
+            </entry>
+            <entry>
+              16393.9376001463
+            </entry>
+            <entry>
+              0.664245607357889
+            </entry>
+          </row>
+          <row>
+            <entry>
+              logBM_logFC
+            </entry>
+            <entry>
+              3
+            </entry>
+            <entry>
+              808.313403286504
+            </entry>
+            <entry>
+              0.955983623367339
+            </entry>
+          </row>
+          <row>
+            <entry>
+              BM_poly2FC
+            </entry>
+            <entry>
+              4
+            </entry>
+            <entry>
+              14432.4220187293
+            </entry>
+            <entry>
+              0.96865720899441
+            </entry>
+          </row>
+          <row>
+            <entry>
+              BM_poly3FC
+            </entry>
+            <entry>
+              5
+            </entry>
+            <entry>
+              14425.6720054266
+            </entry>
+            <entry>
+              0.968986684648113
+            </entry>
+          </row>
+          <row>
+            <entry>
+              BM_spline1
+            </entry>
+            <entry>
+              9
+            </entry>
+            <entry>
+              14391.0827181163
+            </entry>
+            <entry>
+              0.96892674034371
+            </entry>
+          </row>
+          <row>
+            <entry>
+              BM_spline2
+            </entry>
+            <entry>
+              10
+            </entry>
+            <entry>
+              14395.8463345584
+            </entry>
+            <entry>
+              0.969138221363873
+            </entry>
+          </row>
+          <row>
+            <entry>
+              BM_spline3
+            </entry>
+            <entry>
+              10
+            </entry>
+            <entry>
+              14395.8463345584
+            </entry>
+            <entry>
+              0.969611722714325
+            </entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </section>
+  <section xml:id="eval-models">
+    <title>Eval models</title>
+    <para>
+      <inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="Final_analysis_files/figure-docbook/fig-cap-margin-plot7-1.png" id="fig-cap-margin-plot7" role="margin-caption" />
+        </imageobject>
+        <textobject>
+          <phrase>Figure 5: MPG vs horsepower, colored by transmission.</phrase>
+        </textobject>
+      </inlinemediaobject>
+    </para>
+    <para>
+      <inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="Final_analysis_files/figure-docbook/fig-cap-margin-plot8-1.png" id="fig-cap-margin-plot8" role="margin-caption" />
+        </imageobject>
+        <textobject>
+          <phrase>Figure 6: MPG vs horsepower, colored by transmission.</phrase>
+        </textobject>
+      </inlinemediaobject>
+    </para>
+    <para>
+      #:::
+    </para>
+  </section>
+</article>
